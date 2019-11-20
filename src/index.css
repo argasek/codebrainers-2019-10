@@ -11,3 +11,10 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.user-skill-level > * {
+  border-top: 1px solid #888;
+}
+.user-skill-level:first-child > * {
+  border-top: none;
+}

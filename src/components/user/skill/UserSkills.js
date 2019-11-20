@@ -5,13 +5,15 @@ import skillLevels from "../../../models/SkillLevels";
 class UserSkills extends React.PureComponent {
 
   render() {
-    const iconSize = 256;
+    const iconSize = 128;
 
     console.log(skillLevels);
 
     return (
       <div>
-        { skillLevels.map((level) => <UserSkill size={48} level={level} />)}
+        {
+          skillLevels.map((level) => <UserSkill key={level.id} size={iconSize} level={level} />)
+        }
       </div>
     );
 
