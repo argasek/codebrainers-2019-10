@@ -5,19 +5,53 @@ import { Row, Col } from 'reactstrap';
 import UserSkills from "./components/user/skill/UserSkills";
 import obrazek from './images/zadanie-domowe-01.png';
 
+import classNames from 'classnames';
+
 // xs sm md lg xl
 
-function App() {
+class App extends React.PureComponent {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      clickedYet: false,
+      secondclick: false
+    }
+  }
+
+  clickActionToPerform = (event) => {
+    console.log('Yay, clicked!')
+    console.log(event);
+    console.log(event.currentTarget);
+    this.setState({ clickedYet: !this.state.clickedYet });
+  };
+
+  secondclickActionToPerform = (event) => {
+    this.setState({secondclick: true});
+    console.log('dupa')
+  };
+
+  render() {
+    const { clickedYet, secondclick } = this.state;
+
+    const paragraphClassName = classNames(
+      'font-weight-bold',
+      {'text-danger' : !clickedYet || !secondclick },
+      {'text-primary' : clickedYet && secondclick}
+    );
+    console.log('dwie dupy', clickedYet, secondclick);
+    console.log(!clickedYet && !secondclick);
+
   return (
     <div className="container">
-      <Row>
+      <Row >
         <Col xs={6}>
-          <p class="text-danger font-weight-bold">ZAD 1 Przeczytać dokumentację Bootstrapa. Chociaż część. Uczyń itemy po lewej tak ładnymi jak te w ściągawce</p>
-          <UserSkills />
+          <p className={paragraphClassName}>ZAD 1 Przeczytać dokumentację Bootstrapa. Chociaż część. Uczyń itemy po lewej tak ładnymi jak te w ściągawce</p>
+          <UserSkills secondclickaction={this.secondclickActionToPerform} />
         </Col>
         <Col xs={6}>
-          <p class="text-danger font-weight-bold">ZAD 2 Na ekranach mobilnych ta ściąga jest za mała! Niech ułoży się pod spód!</p>
-          <img src={obrazek} width="100%"/>
+          <p className="text-danger font-weight-bold">ZAD 2 Na ekranach mobilnych ta ściąga jest za mała! Niech ułoży się pod spód!</p>
+          <img src={obrazek} width="100%" onClick={(event) => this.clickActionToPerform(event)}/>
         </Col>
       </Row>
       <Row>
@@ -32,6 +66,8 @@ function App() {
       </Row>
     </div>
   );
+
+  }
 }
 
 export default App;

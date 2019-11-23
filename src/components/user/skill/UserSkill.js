@@ -40,12 +40,12 @@ class UserSkill extends React.PureComponent {
 
 
   render() {
-    const { level, size } = this.props;
+    const { level, size, secondclickaction} = this.props;
 
     return (
       <Row className="user-skill-level">
         <Col className="p-4">
-          <img src={this.levelIconOtherImplementation(level)} alt="Plant image" width={size} height={size} />
+          <img src={this.levelIconOtherImplementation(level)} onClick={(event) => secondclickaction(event)} alt="Plant image" width={size} height={size} />
         </Col>
         <Col className="p-4">
           <p>{level.title}</p>
