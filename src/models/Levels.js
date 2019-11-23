@@ -12,6 +12,10 @@ class Level {
     this.title = title;
     this.description = description;
   }
+
+  clone() {
+    return new Level(this.id, this.title, this.description);
+  }
 }
 
 export { Level, Levels };

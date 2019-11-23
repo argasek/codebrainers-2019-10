@@ -12,9 +12,23 @@ code {
     monospace;
 }
 
-.user-skill-level > * {
-  border-top: 1px solid #888;
+.user-skill-level img {
+  border-radius: 4px;
 }
-.user-skill-level:first-child > * {
+
+.user-skills-container {
+  padding: 1rem;
+  background-color: #fffcf8;
+}
+
+.user-skill-level:hover {
+  background-color: #fffcd1;
+  cursor: pointer;
+}
+
+.user-skill-level {
+  border-top: 1px solid #ddd;
+}
+.user-skill-level:first-child {
   border-top: none;
 }

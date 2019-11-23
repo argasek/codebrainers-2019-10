@@ -2,8 +2,11 @@ import React from 'react';
 import propTypes from 'prop-types';
 import { Col, Row } from "reactstrap";
 import { Level, Levels } from "../../../models/Levels";
-import skillHopelessIcon from '../../../images/skill-hopeless.jpeg';
-import skillBeginnerIcon from '../../../images/skill-beginner.jpeg';
+import skillBeginnerIcon from '../../../images/skill-beginner.jpg';
+import skillExperiencedIcon from '../../../images/skill-experienced.jpg';
+import skillHopelessIcon from '../../../images/skill-hopeless.jpg';
+import skillMasterIcon from '../../../images/skill-master.jpg';
+import skillSkilledIcon from '../../../images/skill-skilled.jpg';
 
 class UserSkill extends React.PureComponent {
 
@@ -17,6 +20,15 @@ class UserSkill extends React.PureComponent {
       case Levels.HOPELESS:
         levelIcon = skillHopelessIcon;
         break;
+      case Levels.EXPERIENCED:
+        levelIcon = skillExperiencedIcon;
+        break;
+      case Levels.SKILLED:
+        levelIcon = skillSkilledIcon;
+        break;
+      case Levels.MASTER:
+        levelIcon = skillMasterIcon;
+        break;
       default:
         levelIcon = skillHopelessIcon;
         break;
@@ -28,8 +40,10 @@ class UserSkill extends React.PureComponent {
   levelIconOtherImplementation (level) {
     const levelIcons = {};
     levelIcons[Levels.BEGINNER] = skillBeginnerIcon;
+    levelIcons[Levels.EXPERIENCED] = skillExperiencedIcon;
     levelIcons[Levels.HOPELESS] = skillHopelessIcon;
-
+    levelIcons[Levels.MASTER] = skillMasterIcon;
+    levelIcons[Levels.SKILLED] = skillSkilledIcon;
 
     let levelIcon = levelIcons[level.id];
 
@@ -40,18 +54,23 @@ class UserSkill extends React.PureComponent {
 
 
   render() {
-    const { level, size, secondclickaction} = this.props;
+    const { level, size, index, onUserSkillClick} = this.props;
 
     return (
-      <Row className="user-skill-level">
-        <Col className="p-4">
-          <img src={this.levelIconOtherImplementation(level)} onClick={(event) => secondclickaction(event)} alt="Plant image" width={size} height={size} />
-        </Col>
-        <Col className="p-4">
-          <p>{level.title}</p>
-          <p>{level.description}</p>
-        </Col>
-      </Row>
+      <div className="user-skill-level d-flex" onClick={(event) => onUserSkillClick(event)}>
+        <div className="p-3 flex-1">
+          <img
+            src={this.levelIconOtherImplementation(level)}
+            alt="Plant image"
+            width={size}
+            height={size}
+          />
+        </div>
+        <div className="pt-4 pb-4 pr-3">
+          <h6 className="font-weight-bold">{index}. {level.title}</h6>
+          <p className="mb-0">{level.description}</p>
+        </div>
+      </div>
     );
 
   }

@@ -1,19 +1,24 @@
 import React from 'react';
 import UserSkill from "./UserSkill";
-import skillLevels from "../../../models/SkillLevels";
 
 class UserSkills extends React.PureComponent {
 
   render() {
-    const iconSize = 128;
-    const secondclickaction = this.props.secondclickaction;
-
-    console.log(skillLevels);
+    const { skillLevels, onUserSkillClick } = this.props;
+    const iconSize = 80;
 
     return (
-      <div>
+      <div className="user-skills-container">
         {
-          skillLevels.map((level) => <UserSkill key={level.id} size={iconSize} level={level} secondclickaction={secondclickaction} />)
+          skillLevels.map((level, index) =>
+            <UserSkill
+              key={index}
+              index={index + 1}
+              size={iconSize}
+              level={level}
+              onUserSkillClick={onUserSkillClick}
+            />
+          )
         }
       </div>
     );
