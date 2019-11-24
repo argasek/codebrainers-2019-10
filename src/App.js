@@ -3,13 +3,16 @@ import './App.css';
 import { Row, Col } from 'reactstrap';
 import UserSkills from "./components/user/skill/UserSkills";
 import placeholderImage from './images/zadanie-domowe-01.png';
-
+import Chance from 'chance';
 import classNames from 'classnames';
 import skillLevels from "./models/SkillLevels";
+
+const chance = new Chance();
 
 // xs sm md lg xl
 
 class App extends React.PureComponent {
+  static NUMBER_OF_SKILLS_TO_ADD = 5;
 
   constructor(props) {
     super(props);
@@ -19,32 +22,52 @@ class App extends React.PureComponent {
     this.state = {
       clickedOnUserSkillLevel: false,
       clickedOnPlaceholderImage: false,
-      userSkillLevels
+      userSkillLevels: this.getShuffledSkillLevels(userSkillLevels)
     }
   }
+
+  getShuffledSkillLevels = (items) => {
+    const shuffledSkillLevels = [];
+
+    while (items.length > 0) {
+      let randomItemIndex = this.getRandomIndex(items.length);
+
+      shuffledSkillLevels.push(items[randomItemIndex]);
+      items.splice(randomItemIndex, 1);
+    }
+
+    return shuffledSkillLevels;
+  };
 
   cloneSkillLevels = (items) => items.map((item) => item.clone());
   getRandomIndex = (n) => Math.floor(Math.random() * n);
 
   getRandomSkillLevel = () => {
     const index = this.getRandomIndex(skillLevels.length);
-    return skillLevels[index];
+    return skillLevels[index].clone();
   };
 
   userSkillClickAction = (event) => {
     const userSkillLevels = this.cloneSkillLevels(this.state.userSkillLevels);
-    const randomSkillLevel = this.getRandomSkillLevel();
 
-    userSkillLevels.push(randomSkillLevel);
+    Array(App.NUMBER_OF_SKILLS_TO_ADD).fill(0).forEach(() => {
+      const level = this.getRandomSkillLevel();
+      level.description = chance.paragraph({ sentences: 1 });
+      userSkillLevels.unshift(level);
+    });
 
     this.setState({
       clickedOnUserSkillLevel: true,
-      userSkillLevels
+      userSkillLevels: userSkillLevels
     });
   };
 
   rightItemClickAction = (event) => {
-    this.setState({ clickedOnPlaceholderImage: true });
+    const userSkillLevels = this.cloneSkillLevels(skillLevels);
+    this.setState({
+      clickedOnPlaceholderImage: true,
+      userSkillLevels: userSkillLevels
+    });
   };
 
   render() {
