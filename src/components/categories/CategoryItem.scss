@@ -1,0 +1,27 @@
+.category-item {
+  /*padding: 1em;*/
+  /*border-radius: 4px;*/
+  .test {
+    color: red;
+  }
+}
+
+.category-item.active-0 {
+  background-color: #c6ffc1;
+  border: 1px solid #83aa81;
+}
+
+.category-item.active-1 {
+  background-color: #f1ff7b;
+  border: 1px solid #b4cd81;
+}
+
+.category-item.active-2 {
+  background-color: #2a57ff;
+  border: 1px solid #1833a7;
+}
+
+.category-item.active-3 {
+  background-color: #ff1149;
+  border: 1px solid #57031f;
+}

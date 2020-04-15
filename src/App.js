@@ -1,120 +1,294 @@
 import React from 'react';
-import './App.css';
-import { Row, Col } from 'reactstrap';
-import UserSkills from "./components/user/skill/UserSkills";
-import placeholderImage from './images/zadanie-domowe-01.png';
+import './App.scss';
+import axios from 'axios';
+import {
+  Button,
+  Input,
+  Label,
+  Row,
+  Col,
+  FormGroup,
+  Container,
+  Navbar,
+  NavbarBrand,
+  NavbarToggler,
+  Nav,
+  Collapse,
+  NavItem,
+  NavLink,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+  NavbarText,
+  Card,
+  CardBody, ListGroup
+} from 'reactstrap';
 
-import classNames from 'classnames';
-import skillLevels from "./models/SkillLevels";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {faCog, faHome, faLeaf, faSeedling} from '@fortawesome/free-solid-svg-icons'
+import CategoryItem from './components/categories/CategoryItem';
+import Plant from './components/plants/Plant';
+import Select from './components/shared/Select';
+import {
+  NavLink as RouterNavLink,
+  BrowserRouter as Router, Switch, Route,
+} from 'react-router-dom';
 
-// xs sm md lg xl
+const CATEGORIES_FETCH_DELAY = 50;
+const PLANTS_FETCH_DELAY = 50;
+
+const someArray = [
+  { label: 'Jeszcze inne coś', value: '132', size: 1 },
+  { label: 'Inne', value: '333' },
+  { label: 'Coś', value: '13232' },
+];
+
+const someOtherArray = [
+  { label: 'Codziennie', value: '1' },
+  { label: 'Co dwa dni', value: '2' },
+  { label: 'Co tydzień', value: '7' },
+];
 
 class App extends React.PureComponent {
 
   constructor(props) {
     super(props);
-
-    const userSkillLevels = this.cloneSkillLevels(skillLevels);
-
     this.state = {
-      clickedOnUserSkillLevel: false,
-      clickedOnPlaceholderImage: false,
-      userSkillLevels
-    }
+      categories: [],
+      plants: [],
+      successCategories: undefined,
+      successPlants: undefined,
+      inProgress: true,
+      plantName: '',
+      someSelectField: '333',
+      fertilizingFrequency: someOtherArray[someOtherArray.length-1].value
+    };
   }
 
-  cloneSkillLevels = (items) => items.map((item) => item.clone());
-  getRandomIndex = (n) => Math.floor(Math.random() * n);
+  componentDidMount() {
+    console.log('componentDidMount');
 
-  getRandomSkillLevel = () => {
-    const index = this.getRandomIndex(skillLevels.length);
-    return skillLevels[index];
-  };
+    const stopProgress = () => {
+      console.log('stopProgress');
+      this.setState({ inProgress: false });
+    };
 
-  userSkillClickAction = (event) => {
-    const userSkillLevels = this.cloneSkillLevels(this.state.userSkillLevels);
-    const randomSkillLevel = this.getRandomSkillLevel();
+    const allPromises = Promise.allSettled([
+      this.fetchCategories(),
+      this.fetchPlants()
+    ]).then(stopProgress);
 
-    userSkillLevels.push(randomSkillLevel);
+  }
 
-    this.setState({
-      clickedOnUserSkillLevel: true,
-      userSkillLevels
+  delayFetch(ms, method) {
+    return new Promise((resolve, reject) => setTimeout(() => method(resolve, reject), ms));
+  }
+
+  fetchCategories() {
+    const requestUrl = 'http://gentle-tor-07382.herokuapp.com/categories/';
+
+    return this.delayFetch(CATEGORIES_FETCH_DELAY, (resolve, reject) => {
+      axios.get(requestUrl)
+        .then((response) => {
+          const data = response.data;
+          const categories = data.map((item) => item.name);
+          const successCategories = true;
+          this.setState({categories, successCategories});
+          resolve();
+        })
+        .catch((error) => {
+          this.setState({successCategories: false});
+          reject();
+        })
+        .finally(() => {
+          console.log('Resolved');
+        });
     });
+  }
+
+  fetchPlants() {
+    const requestUrl = 'http://gentle-tor-07382.herokuapp.com/plants/';
+
+    return this.delayFetch(PLANTS_FETCH_DELAY, (resolve, reject) => {
+      axios.get(requestUrl)
+        .then((response) => {
+          const data = response.data;
+          const plants = data.map((item) => item.name);
+          const successPlants = true;
+          this.setState({ plants, successPlants });
+          resolve();
+        })
+        .catch((error) => {
+          this.setState({successPlants: false});
+          reject();
+        });
+    });
+  }
+
+  inputOnChange = (event) => {
+    const { currentTarget } = event;
+    const { value, name } = currentTarget;
+    this.setState({ [name]: value });
   };
 
-  rightItemClickAction = (event) => {
-    this.setState({ clickedOnPlaceholderImage: true });
-  };
+  // componentDidUpdate(prevProps, prevState) {
+  //   console.log(prevState.plantName + '=>' + this.state.plantName);
+  // }
 
   render() {
     const {
-      clickedOnUserSkillLevel,
-      clickedOnPlaceholderImage,
-      userSkillLevels
+      categories,
+      plants,
+      inProgress,
+      successCategories,
+      successPlants,
+      plantName,
+      someSelectField,
+      fertilizingFrequency
     } = this.state;
 
-    const textDanger = !clickedOnUserSkillLevel || !clickedOnPlaceholderImage;
-    const textPrimary = clickedOnUserSkillLevel && clickedOnPlaceholderImage;
-
-    const paragraphClassName = classNames(
-      'font-weight-bold',
-      { 'text-danger': textDanger },
-      { 'text-primary': textPrimary }
-    );
+    const isOpen = false;
+    const toggle = () => {};
 
     return (
-      <div className="container">
-        <Row>
-          <Col xs={12} lg={6}>
-            <p className={paragraphClassName}></p>
-            <UserSkills
-              skillLevels={userSkillLevels}
-              onUserSkillClick={this.userSkillClickAction}
-            />
-          </Col>
-          <Col xs={12} lg={6} className="p-3">
-            <h4 className="text-danger font-weight-bold">Zadania domowe:</h4>
-            <ol className="text-white-50 small">
-              <li>
-                Spraw, aby kliknięcie w element listy w lewej kolumnie dodawało
-                nowy (tj. losowany spośród istniejących) element na jej początku (nie zaś, jak obecnie, na końcu).
-              </li>
-              <li>
-                Spraw, aby kliknięcie w element listy w lewej kolumnie dodawało
-                5 nowych (j.w.) elementów na jej początku.
-              </li>
-              <li>
-                Spraw, aby kliknięcie w obrazek poniżej treści zadań przywracało
-                na liście 5 początkowych elementów.
-              </li>
-              <li>
-                Spraw, aby każdy nowododany element listy miał taki sam tytuł, ale nieco inny (losowy) opis.
-                Skorzystaj z biblioteki <code>chance</code>, np. tak:
-                <pre className="p-3 mt-3 bg-light">
-                  const description = chance.paragraph({'{'} sentences: 1 {'}'});
-                </pre>
-              </li>
-              <li>
-                <span className="text-success">Dodatkowo: </span>
-                Spraw, aby podczas startu aplikacji pięć elementów listy widocznej
-                po lewej stronie ułożonych było w losowej kolejności.
-              </li>
-            </ol>
-            <p className="text-center">
-              <img src={placeholderImage} width="50%" onClick={(event) => this.rightItemClickAction(event)}/>
-            </p>
+      <Router>
+        <Navbar color="dark" dark expand="md" className="mb-4">
+          <NavbarBrand href="/">Plantastic</NavbarBrand>
+          <NavbarToggler onClick={toggle} />
+          <Collapse isOpen={isOpen} navbar>
+            <Nav className="mr-auto" navbar>
+              <NavItem>
+                <NavLink tag={RouterNavLink} exact to="/" activeClassName="active">
+                  <FontAwesomeIcon icon={faSeedling}/>
+                  {' '}
+                  Plants
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink tag={RouterNavLink} to="/categories" activeClassName="active">
+                  <FontAwesomeIcon icon={faLeaf}/>
+                  {' '}
+                  Categories
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink tag={RouterNavLink} to="/rooms">
+                  <FontAwesomeIcon icon={faHome}/>
+                  {' '}
+                  Rooms
+                </NavLink>
+              </NavItem>
+            </Nav>
+            <Nav navbar>
+              <UncontrolledDropdown nav inNavbar>
+                <DropdownToggle nav caret>
+                  <FontAwesomeIcon icon={faCog}/>
+                  {' '}
+                  Account
+                </DropdownToggle>
+                <DropdownMenu right>
+                  <DropdownItem>
+                    Preferences…
+                  </DropdownItem>
+                  <DropdownItem divider />
+                  <DropdownItem>
+                    Logout
+                  </DropdownItem>
+                </DropdownMenu>
+              </UncontrolledDropdown>
+            </Nav>
+          </Collapse>
+        </Navbar>
+        <Container>
+          <Switch>
+            <Route exact path="/">
+              <Card className="mb-4">
+                <CardBody>
+                  <form method="GET">
+                    <Row>
+                      <Col xs={6} lg={3}>
+                        <Select name="someSelectField" value={someSelectField} onChange={this.inputOnChange} options={someArray} label="Jakieś pole" />
+                      </Col>
+                      <Col xs={6} lg={5}>
+                        <Select name="fertilizingFrequency" value={fertilizingFrequency} onChange={this.inputOnChange} options={someOtherArray} label="Fertilizing frequency" />
+                      </Col>
+                      <Col xs={12} lg={4}>
+                        <FormGroup>
+                          <Label for="plantName">Plant name:</Label>
+                          <Input
+                            id="plantName"
+                            name="plantName"
+                            type="text"
+                            value={plantName}
+                            onChange={this.inputOnChange}
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
 
-          </Col>
-        </Row>
-        <Row>
-          <p className="text-primary font-weight-bold">
-          </p>
-        </Row>
-      </div>
-    );
-
+                    <Button type="submit" className="mt-3">Wyślij formularz</Button>
+                  </form>
+                </CardBody>
+              </Card>
+            </Route>
+            <Route path="/categories">
+              <Card>
+                <CardBody>
+                  <div className="app-container">
+                    {
+                      inProgress && <p>Loading data...</p>
+                    }
+                    {
+                      successCategories === false &&
+                      <p>Nie udało się pobrać Kategorii</p>
+                    }
+                    {
+                      successPlants === false &&
+                      <p>Nie udało się pobrać Kwiatow</p>
+                    }
+                    {
+                      successPlants &&
+                      <div className="plants">
+                        {
+                          plants.map((plant, index, arr) =>
+                            <Plant
+                              name={plant}
+                              key={index}
+                            />
+                          )
+                        }
+                      </div>
+                    }
+                    {
+                      successCategories &&
+                      <ListGroup className="categories">
+                        {
+                          categories.map((item, index, arr) =>
+                            <CategoryItem
+                              category={item}
+                              label='category'
+                              key={index}
+                              isLastItem={arr.length - 1 === index}
+                              index={index}
+                            />
+                          )
+                        }
+                      </ListGroup>
+                    }
+                  </div>
+                </CardBody>
+              </Card>
+            </Route>
+            <Route path="/rooms">
+              Rooms
+            </Route>
+          </Switch>
+        </Container>
+      </Router>
+    )
   }
 }
+
 
 export default App;
