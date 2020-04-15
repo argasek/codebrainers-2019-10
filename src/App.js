@@ -26,7 +26,7 @@ import {
 } from 'reactstrap';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {faCog, faHome, faLeaf, faSeedling} from '@fortawesome/free-solid-svg-icons'
+import { faCog, faHome, faLeaf, faSeedling } from '@fortawesome/free-solid-svg-icons'
 import CategoryItem from './components/categories/CategoryItem';
 import Plant from './components/plants/Plant';
 import Select from './components/shared/Select';
@@ -35,6 +35,7 @@ import {
   BrowserRouter as Router, Switch, Route,
 } from 'react-router-dom';
 import PlantasticNavItem from "./components/nav/nav-item/PlantasticNavItem";
+import { ROUTE_CATEGORIES } from './constants/Routes';
 
 const CATEGORIES_FETCH_DELAY = 50;
 const PLANTS_FETCH_DELAY = 50;
@@ -63,7 +64,7 @@ class App extends React.PureComponent {
       inProgress: true,
       plantName: '',
       someSelectField: '333',
-      fertilizingFrequency: someOtherArray[someOtherArray.length-1].value
+      fertilizingFrequency: someOtherArray[someOtherArray.length - 1].value
     };
   }
 
@@ -95,11 +96,11 @@ class App extends React.PureComponent {
           const data = response.data;
           const categories = data.map((item) => item.name);
           const successCategories = true;
-          this.setState({categories, successCategories});
+          this.setState({ categories, successCategories });
           resolve();
         })
         .catch((error) => {
-          this.setState({successCategories: false});
+          this.setState({ successCategories: false });
           reject();
         })
         .finally(() => {
@@ -121,7 +122,7 @@ class App extends React.PureComponent {
           resolve();
         })
         .catch((error) => {
-          this.setState({successPlants: false});
+          this.setState({ successPlants: false });
           reject();
         });
     });
@@ -150,7 +151,7 @@ class App extends React.PureComponent {
     } = this.state;
 
     const isOpen = false;
-    const toggle = () => {};
+    const toggle = () => { };
 
     return (
       <Router>
@@ -160,13 +161,13 @@ class App extends React.PureComponent {
           <Collapse isOpen={isOpen} navbar>
             <Nav className="mr-auto" navbar>
               <PlantasticNavItem path="/" icon={faSeedling} name='Plants' />
-              <PlantasticNavItem path="/categories" icon={faLeaf} name='Categories' />
+              <PlantasticNavItem path={ROUTE_CATEGORIES} icon={faLeaf} name='Categories' />
               <PlantasticNavItem path="/rooms" icon={faHome} name='Rooms' />
             </Nav>
             <Nav navbar>
               <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret>
-                  <FontAwesomeIcon icon={faCog}/>
+                  <FontAwesomeIcon icon={faCog} />
                   {' '}
                   Account
                 </DropdownToggle>
@@ -215,7 +216,7 @@ class App extends React.PureComponent {
                 </CardBody>
               </Card>
             </Route>
-            <Route path="/categories">
+            <Route path={ROUTE_CATEGORIES}>
               <Card>
                 <CardBody>
                   <div className="app-container">
