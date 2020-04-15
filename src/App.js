@@ -34,6 +34,7 @@ import {
   NavLink as RouterNavLink,
   BrowserRouter as Router, Switch, Route,
 } from 'react-router-dom';
+import PlantasticNavItem from "./components/nav/nav-item/PlantasticNavItem";
 
 const CATEGORIES_FETCH_DELAY = 50;
 const PLANTS_FETCH_DELAY = 50;
@@ -158,27 +159,9 @@ class App extends React.PureComponent {
           <NavbarToggler onClick={toggle} />
           <Collapse isOpen={isOpen} navbar>
             <Nav className="mr-auto" navbar>
-              <NavItem>
-                <NavLink tag={RouterNavLink} exact to="/" activeClassName="active">
-                  <FontAwesomeIcon icon={faSeedling}/>
-                  {' '}
-                  Plants
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink tag={RouterNavLink} to="/categories" activeClassName="active">
-                  <FontAwesomeIcon icon={faLeaf}/>
-                  {' '}
-                  Categories
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink tag={RouterNavLink} to="/rooms">
-                  <FontAwesomeIcon icon={faHome}/>
-                  {' '}
-                  Rooms
-                </NavLink>
-              </NavItem>
+              <PlantasticNavItem path="/" icon={faSeedling} name='Plants' />
+              <PlantasticNavItem path="/categories" icon={faLeaf} name='Categories' />
+              <PlantasticNavItem path="/rooms" icon={faHome} name='Rooms' />
             </Nav>
             <Nav navbar>
               <UncontrolledDropdown nav inNavbar>
