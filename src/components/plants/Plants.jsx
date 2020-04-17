@@ -15,17 +15,22 @@ class Plants extends React.PureComponent {
     super(props);
     this.state = {
       plants: [],
-      successPlants: undefined
+      successPlants: undefined,
+      inProgress: false,
     };
   }
 
   componentDidMount() {
-    this.fetchPlants();
+    this.fetchPlants()
+      .finally(() => {
+        this.setState({ inProgress: false });
+      })
+
   }
 
   fetchPlants() {
     const requestUrl = 'http://gentle-tor-07382.herokuapp.com/plants/';
-
+    this.setState({ inProgress: true });
     return this.props.delayFetch(PLANTS_FETCH_DELAY, (resolve, reject) => {
       axios.get(requestUrl)
         .then((response) => {
@@ -45,7 +50,6 @@ class Plants extends React.PureComponent {
   render() {
     const {
       fertilizingFrequency,
-      inProgress,
       inputOnChange,
       plantName,
       someSelectField,
@@ -54,6 +58,7 @@ class Plants extends React.PureComponent {
     const {
       plants,
       successPlants,
+      inProgress,
     } = this.state;
 
     return (
@@ -83,7 +88,7 @@ class Plants extends React.PureComponent {
 
             <Button type="submit" className="mt-3">Wyślij formularz</Button>
           </form>
-          <hr/>
+          <hr />
           <InProgress inProgress={inProgress} />
           {
             successPlants === false &&
@@ -111,7 +116,6 @@ class Plants extends React.PureComponent {
 
 Plants.propTypes = {
   fertilizingFrequency: PropTypes.string.isRequired,
-  inProgress: PropTypes.bool.isRequired,
   inputOnChange: PropTypes.func.isRequired,
   plantName: PropTypes.string.isRequired,
   someSelectField: PropTypes.string.isRequired,
