@@ -7,23 +7,14 @@ import Categories from "components/categories/Categories";
 import Rooms from "components/rooms/Rooms";
 
 class PlantasticContainer extends React.PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      plants: [],
-    }
-  }
 
   render() {
     const {
       delayFetch,
-      categories,
       fertilizingFrequency,
-      inProgress,
       inputOnChange,
       plantName,
       someSelectField,
-      successCategories,
     } = this.props;
 
     return (
@@ -32,7 +23,6 @@ class PlantasticContainer extends React.PureComponent {
           <Route exact path={ROUTE_PLANTS}>
             <Plants
               delayFetch={delayFetch}
-              inProgress={inProgress}
               fertilizingFrequency={fertilizingFrequency}
               inputOnChange={inputOnChange}
               plantName={plantName}
@@ -42,9 +32,6 @@ class PlantasticContainer extends React.PureComponent {
           <Route path={ROUTE_CATEGORIES}>
             <Categories
               delayFetch={delayFetch}
-              inProgress={inProgress}
-              successCategories={successCategories}
-              categories={categories}
             />
           </Route>
           <Route path={ROUTE_ROOMS}>
