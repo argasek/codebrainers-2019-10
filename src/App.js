@@ -1,56 +1,13 @@
 import React from 'react';
 import './App.scss';
 import axios from 'axios';
-import {
-  Button,
-  Input,
-  Label,
-  Row,
-  Col,
-  FormGroup,
-  Container,
-  Navbar,
-  NavbarBrand,
-  NavbarToggler,
-  Nav,
-  Collapse,
-  NavItem,
-  NavLink,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  NavbarText,
-  Card,
-  CardBody, ListGroup
-} from 'reactstrap';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCog, faHome, faLeaf, faSeedling } from '@fortawesome/free-solid-svg-icons'
-import CategoryItem from './components/categories/CategoryItem';
-import Plant from './components/plants/Plant';
-import Select from './components/shared/Select';
-import {
-  NavLink as RouterNavLink,
-  BrowserRouter as Router, Switch, Route,
-} from 'react-router-dom';
-import PlantasticNavItem from "./components/nav/nav-item/PlantasticNavItem";
-import {ROUTE_CATEGORIES, ROUTE_PLANTS, ROUTE_ROOMS} from './constants/Routes';
+import { BrowserRouter as Router } from 'react-router-dom';
+import PlantasticNavbar from "components/nav/navbar/PlantasticNavbar";
+import { someOtherArray } from "constants/PlantConstants";
+import PlantasticContainer from "components/main/PlantasticContainer";
 
 const CATEGORIES_FETCH_DELAY = 50;
 const PLANTS_FETCH_DELAY = 50;
-
-const someArray = [
-  { label: 'Jeszcze inne coś', value: '132', size: 1 },
-  { label: 'Inne', value: '333' },
-  { label: 'Coś', value: '13232' },
-];
-
-const someOtherArray = [
-  { label: 'Codziennie', value: '1' },
-  { label: 'Co dwa dni', value: '2' },
-  { label: 'Co tydzień', value: '7' },
-];
 
 class App extends React.PureComponent {
 
@@ -79,7 +36,10 @@ class App extends React.PureComponent {
     const allPromises = Promise.allSettled([
       this.fetchCategories(),
       this.fetchPlants()
-    ]).then(stopProgress);
+    ]);
+
+    allPromises
+      .then(stopProgress);
 
   }
 
@@ -134,141 +94,32 @@ class App extends React.PureComponent {
     this.setState({ [name]: value });
   };
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   console.log(prevState.plantName + '=>' + this.state.plantName);
-  // }
-
   render() {
     const {
       categories,
-      plants,
+      fertilizingFrequency,
       inProgress,
+      plantName,
+      plants,
+      someSelectField,
       successCategories,
       successPlants,
-      plantName,
-      someSelectField,
-      fertilizingFrequency
     } = this.state;
-
-    const isOpen = false;
-    const toggle = () => { };
 
     return (
       <Router>
-        <Navbar color="dark" dark expand="md" className="mb-4">
-          <NavbarBrand href="/">Plantastic</NavbarBrand>
-          <NavbarToggler onClick={toggle} />
-          <Collapse isOpen={isOpen} navbar>
-            <Nav className="mr-auto" navbar>
-              <PlantasticNavItem path={ROUTE_PLANTS} icon={faSeedling} name='Plants' />
-              <PlantasticNavItem path={ROUTE_CATEGORIES} icon={faLeaf} name='Categories' />
-              <PlantasticNavItem path={ROUTE_ROOMS} icon={faHome} name='Rooms' />
-            </Nav>
-            <Nav navbar>
-              <UncontrolledDropdown nav inNavbar>
-                <DropdownToggle nav caret>
-                  <FontAwesomeIcon icon={faCog} />
-                  {' '}
-                  Account
-                </DropdownToggle>
-                <DropdownMenu right>
-                  <DropdownItem>
-                    Preferences…
-                  </DropdownItem>
-                  <DropdownItem divider />
-                  <DropdownItem>
-                    Logout
-                  </DropdownItem>
-                </DropdownMenu>
-              </UncontrolledDropdown>
-            </Nav>
-          </Collapse>
-        </Navbar>
-        <Container>
-          <Switch>
-            <Route exact path={ROUTE_PLANTS}>
-              <Card className="mb-4">
-                <CardBody>
-                  <form method="GET">
-                    <Row>
-                      <Col xs={6} lg={3}>
-                        <Select name="someSelectField" value={someSelectField} onChange={this.inputOnChange} options={someArray} label="Jakieś pole" />
-                      </Col>
-                      <Col xs={6} lg={5}>
-                        <Select name="fertilizingFrequency" value={fertilizingFrequency} onChange={this.inputOnChange} options={someOtherArray} label="Fertilizing frequency" />
-                      </Col>
-                      <Col xs={12} lg={4}>
-                        <FormGroup>
-                          <Label for="plantName">Plant name:</Label>
-                          <Input
-                            id="plantName"
-                            name="plantName"
-                            type="text"
-                            value={plantName}
-                            onChange={this.inputOnChange}
-                          />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-
-                    <Button type="submit" className="mt-3">Wyślij formularz</Button>
-                  </form>
-                </CardBody>
-              </Card>
-            </Route>
-            <Route path={ROUTE_CATEGORIES}>
-              <Card>
-                <CardBody>
-                  <div className="app-container">
-                    {
-                      inProgress && <p>Loading data...</p>
-                    }
-                    {
-                      successCategories === false &&
-                      <p>Nie udało się pobrać Kategorii</p>
-                    }
-                    {
-                      successPlants === false &&
-                      <p>Nie udało się pobrać Kwiatow</p>
-                    }
-                    {
-                      successPlants &&
-                      <div className="plants">
-                        {
-                          plants.map((plant, index, arr) =>
-                            <Plant
-                              name={plant}
-                              key={index}
-                            />
-                          )
-                        }
-                      </div>
-                    }
-                    {
-                      successCategories &&
-                      <ListGroup className="categories">
-                        {
-                          categories.map((item, index, arr) =>
-                            <CategoryItem
-                              category={item}
-                              label='category'
-                              key={index}
-                              isLastItem={arr.length - 1 === index}
-                              index={index}
-                            />
-                          )
-                        }
-                      </ListGroup>
-                    }
-                  </div>
-                </CardBody>
-              </Card>
-            </Route>
-            <Route path={ROUTE_ROOMS}>
-              Rooms
-            </Route>
-          </Switch>
-        </Container>
+        <PlantasticNavbar/>
+        <PlantasticContainer
+          someSelectField={ someSelectField }
+          fertilizingFrequency={ fertilizingFrequency }
+          inputOnChange={ this.inputOnChange }
+          plantName={ plantName }
+          categories={ categories }
+          plants={ plants }
+          inProgress={ inProgress }
+          successCategories={ successCategories }
+          successPlants={ successPlants }
+        />
       </Router>
     )
   }
