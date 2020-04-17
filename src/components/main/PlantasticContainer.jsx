@@ -10,20 +10,20 @@ class PlantasticContainer extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
+      plants: [],
     }
   }
 
   render() {
     const {
+      delayFetch,
       categories,
       fertilizingFrequency,
       inProgress,
       inputOnChange,
       plantName,
-      plants,
       someSelectField,
       successCategories,
-      successPlants,
     } = this.props;
 
     return (
@@ -31,6 +31,8 @@ class PlantasticContainer extends React.PureComponent {
         <Switch>
           <Route exact path={ROUTE_PLANTS}>
             <Plants
+              delayFetch={delayFetch}
+              inProgress={inProgress}
               fertilizingFrequency={fertilizingFrequency}
               inputOnChange={inputOnChange}
               plantName={plantName}
@@ -41,8 +43,6 @@ class PlantasticContainer extends React.PureComponent {
             <Categories
               inProgress={inProgress}
               successCategories={successCategories}
-              successPlants={successPlants}
-              plants={plants}
               categories={categories}
             />
           </Route>

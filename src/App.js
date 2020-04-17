@@ -6,18 +6,16 @@ import PlantasticNavbar from "components/nav/navbar/PlantasticNavbar";
 import { someOtherArray } from "constants/PlantConstants";
 import PlantasticContainer from "components/main/PlantasticContainer";
 
-const CATEGORIES_FETCH_DELAY = 50;
-const PLANTS_FETCH_DELAY = 50;
+const CATEGORIES_FETCH_DELAY = 500;
 
 class App extends React.PureComponent {
 
   constructor(props) {
     super(props);
+
     this.state = {
       categories: [],
-      plants: [],
       successCategories: undefined,
-      successPlants: undefined,
       inProgress: true,
       plantName: '',
       someSelectField: '333',
@@ -26,6 +24,7 @@ class App extends React.PureComponent {
   }
 
   componentDidMount() {
+
     console.log('componentDidMount');
 
     const stopProgress = () => {
@@ -35,7 +34,6 @@ class App extends React.PureComponent {
 
     const allPromises = Promise.allSettled([
       this.fetchCategories(),
-      this.fetchPlants()
     ]);
 
     allPromises
@@ -48,6 +46,9 @@ class App extends React.PureComponent {
   }
 
   fetchCategories() {
+
+    console.log(this.a);
+
     const requestUrl = 'http://gentle-tor-07382.herokuapp.com/categories/';
 
     return this.delayFetch(CATEGORIES_FETCH_DELAY, (resolve, reject) => {
@@ -69,25 +70,6 @@ class App extends React.PureComponent {
     });
   }
 
-  fetchPlants() {
-    const requestUrl = 'http://gentle-tor-07382.herokuapp.com/plants/';
-
-    return this.delayFetch(PLANTS_FETCH_DELAY, (resolve, reject) => {
-      axios.get(requestUrl)
-        .then((response) => {
-          const data = response.data;
-          const plants = data.map((item) => item.name);
-          const successPlants = true;
-          this.setState({ plants, successPlants });
-          resolve();
-        })
-        .catch((error) => {
-          this.setState({ successPlants: false });
-          reject();
-        });
-    });
-  }
-
   inputOnChange = (event) => {
     const { currentTarget } = event;
     const { value, name } = currentTarget;
@@ -100,25 +82,22 @@ class App extends React.PureComponent {
       fertilizingFrequency,
       inProgress,
       plantName,
-      plants,
       someSelectField,
       successCategories,
-      successPlants,
     } = this.state;
 
     return (
       <Router>
         <PlantasticNavbar/>
         <PlantasticContainer
+          delayFetch={ this.delayFetch }
           someSelectField={ someSelectField }
           fertilizingFrequency={ fertilizingFrequency }
           inputOnChange={ this.inputOnChange }
           plantName={ plantName }
           categories={ categories }
-          plants={ plants }
           inProgress={ inProgress }
           successCategories={ successCategories }
-          successPlants={ successPlants }
         />
       </Router>
     )
