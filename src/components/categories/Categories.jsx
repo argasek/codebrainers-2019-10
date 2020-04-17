@@ -3,12 +3,24 @@ import React from "react";
 import CategoryItem from "components/categories/CategoryItem";
 import InProgress from "components/shared/InProgress";
 
-const Categories = ({
-                      inProgress,
-                      successCategories,
-                      categories,
-                    }) => {
+class Categories extends React.PureComponent {
+  constructor(props){
+    super(props)
+    this.state ={
+    inProgress: false, 
+    successCategories: undefined,
+    categories: []   
+    };
+  }
 
+  render(){
+  const {
+    inProgress,
+    successCategories,
+    categories,
+  } = this.state
+
+                      
   return (
     <Card>
       <CardBody>
@@ -38,6 +50,7 @@ const Categories = ({
       </CardBody>
     </Card>
   )
+}
 };
 
 
