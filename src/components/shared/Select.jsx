@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, Label, FormGroup } from 'reactstrap';
+import { FormGroup, Input, Label } from 'reactstrap';
 import PropTypes from 'prop-types';
 
 const Select = ({ value, name, onChange, options, label }) => {

@@ -1,4 +1,4 @@
-import { Levels, Level } from "./Levels";
+import { Level, Levels } from "./Levels";
 
 const skillLevels = [
   new Level(Levels.HOPELESS, 'Hopeless', 'Nie jest tak źle. Można użyć d-flex. Albo floatów! (ale floaty mają zęby!) '),

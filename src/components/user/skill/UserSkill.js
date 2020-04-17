@@ -1,6 +1,5 @@
 import React from 'react';
 import propTypes from 'prop-types';
-import { Col, Row } from "reactstrap";
 import { Level, Levels } from "../../../models/Levels";
 import skillBeginnerIcon from '../../../images/skill-beginner.jpg';
 import skillExperiencedIcon from '../../../images/skill-experienced.jpg';
