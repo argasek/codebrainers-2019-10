@@ -35,7 +35,7 @@ import {
   BrowserRouter as Router, Switch, Route,
 } from 'react-router-dom';
 import PlantasticNavItem from "./components/nav/nav-item/PlantasticNavItem";
-import { ROUTE_CATEGORIES } from './constants/Routes';
+import {ROUTE_CATEGORIES, ROUTE_PLANTS, ROUTE_ROOMS} from './constants/Routes';
 
 const CATEGORIES_FETCH_DELAY = 50;
 const PLANTS_FETCH_DELAY = 50;
@@ -160,9 +160,9 @@ class App extends React.PureComponent {
           <NavbarToggler onClick={toggle} />
           <Collapse isOpen={isOpen} navbar>
             <Nav className="mr-auto" navbar>
-              <PlantasticNavItem path="/" icon={faSeedling} name='Plants' />
+              <PlantasticNavItem path={ROUTE_PLANTS} icon={faSeedling} name='Plants' />
               <PlantasticNavItem path={ROUTE_CATEGORIES} icon={faLeaf} name='Categories' />
-              <PlantasticNavItem path="/rooms" icon={faHome} name='Rooms' />
+              <PlantasticNavItem path={ROUTE_ROOMS} icon={faHome} name='Rooms' />
             </Nav>
             <Nav navbar>
               <UncontrolledDropdown nav inNavbar>
@@ -186,7 +186,7 @@ class App extends React.PureComponent {
         </Navbar>
         <Container>
           <Switch>
-            <Route exact path="/">
+            <Route exact path={ROUTE_PLANTS}>
               <Card className="mb-4">
                 <CardBody>
                   <form method="GET">
@@ -264,7 +264,7 @@ class App extends React.PureComponent {
                 </CardBody>
               </Card>
             </Route>
-            <Route path="/rooms">
+            <Route path={ROUTE_ROOMS}>
               Rooms
             </Route>
           </Switch>
