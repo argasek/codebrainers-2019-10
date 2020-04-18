@@ -1,13 +1,33 @@
-const someArray = [
-  { label: 'Jeszcze inne coś', value: '132', size: 1 },
-  { label: 'Inne', value: '333' },
-  { label: 'Coś', value: '13232' },
+const plantExposureOptions = [
+  { id: 'dark', name: 'Dark' },
+  { id: 'shade', name: 'Shade' },
+  { id: 'partsun', name: 'Part sun' },
+  { id: 'sunny', name: 'Sunny' },
 ];
 
-const someOtherArray = [
-  { label: 'Codziennie', value: '1' },
-  { label: 'Co dwa dni', value: '2' },
-  { label: 'Co tydzień', value: '7' },
+const plantTemperatureOptions = [
+  { id: 'cold', name: 'Cold' },
+  { id: 'medium', name: 'Medium' },
+  { id: 'warm', name: 'Warm' },
 ];
 
-export { someArray, someOtherArray };
+const plantHumidityOptions = [
+  { id: 'low', name: 'Low' },
+  { id: 'medium', name: 'Medium' },
+  { id: 'high', name: 'High' },
+];
+
+const plantDifficultyLevel = [
+  { id: 'low', name: 'Low' },
+  { id: 'medium-low', name: 'Medium-low' },
+  { id: 'medium', name: 'Medium' },
+  { id: 'medium-high', name: 'Medium-high' },
+  { id: 'high', name: 'High' },
+];
+
+export {
+  plantExposureOptions,
+  plantTemperatureOptions,
+  plantHumidityOptions,
+  plantDifficultyLevel
+};

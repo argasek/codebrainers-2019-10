@@ -7,28 +7,18 @@ import Categories from "components/categories/Categories";
 import Rooms from "components/rooms/Rooms";
 import PlantCreate from 'components/plants/PlantCreate';
 
-
 class PlantasticContainer extends React.PureComponent {
 
   render() {
     const {
       delayFetch,
-      fertilizingFrequency,
-      inputOnChange,
-      plantName,
-      someSelectField,
     } = this.props;
 
     return (
       <Container>
         <Switch>
           <Route exact path={ROUTE_PLANTS}>
-            <PlantCreate 
-              fertilizingFrequency={fertilizingFrequency}
-              inputOnChange={inputOnChange}
-              plantName={plantName}
-              someSelectField={someSelectField}
-            />
+            <PlantCreate />
             <Plants
               delayFetch={delayFetch} 
             />

@@ -1,60 +1,79 @@
-import { Button, Form, Col, FormGroup, Input, Label, Row } from "reactstrap";
-import Select from "components/shared/Select";
-import { someArray, someOtherArray } from "constants/PlantConstants";
+import { Button, Col, FormGroup, Label, Row } from "reactstrap";
+import { plantExposureOptions, plantHumidityOptions } from "constants/PlantConstants";
 import React from "react";
 import PropTypes from 'prop-types';
-
-
+import { Field, Form, Formik } from 'formik';
+import PlantasticInput from "components/shared/form/PlantasticInput";
+import PlantasticSelect from "components/shared/form/PlantasticSelect";
 
 class PlantForm extends React.PureComponent {
 
-    constructor(props) {
-        super(props);
-    }
+  constructor(props) {
+    super(props);
+  }
 
-    render() {
-        const {
-            fertilizingFrequency,
-            inputOnChange,
-            plantName,
-            someSelectField,
-        } = this.props;
+  render() {
+    const firstOf = (arr) => arr[0].value;
 
-        return (
+    const name = '';
+    const exposure = firstOf(plantExposureOptions);
+    const humidity = firstOf(plantHumidityOptions);
+
+    const initialValues = {
+      name,
+      exposure,
+      humidity,
+    };
+
+    const onSubmit = () => {};
+
+    const plantExposureId = 'plantExposure';
+    const plantNameId = 'plantName';
+
+    return (
+      <Formik initialValues={ initialValues } onSubmit={ onSubmit }>
+        {
+          ({ isValid }) => (
             <Form method="GET">
-                <Row>
-                    <Col xs={6} lg={3}>
-                        <Select name="someSelectField" value={someSelectField} onChange={inputOnChange} options={someArray} label="Jakieś pole" />
-                    </Col>
-                    <Col xs={6} lg={5}>
-                        <Select name="fertilizingFrequency" value={fertilizingFrequency} onChange={inputOnChange} options={someOtherArray} label="Fertilizing frequency" />
-                    </Col>
-                    <Col xs={12} lg={4}>
-                        <FormGroup>
-                            <Label for="plantName">Plant name:</Label>
-                            <Input
-                                id="plantName"
-                                name="plantName"
-                                type="text"
-                                value={plantName}
-                                onChange={inputOnChange}
-                            />
-                        </FormGroup>
-                    </Col>
-                </Row>
+              <Row>
+                <Col xs={ 6 } lg={ 3 }>
+                  <Label for={ plantExposureId }>Exposure:</Label>
+                  <Field
+                    id={ plantExposureId }
+                    name="exposure"
+                    items={plantExposureOptions}
+                    component={PlantasticSelect}
+                  />
+                </Col>
+                <Col xs={ 6 } lg={ 5 }>
+                  <pre>Another select...</pre>
+                </Col>
+                <Col xs={ 12 } lg={ 4 }>
+                  <FormGroup>
+                    <Label for={ plantNameId }>Plant name:</Label>
+                    <Field
+                      id={ plantNameId }
+                      name="name"
+                      type="text"
+                      placeholder="Monstera Deliciosa"
+                      component={ PlantasticInput }
+                    />
+                  </FormGroup>
+                </Col>
+              </Row>
 
-                <Button type="submit" className="mt-3">Wyślij formularz</Button>
+              <Button color="primary" type="submit" className="mt-3">Create new plant</Button>
             </Form>
-        )
-    }
+          )
+        }
+
+      </Formik>
+    )
+  }
 
 }
 
 PlantForm.propTypes = {
-    fertilizingFrequency: PropTypes.string.isRequired,
-    inputOnChange: PropTypes.func.isRequired,
-    plantName: PropTypes.string.isRequired,
-    someSelectField: PropTypes.string.isRequired,
 };
 
 
