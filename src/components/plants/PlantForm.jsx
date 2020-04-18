@@ -1,4 +1,4 @@
-import { Button, Col, FormGroup, Label, Row } from "reactstrap";
+import { Button, Col, FormGroup, Label, Row, FormText } from "reactstrap";
 import {
   plantExposureOptions,
   plantHumidityOptions,
@@ -24,6 +24,7 @@ class PlantForm extends React.PureComponent {
     const humidity = firstOf(plantHumidityOptions);
     const difficultyLevel = firstOf(plantDifficultyOptions);
     const temperature = firstOf(plantTemperatureOptions);
+    const wateringInterval = "";
 
     const initialValues = {
       name,
@@ -31,6 +32,7 @@ class PlantForm extends React.PureComponent {
       humidity,
       difficultyLevel,
       temperature,
+      wateringInterval,
     };
 
     const onSubmit = () => {};
@@ -40,7 +42,7 @@ class PlantForm extends React.PureComponent {
     const plantHumidityId = "plantHumidity";
     const plantDifficultyId = "plantDifficultyLevel";
     const plantTemperatureId = "plantTemperature";
-
+    const wateringId = "watering";
     return (
       <Formik initialValues={initialValues} onSubmit={onSubmit}>
         {({ isValid }) => (
@@ -78,7 +80,7 @@ class PlantForm extends React.PureComponent {
               </Col>
             </Row>
             <Row>
-              <Col xs={12} lg={6}>
+              <Col xs={12} lg={4}>
                 <Label for={plantDifficultyId}>Difficulty:</Label>
                 <Field
                   id={plantDifficultyId}
@@ -87,7 +89,7 @@ class PlantForm extends React.PureComponent {
                   component={PlantasticSelect}
                 />
               </Col>
-              <Col xs={12} lg={6}>
+              <Col xs={12} lg={4}>
                 <Label for={plantTemperatureId}>Temperature:</Label>
                 <Field
                   id={plantTemperatureId}
@@ -96,7 +98,22 @@ class PlantForm extends React.PureComponent {
                   component={PlantasticSelect}
                 />
               </Col>
+              <Col>
+
+              <Label for={wateringId}>Watering interval:</Label>
+                  <Field
+                    id={wateringId}
+                    name="wateringInterval"
+                    type="text"
+                    placeholder="1"
+                    component={PlantasticInput}
+                  />
+                <FormText color="muted">
+                  Please provide numerical value in days.
+                </FormText>
+              </Col>
             </Row>
+            
 
             <Button color="primary" type="submit" className="mt-3">
               Create new plant
