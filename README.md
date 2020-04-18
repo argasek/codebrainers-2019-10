@@ -16,3 +16,10 @@ c) trzy osobne komponenty, zawierające to, co leży **wewnątrz** każdego taga
 3*. Przerób kod w taki sposób, aby kategorie wczytywały się po każdej nawigacji do `/categories` (obecnie wczytują się one tylko gdy uruchamiana jest aplikacja po raz 1.)   
 
 
+2020.04.18
+
+1. Dodać pola lastWatered i lastFertilized.
+2. Na liście Plants wyświetlać więcej informacji niż tylko nazwę. Posłuż się https://getbootstrap.com/docs/4.4/content/tables/
+https://reactstrap.github.io/components/tables/
+Wykorzystaj tabelę. 
+
