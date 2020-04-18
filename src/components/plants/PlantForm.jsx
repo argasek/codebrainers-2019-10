@@ -1,102 +1,113 @@
 import { Button, Col, FormGroup, Label, Row } from "reactstrap";
-import { plantExposureOptions, plantHumidityOptions, plantDifficultyOptions } from "constants/PlantConstants";
+import {
+  plantExposureOptions,
+  plantHumidityOptions,
+  plantDifficultyOptions,
+  plantTemperatureOptions,
+} from "constants/PlantConstants";
 import React from "react";
-import PropTypes from 'prop-types';
-import { Field, Form, Formik } from 'formik';
+import PropTypes from "prop-types";
+import { Field, Form, Formik } from "formik";
 import PlantasticInput from "components/shared/form/PlantasticInput";
 import PlantasticSelect from "components/shared/form/PlantasticSelect";
 
 class PlantForm extends React.PureComponent {
+  constructor(props) {
+    super(props);
+  }
 
-    constructor(props) {
-        super(props);
-    }
+  render() {
+    const firstOf = (arr) => arr[0].value;
 
-    render() {
-        const firstOf = (arr) => arr[0].value;
+    const name = "";
+    const exposure = firstOf(plantExposureOptions);
+    const humidity = firstOf(plantHumidityOptions);
+    const difficultyLevel = firstOf(plantDifficultyOptions);
+    const temperature = firstOf(plantTemperatureOptions);
 
-        const name = '';
-        const exposure = firstOf(plantExposureOptions);
-        const humidity = firstOf(plantHumidityOptions);
-        const difficultyLevel = firstOf(plantDifficultyOptions)
+    const initialValues = {
+      name,
+      exposure,
+      humidity,
+      difficultyLevel,
+      temperature,
+    };
 
-        const initialValues = {
-            name,
-            exposure,
-            humidity,
-            difficultyLevel,
+    const onSubmit = () => {};
 
-        };
+    const plantExposureId = "plantExposure";
+    const plantNameId = "plantName";
+    const plantHumidityId = "plantHumidity";
+    const plantDifficultyId = "plantDifficultyLevel";
+    const plantTemperatureId = "plantTemperature";
 
-        const onSubmit = () => { };
+    return (
+      <Formik initialValues={initialValues} onSubmit={onSubmit}>
+        {({ isValid }) => (
+          <Form method="GET">
+            <Row>
+              <Col xs={6} lg={3}>
+                <Label for={plantExposureId}>Exposure:</Label>
+                <Field
+                  id={plantExposureId}
+                  name="exposure"
+                  items={plantExposureOptions}
+                  component={PlantasticSelect}
+                />
+              </Col>
+              <Col xs={6} lg={5}>
+                <Label for={plantHumidityId}>Humidity:</Label>
+                <Field
+                  id={plantHumidityId}
+                  name="humidity"
+                  items={plantHumidityOptions}
+                  component={PlantasticSelect}
+                />
+              </Col>
+              <Col xs={12} lg={4}>
+                <FormGroup>
+                  <Label for={plantNameId}>Plant name:</Label>
+                  <Field
+                    id={plantNameId}
+                    name="name"
+                    type="text"
+                    placeholder="Monstera Deliciosa"
+                    component={PlantasticInput}
+                  />
+                </FormGroup>
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={12} lg={6}>
+                <Label for={plantDifficultyId}>Difficulty:</Label>
+                <Field
+                  id={plantDifficultyId}
+                  name="difficultyLevel"
+                  items={plantDifficultyOptions}
+                  component={PlantasticSelect}
+                />
+              </Col>
+              <Col xs={12} lg={6}>
+                <Label for={plantTemperatureId}>Temperature:</Label>
+                <Field
+                  id={plantTemperatureId}
+                  name="temperature"
+                  items={plantTemperatureOptions}
+                  component={PlantasticSelect}
+                />
+              </Col>
+            </Row>
 
-        const plantExposureId = 'plantExposure';
-        const plantNameId = 'plantName';
-        const plantHumidityId = 'plantHumidity';
-        const plantDifficultyId = 'plantDifficultyLevel';
-
-        return (
-            <Formik initialValues={initialValues} onSubmit={onSubmit}>
-                {
-                    ({ isValid }) => (
-                        <Form method="GET">
-                            <Row>
-                                <Col xs={6} lg={3}>
-                                    <Label for={plantExposureId}>Exposure:</Label>
-                                    <Field
-                                        id={plantExposureId}
-                                        name="exposure"
-                                        items={plantExposureOptions}
-                                        component={PlantasticSelect}
-                                    />
-                                </Col>
-                                <Col xs={6} lg={5}>
-                                    <Label for={plantHumidityId}>Humidity:</Label>
-                                    <Field
-                                        id={plantHumidityId}
-                                        name="humidity"
-                                        items={plantHumidityOptions}
-                                        component={PlantasticSelect}
-                                    />
-                                </Col>
-                                <Col xs={12} lg={4}>
-                                    <FormGroup>
-                                        <Label for={plantNameId}>Plant name:</Label>
-                                        <Field
-                                            id={plantNameId}
-                                            name="name"
-                                            type="text"
-                                            placeholder="Monstera Deliciosa"
-                                            component={PlantasticInput}
-                                        />
-                                    </FormGroup>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col xs={12}>
-                                    <Label for={plantDifficultyId}>Difficulty:</Label>
-                                    <Field
-                                        id={plantDifficultyId}
-                                        name="difficultyLevel"
-                                        items={plantDifficultyOptions}
-                                        component={PlantasticSelect}
-                                    />
-                                </Col>
-                            </Row>
-
-                            <Button color="primary" type="submit" className="mt-3">Create new plant</Button>
-                        </Form>
-                    )
-                }
-
-            </Formik>
-        )
-    }
-
+            <Button color="primary" type="submit" className="mt-3">
+              Create new plant
+            </Button>
+          </Form>
+        )}
+      </Formik>
+    );
+  }
 }
 
-PlantForm.propTypes = {
-};
-
+PlantForm.propTypes = {};
 
 export default PlantForm;
