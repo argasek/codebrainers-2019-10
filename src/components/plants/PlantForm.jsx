@@ -1,5 +1,5 @@
 import { Button, Col, FormGroup, Label, Row } from "reactstrap";
-import { plantExposureOptions, plantHumidityOptions } from "constants/PlantConstants";
+import { plantExposureOptions, plantHumidityOptions, plantDifficultyOptions } from "constants/PlantConstants";
 import React from "react";
 import PropTypes from 'prop-types';
 import { Field, Form, Formik } from 'formik';
@@ -18,11 +18,14 @@ class PlantForm extends React.PureComponent {
         const name = '';
         const exposure = firstOf(plantExposureOptions);
         const humidity = firstOf(plantHumidityOptions);
+        const difficultyLevel = firstOf(plantDifficultyOptions)
 
         const initialValues = {
             name,
             exposure,
             humidity,
+            difficultyLevel,
+
         };
 
         const onSubmit = () => { };
@@ -30,6 +33,7 @@ class PlantForm extends React.PureComponent {
         const plantExposureId = 'plantExposure';
         const plantNameId = 'plantName';
         const plantHumidityId = 'plantHumidity';
+        const plantDifficultyId = 'plantDifficultyLevel';
 
         return (
             <Formik initialValues={initialValues} onSubmit={onSubmit}>
@@ -66,6 +70,17 @@ class PlantForm extends React.PureComponent {
                                             component={PlantasticInput}
                                         />
                                     </FormGroup>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col xs={12}>
+                                    <Label for={plantDifficultyId}>Difficulty:</Label>
+                                    <Field
+                                        id={plantDifficultyId}
+                                        name="difficultyLevel"
+                                        items={plantDifficultyOptions}
+                                        component={PlantasticSelect}
+                                    />
                                 </Col>
                             </Row>
 

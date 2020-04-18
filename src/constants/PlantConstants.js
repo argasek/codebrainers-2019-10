@@ -17,7 +17,7 @@ const plantHumidityOptions = [
   { id: 'high', name: 'High' },
 ];
 
-const plantDifficultyLevel = [
+const plantDifficultyOptions = [
   { id: 'low', name: 'Low' },
   { id: 'medium-low', name: 'Medium-low' },
   { id: 'medium', name: 'Medium' },
@@ -29,5 +29,5 @@ export {
   plantExposureOptions,
   plantTemperatureOptions,
   plantHumidityOptions,
-  plantDifficultyLevel
+  plantDifficultyOptions
 };
