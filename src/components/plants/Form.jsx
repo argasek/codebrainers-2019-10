@@ -42,13 +42,7 @@ class SomeForm extends React.PureComponent {
         <React.Fragment>
           <h3>Add a new plant</h3>
           <form method="POST" action="">
-            <Label>Plant name:</Label>
-            <Input
-              type="text"
-              name="name"
-              value={name}
-              onChange={this.handleInputChange}
-            />
+            {/* to jest z serwera</form>/ */}
             <Label>Plant category:</Label>
             <Input
               type="text"
@@ -63,13 +57,7 @@ class SomeForm extends React.PureComponent {
               value={room}
               onChange={this.handleInputChange/*, this.isPalindrom*/}
             />
-            <Label>Watering interval:</Label>
-            <Input
-              type="text"
-              name="wateringInterval"
-              value={wateringInterval}
-              onChange={this.handleInputChange}
-            />
+            
             <Label>Fertilizing interval:</Label>
             <Input
               type=""
@@ -77,41 +65,10 @@ class SomeForm extends React.PureComponent {
               value={fertilizingInterval}
               onChange={this.handleInputChange}
             />
-            <Label>Required exposure:</Label>
-            <Input
-              type="select"
-              name="requiredExposure"
-              value={requiredExposure}
-              onChange={this.handleInputChange}>
-              {
-                requiredExposureOptions.map(item =>
-                  (<option value={item.value} key={item.value}>{item.label}</option>
-                  ))
-              }
-            </Input>
-            <Label>Required temperature:</Label>
-            <Input
-              type="select"
-              name="requiredTemperature"
-              value={requiredTemperature}
-              onChange={this.handleInputChange}>
-              {
-                requiredTemperatureOptions.map(item =>
-                  (<option value={item.value} key={item.value}>{item.label}</option>
-                  ))
-              }
-            </Input>
-            <Label>Required humidity:</Label>
-            <Input
-              type="select"
-              name="requiredHumidity"
-              value={requiredHumidity}
-              onChange={this.handleInputChange}>
-              {
-                requiredHumidityOptions.map(item =>
-                  (<option value={item.value} key={item.value}>{item.label}</option>
-                  ))
-              }
+           
+           
+            
+            
             </Input>
             <Label>Bloomig:</Label>
             <Input
@@ -120,32 +77,9 @@ class SomeForm extends React.PureComponent {
               value={blooming}
               onChange={this.handleInputChange}
             />
-            <Label>Difficulty:</Label>
-            <Input
-              type="select"
-              name="difficulty"
-              value={difficulty}
-              onChange={this.handleInputChange}>
-              {
-                difficultyLevel.map(item =>
-                  (<option value={item.value} key={item.value}>{item.label}</option>
-                  ))
-              }
-            </Input>
-            <Label>Last watered:</Label>
-            <Input
-              type="text"
-              name="lastWatered"
-              value={lastWatered}
-              onChange={this.handleInputChange}
-            />
-            <Label>Last fertilized:</Label>
-            <Input
-              type="text"
-              name="lastFertilized"
-              value={lastFertilized}
-              onChange={this.handleInputChange}
-            />
+           
+          
+           
             <Button type="submit">Submit new plant</Button>
           </form>
         </React.Fragment>
