@@ -1,10 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
+import PlantForm from "./PlantForm";
 
 const PlantCreate = (props) => {
   return (
     <Card className="mb-4">
-      <CardBody></CardBody>
+      <CardBody>
+        <PlantForm {...props} />
+      </CardBody>
     </Card>
   );
 };
