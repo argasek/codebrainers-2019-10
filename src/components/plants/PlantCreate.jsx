@@ -13,7 +13,6 @@ const PlantCreate = (props) => {
   );
 };
 
-PlantCreate.propTypes = {
-};
+PlantCreate.propTypes = {};
 
 export default PlantCreate;
