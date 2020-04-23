@@ -94,8 +94,8 @@ class PlantForm extends React.PureComponent {
                 </FormGroup>
               </Col>
             </Row>
-            <FormGroup>
-              <span>Cultivation requirements</span>
+            <FormGroup className="cultivation-maintanance">
+              <span className="section-label">Cultivation requirements</span>
               <Row>
                 <Col xs={6} lg={3}>
                   <Label for={plantExposureId}>Exposure:</Label>
@@ -142,6 +142,7 @@ class PlantForm extends React.PureComponent {
             </FormGroup>
 
             <FormGroup tag="fieldset" className="cultivation-maintanance">
+              <span className="section-label">Plant maintanance</span>
               <Row>
                 {/* 1. Dodać pola lastWatered i lastFertilized. */}
                 <Col xs={12} lg={6}>

@@ -13,19 +13,9 @@ class Plant extends React.PureComponent {
     console.log("Props w plant component", this.props.name);
     return (
       <React.Fragment>
-        <p>{this.props.plant}</p>
-        <tbody>
-          <tr key={plant.id}>
-            <td>{plant.url}</td>
-            <td>{plant.name}</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-        </tbody>
+        <div>
+          <p>{this.props.name}</p>
+        </div>
       </React.Fragment>
     );
   }
@@ -37,8 +27,4 @@ Plant.propTypes = {
 
 export default Plant;
 
-{
-  /* <div>
-  <p>{this.props.name}</p>
-</div>; */
-}
+//

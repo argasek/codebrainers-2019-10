@@ -2,8 +2,14 @@ import { Card, CardBody, Table } from "reactstrap";
 import React from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
-import Plant from "components/plants/Plant";
+//import Plant from "components/plants/Plant";
 import InProgress from "components/shared/InProgress";
+import {
+  plantExposureOptions,
+  plantTemperatureOptions,
+  plantHumidityOptions,
+  plantDifficultyOptions,
+} from "constants/PlantConstants";
 
 const PLANTS_FETCH_DELAY = 250;
 
@@ -38,7 +44,6 @@ class Plants extends React.PureComponent {
               url: item.url,
               category: item.category,
               categorySlug: item.category_slug,
-              wateringInterval: item.watering_interval,
               fertilizingInterval: item.fertilizing_interval,
               requiredExposure: item.required_exposure,
               requiredHumidity: item.required_humidity,
@@ -63,6 +68,11 @@ class Plants extends React.PureComponent {
     });
   }
 
+  searchedValue(tableView, valueToFind) {
+    const id = tableView.findIndex((propValue) => propValue.id === valueToFind);
+    return tableView[id].name;
+  }
+
   render() {
     const { plants, successPlants, inProgress } = this.state;
 
@@ -76,8 +86,8 @@ class Plants extends React.PureComponent {
               {/* {console.log(`Rendered plants `, plants)} */}
               <thead className="plants-table">
                 <tr>
-                  <th>name</th>
-                  <th>category</th>
+                  <th>Name</th>
+                  <th>Category</th>
                   <th>Exposure</th>
                   <th>Humidity</th>
                   <th>Temperature</th>
@@ -99,23 +109,34 @@ class Plants extends React.PureComponent {
                   <tr key={plant[index]}>
                     <td>{plant[index].name}</td>
                     <td>{plant[index].category}</td>
-                    <td>{plant[index].requiredExposure}</td>
-                    <td>{plant[index].requiredHumidity}</td>
-                    <td>{plant[index].requiredTemperature}</td>
+
+                    <td>
+                      {this.searchedValue(
+                        plantExposureOptions,
+                        plant[index].requiredExposure
+                      )}
+                    </td>
+                    <td>
+                      {this.searchedValue(
+                        plantHumidityOptions,
+                        plant[index].requiredHumidity
+                      )}
+                    </td>
+                    <td>
+                      {this.searchedValue(
+                        plantTemperatureOptions,
+                        plant[index].requiredTemperature
+                      )}
+                    </td>
                     <td>{plant[index].blooming}</td>
                     <td>{plant[index].difficulty}</td>
                     <td>{plant[index].room}</td>
                     <td>{plant[index].lastFertilized}</td>
-                    <td>{plant[index].lastWatered}</td>
+                    <td>{plant[index].lastWatered.substr(0, 10)}</td>
                   </tr>
                 ))}
               </tbody>
             </Table>
-
-            //oryginal
-            // {plants.map((plant, index, arr) => (
-            //   <Plant key={index} id={plant[0]} name={plant[1]} url={plant[2]} />
-            // ))}
           )}
         </CardBody>
       </Card>

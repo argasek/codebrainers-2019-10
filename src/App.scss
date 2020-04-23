@@ -1,9 +1,17 @@
-.body {
+.cultivation-maintanance {
+  margin-top: 20px;
+  border: 1px solid rgb(20, 64, 114);
+  padding: 2em 1em 1em;
 }
 
-.cultivation-maintanance {
-  border: 1px solid magenta;
-  padding: 1em;
+.section-label {
+  position: absolute;
+  background-color: ivory;
+  display: block;
+  font-size: 12px;
+  border: 1px solid grey;
+  padding: 3px 10px;
+  transform: translateY(-160%);
 }
 
 legend {
@@ -15,7 +23,11 @@ h4 {
 }
 .plants-table {
   font-size: 11px;
+  text-align: center;
   font-weight: normal;
   background-color: black;
   color: #ffff;
+}
+td {
+  border: 1px solid grey;
 }
