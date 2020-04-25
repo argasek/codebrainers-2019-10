@@ -8,7 +8,8 @@ In the project directory, you can run:
 
 #### 2020.04.25
 
-1. Zrefaktoruj projekt w taki sposób, aby każde z pól formularza PlantForm było osobnym komponentem. (W razie wątpliwości zerknij na przykład w postaci `PlantFormFieldExposure.jsx`) 
+1. Zrefaktoruj projekt w taki sposób, aby każde z pól formularza PlantForm było osobnym komponentem. (W razie wątpliwości zerknij na przykład w postaci `PlantFormFieldExposure.jsx`)
+2. Przeszukaj projekt w poszukiwaniu bloków podpisanych jako "TODO" albo "FIXME" 
 
 #### 2020.04.18
 
