@@ -3,7 +3,15 @@ import { Table } from "reactstrap";
 import Plant from "components/plants/Plant";
 import PropTypes from "prop-types";
 
-const Plants = ({ plants }) => {
+/**
+ * This is an example of JSDoc comment.
+ *
+ * @param {array} plants Array of plants
+ * @param {array} categories Array of categories
+ * @returns {*}
+ * @constructor
+ */
+const Plants = ({ plants, categories }) => {
   return (
     <Table hover striped>
       <thead className="thead-dark">
@@ -23,7 +31,11 @@ const Plants = ({ plants }) => {
       <tbody>
         {
           plants.map((plant) => (
-            <Plant plant={ plant } key={ plant.id }/>
+            <Plant
+              plant={ plant }
+              plantCategories={ categories }
+              key={ plant.id }
+            />
           ))
         }
       </tbody>

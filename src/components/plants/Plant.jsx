@@ -9,22 +9,26 @@ import {
   plantTemperatureOptions,
 } from "constants/PlantConstants";
 
-
 class Plant extends React.PureComponent {
 
-  findValueByKey(tableView, valueToFind) {
-    const id = tableView.findIndex((propValue) => propValue.id === valueToFind);
-    return tableView[id].name;
+  findValueByKey(options, valueToFind) {
+    const id = options.findIndex((propValue) => propValue.id === valueToFind);
+    return (id !== -1 ? options[id].name : 'UNKNOWN');
   }
 
   render() {
-    const plant = this.props.plant;
+    const {
+      plant,
+      plantCategories,
+    } = this.props;
+
     const plantRequiredExposure = this.findValueByKey(plantExposureOptions, plant.requiredExposure);
+    const plantCategory = this.findValueByKey(plantCategories, plant.category);
 
     return (
       <tr key={ plant.id }>
         <td>{ plant.name }</td>
-        <td>{ plant.category }</td>
+        <td>{ plantCategory }</td>
         <td>{ plantRequiredExposure }</td>
         <td>{ this.findValueByKey(plantHumidityOptions, plant.requiredHumidity) }</td>
         <td>{ this.findValueByKey(plantTemperatureOptions, plant.requiredTemperature) }</td>
@@ -40,6 +44,10 @@ class Plant extends React.PureComponent {
 
 Plant.propTypes = {
   plant: PropTypes.object.isRequired,
+  plantCategories: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+  })),
 };
 
 export default Plant;

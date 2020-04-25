@@ -9,7 +9,9 @@ In the project directory, you can run:
 #### 2020.04.25
 
 1. Zrefaktoruj projekt w taki sposób, aby każde z pól formularza PlantForm było osobnym komponentem. (W razie wątpliwości zerknij na przykład w postaci `PlantFormFieldExposure.jsx`)
-2. Przeszukaj projekt w poszukiwaniu bloków podpisanych jako "TODO" albo "FIXME" 
+2. Przeszukaj projekt w poszukiwaniu bloków podpisanych jako "TODO" albo "FIXME"
+3. W każdym komponencie, gdzie mamy zdefiniowane propTypes i przekazujemy tablicę obiektów bądź obiekt, wykorzystaj `PropTypes.shape` aby dokładniej opisać interfejs oczekiwanego obiektu. Wzoruj się na `Plant.propTypes`. Uważnie obserwuj konsolę deweloperską. Postaraj się, aby nie było żadnych warningów związanych z propTypes!
+4. We wszystkich sytuacjach, gdzie nie udało nam się czegoś pobrać z serwera, zastosuj elegancki komponent o nazwie `<Alert>` w wariancie `danger` pochodzący z pakietu **Reactstrap**   
 
 #### 2020.04.18
 

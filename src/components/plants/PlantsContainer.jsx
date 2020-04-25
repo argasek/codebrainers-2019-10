@@ -4,8 +4,7 @@ import PropTypes from "prop-types";
 import axios from "axios";
 import InProgress from "components/shared/InProgress";
 import Plants from "components/plants/Plants";
-
-const PLANTS_FETCH_DELAY = 250;
+import { PLANTS_FETCH_DELAY } from "constants/DebugConstants";
 
 class PlantsContainer extends React.PureComponent {
   constructor(props) {
@@ -18,12 +17,12 @@ class PlantsContainer extends React.PureComponent {
   }
 
   componentDidMount() {
-    this.fetchPlants().finally(() => {
-      this.setState({ inProgress: false });
-    });
+    this.props.fetchCategories();
+    this.fetchPlants();
   }
 
   fetchPlants() {
+    console.log('Method PlantsContainer.fetchPlants() fired');
     const requestUrl = "http://gentle-tor-07382.herokuapp.com/plants/";
     this.setState({ inProgress: true });
     return this.props.delayFetch(PLANTS_FETCH_DELAY, (resolve, reject) => {
@@ -53,25 +52,40 @@ class PlantsContainer extends React.PureComponent {
 
           const successPlants = true;
           this.setState({ plants, successPlants });
+          console.log('Fetched plants');
           resolve();
         })
         .catch((error) => {
           this.setState({ successPlants: false });
           reject();
-        });
+        })
+        .finally(() => {
+          this.setState({ inProgress: false });
+        })
     });
   }
 
   render() {
-    const { plants, successPlants, inProgress } = this.state;
+    const {
+      plants,
+      successPlants,
+      inProgress
+    } = this.state;
+
+    const {
+      categories
+    } = this.props;
 
     return (
       <Card className="mb-4">
         <CardBody>
           <InProgress inProgress={ inProgress }/>
-          { successPlants === false && <p>Nie udało się pobrać Kwiatow</p> }
+          { successPlants === false && <p>Failed to fetch plants :-(</p> }
           { successPlants && (
-            <Plants plants={plants} />
+            <Plants
+              plants={ plants }
+              categories={ categories }
+            />
           ) }
         </CardBody>
       </Card>
@@ -81,6 +95,7 @@ class PlantsContainer extends React.PureComponent {
 
 PlantsContainer.propTypes = {
   delayFetch: PropTypes.func.isRequired,
+  fetchCategories: PropTypes.func.isRequired,
 };
 
 export default PlantsContainer;
