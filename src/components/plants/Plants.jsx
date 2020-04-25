@@ -4,12 +4,7 @@ import PropTypes from "prop-types";
 import axios from "axios";
 //import Plant from "components/plants/Plant";
 import InProgress from "components/shared/InProgress";
-import {
-  plantExposureOptions,
-  plantTemperatureOptions,
-  plantHumidityOptions,
-  plantDifficultyOptions,
-} from "constants/PlantConstants";
+import Plant from "./Plant";
 
 const PLANTS_FETCH_DELAY = 250;
 
@@ -37,7 +32,7 @@ class Plants extends React.PureComponent {
         .get(requestUrl)
         .then((response) => {
           const data = response.data;
-          const plants = data.map((item) => [
+          const plants = data.map((item) => (
             {
               id: item.id,
               name: item.name,
@@ -49,13 +44,13 @@ class Plants extends React.PureComponent {
               requiredHumidity: item.required_humidity,
               requiredTemperature: item.required_temperature,
               blooming: item.blomming,
-              difficulty: item.difficulty,
+              difficulty: item.difficulty.toString(),
               wateringInterval: item.watering_interval,
               room: item.roms,
               lastWatered: item.last_watered,
               lastFertilized: item.last_fertilized,
-            },
-          ]);
+            }
+          ));
 
           const successPlants = true;
           this.setState({ plants, successPlants });
@@ -68,76 +63,36 @@ class Plants extends React.PureComponent {
     });
   }
 
-  searchedValue(tableView, valueToFind) {
-    const id = tableView.findIndex((propValue) => propValue.id === valueToFind);
-    return tableView[id].name;
-  }
-
   render() {
     const { plants, successPlants, inProgress } = this.state;
 
     return (
       <Card className="mb-4">
         <CardBody>
-          <InProgress inProgress={inProgress} />
-          {successPlants === false && <p>Nie udało się pobrać Kwiatow</p>}
-          {successPlants && (
+          <InProgress inProgress={ inProgress }/>
+          { successPlants === false && <p>Nie udało się pobrać Kwiatow</p> }
+          { successPlants && (
             <Table hover>
-              {/* {console.log(`Rendered plants `, plants)} */}
+              {/* {console.log(`Rendered plants `, plants)} */ }
               <thead className="plants-table">
-                <tr>
-                  <th>Name</th>
-                  <th>Category</th>
-                  <th>Exposure</th>
-                  <th>Humidity</th>
-                  <th>Temperature</th>
-                  <th>Blooming</th>
-                  <th>Difficulty</th>
-                  <th>Room</th>
-                  <th>Last Fertilized </th>
-                  <th>Last Watered</th>
-                </tr>
+              <tr>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Exposure</th>
+                <th>Humidity</th>
+                <th>Temperature</th>
+                <th>Blooming</th>
+                <th>Difficulty</th>
+                <th>Room</th>
+                <th>Last Fertilized</th>
+                <th>Last Watered</th>
+              </tr>
               </thead>
-              {/* <Plant {...this.props} /> */}
-              {/* <tbody> */}
-              {/* <div className="plants"> */}
-              {/* <Plants /> */}
-              {/* </div> */}
-              {/* </tbody> */}
               <tbody>
-                {plants.map((plant, index) => (
-                  <tr key={plant[index]}>
-                    <td>{plant[index].name}</td>
-                    <td>{plant[index].category}</td>
-
-                    <td>
-                      {this.searchedValue(
-                        plantExposureOptions,
-                        plant[index].requiredExposure
-                      )}
-                    </td>
-                    <td>
-                      {this.searchedValue(
-                        plantHumidityOptions,
-                        plant[index].requiredHumidity
-                      )}
-                    </td>
-                    <td>
-                      {this.searchedValue(
-                        plantTemperatureOptions,
-                        plant[index].requiredTemperature
-                      )}
-                    </td>
-                    <td>{plant[index].blooming}</td>
-                    <td>{plant[index].difficulty}</td>
-                    <td>{plant[index].room}</td>
-                    <td>{plant[index].lastFertilized}</td>
-                    <td>{plant[index].lastWatered.substr(0, 10)}</td>
-                  </tr>
-                ))}
+              { plants.map((plant) => (<Plant plant={plant} key={plant.id} />)) }
               </tbody>
             </Table>
-          )}
+          ) }
         </CardBody>
       </Card>
     );

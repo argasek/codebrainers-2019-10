@@ -18,11 +18,11 @@ const plantHumidityOptions = [
 ];
 
 const plantDifficultyOptions = [
-  { id: "low", name: "Low" },
-  { id: "medium-low", name: "Medium-low" },
-  { id: "medium", name: "Medium" },
-  { id: "medium-high", name: "Medium-high" },
-  { id: "high", name: "High" },
+  { id: "1", name: "Low" },
+  { id: "2", name: "Medium-low" },
+  { id: "3", name: "Medium" },
+  { id: "4", name: "Medium-high" },
+  { id: "5", name: "High" },
 ];
 
 export {

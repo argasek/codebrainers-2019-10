@@ -2,29 +2,45 @@ import React from "react";
 import PropTypes from "prop-types";
 import "./Plant.scss";
 
+import {
+  plantExposureOptions,
+  plantTemperatureOptions,
+  plantHumidityOptions,
+  plantDifficultyOptions,
+} from "constants/PlantConstants";
+
+
 class Plant extends React.PureComponent {
-  constructor(props) {
-    super(props);
-    const plant = this.props;
+
+  findValueByKey(tableView, valueToFind) {
+    const id = tableView.findIndex((propValue) => propValue.id === valueToFind);
+    return tableView[id].name;
   }
 
   render() {
-    const plant = this.props;
-    console.log("Props w plant component", this.props.name);
+    const plant = this.props.plant;
+    const plantRequiredExposure = this.findValueByKey(plantExposureOptions, plant.requiredExposure);
+
     return (
-      <React.Fragment>
-        <div>
-          <p>{this.props.name}</p>
-        </div>
-      </React.Fragment>
+      <tr key={ plant.id }>
+        <td>{ plant.name }</td>
+        <td>{ plant.category }</td>
+        <td>{ plantRequiredExposure }</td>
+        <td>{ this.findValueByKey(plantHumidityOptions, plant.requiredHumidity) }</td>
+        <td>{ this.findValueByKey(plantTemperatureOptions, plant.requiredTemperature) }</td>
+        <td>{ plant.blooming }</td>
+        <td>{ this.findValueByKey(plantDifficultyOptions, plant.difficulty) }</td>
+        <td>{ plant.room }</td>
+        <td>{ plant.lastFertilized }</td>
+        <td>{ plant.lastWatered.substr(0, 10) }</td>
+      </tr>
     );
   }
 }
 
 Plant.propTypes = {
-  name: PropTypes.string.isRequired,
+  plant: PropTypes.object.isRequired,
 };
 
 export default Plant;
 
-//

@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import PlantForm from "./PlantForm";
+import PlantForm from "./plant-form/PlantForm";
 import { Card, CardBody } from "reactstrap";
 
 const PlantCreate = (props) => {
