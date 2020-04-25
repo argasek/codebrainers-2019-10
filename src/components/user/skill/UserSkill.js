@@ -9,10 +9,10 @@ import skillSkilledIcon from '../../../images/skill-skilled.jpg';
 
 class UserSkill extends React.PureComponent {
 
-  levelIconSwitchImplementation (level) {
+  levelIconSwitchImplementation(level) {
     let levelIcon;
 
-    switch(level.id) {
+    switch (level.id) {
       case Levels.BEGINNER:
         levelIcon = skillBeginnerIcon;
         break;
@@ -36,7 +36,7 @@ class UserSkill extends React.PureComponent {
     return levelIcon;
   }
 
-  levelIconOtherImplementation (level) {
+  levelIconOtherImplementation(level) {
     const levelIcons = {};
     levelIcons[Levels.BEGINNER] = skillBeginnerIcon;
     levelIcons[Levels.EXPERIENCED] = skillExperiencedIcon;
@@ -53,21 +53,21 @@ class UserSkill extends React.PureComponent {
 
 
   render() {
-    const { level, size, index, onUserSkillClick} = this.props;
+    const { level, size, index, onUserSkillClick } = this.props;
 
     return (
-      <div className="user-skill-level d-flex" onClick={(event) => onUserSkillClick(event)}>
+      <div className="user-skill-level d-flex" onClick={ (event) => onUserSkillClick(event) }>
         <div className="p-3 flex-1">
           <img
-            src={this.levelIconOtherImplementation(level)}
+            src={ this.levelIconOtherImplementation(level) }
             alt="Plant image"
-            width={size}
-            height={size}
+            width={ size }
+            height={ size }
           />
         </div>
         <div className="pt-4 pb-4 pr-3">
-          <h6 className="font-weight-bold">{index}. {level.title}</h6>
-          <p className="mb-0">{level.description}</p>
+          <h6 className="font-weight-bold">{ index }. { level.title }</h6>
+          <p className="mb-0">{ level.description }</p>
         </div>
       </div>
     );

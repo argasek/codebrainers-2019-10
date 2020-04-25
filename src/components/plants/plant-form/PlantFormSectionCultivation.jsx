@@ -13,7 +13,7 @@ const PlantFormSectionCultivation = (props) => {
       <h4>Cultivation requirements</h4>
       <Row>
         <Col xs={ 6 } lg={ 4 }>
-          <PlantFormFieldExposure />
+          <PlantFormFieldExposure/>
         </Col>
         <Col xs={ 6 } lg={ 4 }>
           <Label for={ plantHumidityId }>Humidity:</Label>

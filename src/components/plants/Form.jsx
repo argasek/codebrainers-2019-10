@@ -33,47 +33,47 @@ class SomeForm extends React.PureComponent {
       <React.Fragment>
         <h3>Add a new plant</h3>
         <form method="POST" action="">
-          {/* to jest z serwera</form>/ */}
+          {/* to jest z serwera</form>/ */ }
           <Label>Plant category:</Label>
           <Input
             type="text"
             name="category"
-            value={category}
-            onChange={this.handleInputChange}
+            value={ category }
+            onChange={ this.handleInputChange }
           />
           <Label>Room:</Label>
           <Input
             type="text"
             name="room"
-            value={room}
-            onChange={this.handleInputChange /*, this.isPalindrom*/}
+            value={ room }
+            onChange={ this.handleInputChange /*, this.isPalindrom*/ }
           />
 
           <Label>Fertilizing interval:</Label>
           <Input
             type=""
             name="fertilizingInterval"
-            value={fertilizingInterval}
-            onChange={this.handleInputChange}
+            value={ fertilizingInterval }
+            onChange={ this.handleInputChange }
           />
 
           <Label>Bloomig:</Label>
           <Input
             type="checkbox"
             name="blooming"
-            value={blooming}
-            onChange={this.handleInputChange}
+            value={ blooming }
+            onChange={ this.handleInputChange }
           />
 
           <Button type="submit">Submit new plant</Button>
         </form>
 
         <Formik
-          initialValues={initialValues}
-          onSubmit={onSubmit}
-          validationSchema={validationSchema}
+          initialValues={ initialValues }
+          onSubmit={ onSubmit }
+          validationSchema={ validationSchema }
         >
-          {({ isValid }) => (
+          { ({ isValid }) => (
             <Form>
               <FormGroup className="required">
                 <Label htmlFor="label>">Quotation Body</Label>
@@ -83,12 +83,12 @@ class SomeForm extends React.PureComponent {
                   type="textarea"
                   rows="10"
                   placeholder="Enter your text…"
-                  component={FlockInput}
-                  disabled={isDisabled}
+                  component={ FlockInput }
+                  disabled={ isDisabled }
                 />
               </FormGroup>
             </Form>
-          )}
+          ) }
         </Formik>
       </React.Fragment>
     );

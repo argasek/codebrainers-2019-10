@@ -7,7 +7,7 @@ const InProgress = ({ inProgress }) => {
   // const icon = 'spinner';
   return inProgress &&
     <p>
-      <FontAwesomeIcon icon={faSpinner} spin />
+      <FontAwesomeIcon icon={ faSpinner } spin/>
       { ' ' }
       Loading data...
     </p>

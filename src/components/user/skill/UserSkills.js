@@ -12,11 +12,11 @@ class UserSkills extends React.PureComponent {
         {
           skillLevels.map((level, index) =>
             <UserSkill
-              key={index}
-              index={index + 1}
-              size={iconSize}
-              level={level}
-              onUserSkillClick={onUserSkillClick}
+              key={ index }
+              index={ index + 1 }
+              size={ iconSize }
+              level={ level }
+              onUserSkillClick={ onUserSkillClick }
             />
           )
         }

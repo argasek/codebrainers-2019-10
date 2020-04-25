@@ -33,18 +33,18 @@ class PlantasticNavbar extends React.PureComponent {
     return (
       <Navbar color="dark" dark expand="md" className="mb-4">
         <NavbarBrand href="/">Plantastic</NavbarBrand>
-        <NavbarToggler onClick={this.toggle}/>
-        <Collapse isOpen={isOpen} navbar>
+        <NavbarToggler onClick={ this.toggle }/>
+        <Collapse isOpen={ isOpen } navbar>
           <Nav className="mr-auto" navbar>
-            <PlantasticNavItem path={ROUTE_PLANTS} icon={faSeedling} name='Plants'/>
-            <PlantasticNavItem path={ROUTE_CATEGORIES} icon={faLeaf} name='Categories'/>
-            <PlantasticNavItem path={ROUTE_ROOMS} icon={faHome} name='Rooms'/>
+            <PlantasticNavItem path={ ROUTE_PLANTS } icon={ faSeedling } name='Plants'/>
+            <PlantasticNavItem path={ ROUTE_CATEGORIES } icon={ faLeaf } name='Categories'/>
+            <PlantasticNavItem path={ ROUTE_ROOMS } icon={ faHome } name='Rooms'/>
           </Nav>
           <Nav navbar>
             <UncontrolledDropdown nav inNavbar>
               <DropdownToggle nav caret>
-                <FontAwesomeIcon icon={faCog}/>
-                {' '}
+                <FontAwesomeIcon icon={ faCog }/>
+                { ' ' }
                 Account
               </DropdownToggle>
               <DropdownMenu right>

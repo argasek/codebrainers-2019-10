@@ -30,8 +30,8 @@ class CategoryItem extends React.PureComponent {
     const index = this.state.index;
 
     if (prevState.index !== index) {
-      console.log(`Index changed from ${prevState.index} to ${index}`);
-      let className = `category-item active-${index}`;
+      console.log(`Index changed from ${ prevState.index } to ${ index }`);
+      let className = `category-item active-${ index }`;
       this.setState({ className });
     }
   }
@@ -48,7 +48,7 @@ class CategoryItem extends React.PureComponent {
     };
 
     return (
-      <ListGroupItem className={this.state.className} onClick={ onClick }>
+      <ListGroupItem className={ this.state.className } onClick={ onClick }>
         { category }
       </ListGroupItem>
     );

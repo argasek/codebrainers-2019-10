@@ -45,9 +45,9 @@ class PlantForm extends React.PureComponent {
       <Formik initialValues={ initialValues } onSubmit={ onSubmit }>
         { ({ isValid }) => (
           <Form className="plant-form">
-            <PlantFormSectionInfo />
-            <PlantFormSectionCultivation />
-            <PlantFormSectionMaintenance />
+            <PlantFormSectionInfo/>
+            <PlantFormSectionCultivation/>
+            <PlantFormSectionMaintenance/>
             <Button color="primary" type="submit" className="mt-3">
               Create new plant
             </Button>

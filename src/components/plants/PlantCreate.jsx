@@ -6,7 +6,7 @@ const PlantCreate = (props) => {
   return (
     <Card className="mb-4">
       <CardBody>
-        <PlantForm {...props} />
+        <PlantForm { ...props } />
       </CardBody>
     </Card>
   );

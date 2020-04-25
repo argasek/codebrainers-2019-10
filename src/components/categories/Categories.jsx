@@ -54,13 +54,11 @@ class Categories extends React.PureComponent {
     } = this.state;
 
 
-
-
     return (
       <Card>
         <CardBody>
           <div className="app-container">
-            <InProgress inProgress={inProgress} />
+            <InProgress inProgress={ inProgress }/>
             {
               successCategories === false &&
               <p>Nie udało się pobrać Kategorii</p>
@@ -71,11 +69,11 @@ class Categories extends React.PureComponent {
                 {
                   categories.map((item, index, arr) =>
                     <CategoryItem
-                      category={item}
+                      category={ item }
                       label='category'
-                      key={index}
-                      isLastItem={arr.length - 1 === index}
-                      index={index}
+                      key={ index }
+                      isLastItem={ arr.length - 1 === index }
+                      index={ index }
                     />
                   )
                 }

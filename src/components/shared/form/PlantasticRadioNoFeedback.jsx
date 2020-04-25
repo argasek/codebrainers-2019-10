@@ -6,11 +6,11 @@ const PlantasticRadioNoFeedback = React.memo(({ field, form: { touched, errors, 
     <CustomInput
       { ...props }
       type="radio"
-      name={field.name}
-      invalid={!!(touched[field.name] && errors[field.name])}
-      checked={values[field.name] === field.value}
-      value={field.value}
-      onChange={(event, value) => setFieldValue(field.name, field.value)}
+      name={ field.name }
+      invalid={ !!(touched[field.name] && errors[field.name]) }
+      checked={ values[field.name] === field.value }
+      value={ field.value }
+      onChange={ (event, value) => setFieldValue(field.name, field.value) }
     />
   )
 });
