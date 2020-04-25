@@ -20,35 +20,45 @@ class PlantasticContainer extends React.PureComponent {
     };
   }
 
+  /**
+   *
+   * @param {function} resolve
+   * @param {function} reject
+   * @returns {Promise}
+   */
+  fetchCategoriesFromServer = (resolve, reject) => {
+    const requestUrl = 'http://gentle-tor-07382.herokuapp.com/categories/';
+
+    return axios.get(requestUrl)
+      .then((response) => {
+        const data = response.data;
+        const categories = data.map((item) => ({
+          id: item.id,
+          name: item.name
+        }));
+        const categoriesSuccess = true;
+        this.setState({ categories, categoriesSuccess });
+        console.log('Fetched categories');
+        resolve();
+      })
+      .catch((error) => {
+        const categoriesSuccess = false;
+        this.setState({ categoriesSuccess });
+        reject();
+      })
+      .finally(() => {
+        const categoriesInProgress = false;
+        this.setState({ categoriesInProgress });
+      })
+  }
+
   fetchCategories = () => {
     console.log('Method PlantasticContainer.fetchCategories() fired');
-    const requestUrl = 'http://gentle-tor-07382.herokuapp.com/categories/';
     const categoriesInProgress = true;
     const categories = [];
     this.setState({ categories, categoriesInProgress });
-    return this.props.delayFetch(CATEGORIES_FETCH_DELAY, (resolve, reject) => {
-      axios.get(requestUrl)
-        .then((response) => {
-          const data = response.data;
-          const categories = data.map((item) => ({
-            id: item.id,
-            name: item.name
-          }));
-          const categoriesSuccess = true;
-          this.setState({ categories, categoriesSuccess });
-          console.log('Fetched categories');
-          resolve();
-        })
-        .catch((error) => {
-          const categoriesSuccess = false;
-          this.setState({ categoriesSuccess });
-          reject();
-        })
-        .finally(() => {
-          const categoriesInProgress = false;
-          this.setState({ categoriesInProgress });
-        })
-    });
+    const promise = this.props.delayFetch(CATEGORIES_FETCH_DELAY, this.fetchCategoriesFromServer);
+    return promise;
   }
 
   render() {

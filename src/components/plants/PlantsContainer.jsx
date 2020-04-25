@@ -17,8 +17,8 @@ class PlantsContainer extends React.PureComponent {
   }
 
   componentDidMount() {
-    this.props.fetchCategories();
-    this.fetchPlants();
+    this.props.fetchCategories()
+      .then(() => this.fetchPlants());
   }
 
   fetchPlants() {
@@ -76,9 +76,13 @@ class PlantsContainer extends React.PureComponent {
       categories
     } = this.props;
 
+    const totalPlants = 0;
+
     return (
       <Card className="mb-4">
         <CardBody>
+          <h3>List of plants</h3>
+          <p>You have {totalPlants} in all your rooms.</p>
           <InProgress inProgress={ inProgress }/>
           { successPlants === false && <p>Failed to fetch plants :-(</p> }
           { successPlants && (

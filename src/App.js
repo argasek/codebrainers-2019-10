@@ -12,6 +12,12 @@ class App extends React.PureComponent {
     this.state = {};
   }
 
+  /**
+   *
+   * @param ms
+   * @param func
+   * @returns {Promise<TimerHandler>}
+   */
   delayFetch(ms, func) {
     return new Promise((resolve, reject) => setTimeout(() => func(resolve, reject), ms));
   }
