@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { Col, FormGroup, Label, Row } from "reactstrap";
 import { Field } from "formik";
 import PlantasticInput from "components/shared/form/PlantasticInput";

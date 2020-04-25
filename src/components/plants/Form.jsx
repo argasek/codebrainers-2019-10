@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import * as Yup from "yup";
 
 import { Field, Form, Formik } from "formik";

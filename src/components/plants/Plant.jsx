@@ -3,10 +3,10 @@ import PropTypes from "prop-types";
 import "./Plant.scss";
 
 import {
-  plantExposureOptions,
-  plantTemperatureOptions,
-  plantHumidityOptions,
   plantDifficultyOptions,
+  plantExposureOptions,
+  plantHumidityOptions,
+  plantTemperatureOptions,
 } from "constants/PlantConstants";
 
 

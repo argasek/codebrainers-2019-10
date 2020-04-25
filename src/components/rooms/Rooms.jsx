@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardBody } from "reactstrap";
 
-const Rooms = ({}) => {
+const Rooms = (props) => {
 
   return (
     <Card className="mb-4">

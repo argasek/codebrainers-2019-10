@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import PlantForm from "./plant-form/PlantForm";
 import { Card, CardBody } from "reactstrap";
 
