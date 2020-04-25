@@ -1,11 +1,11 @@
 import React from "react";
 import { Col, Label, Row } from "reactstrap";
 import { Field } from "formik";
-import { plantExposureOptions, plantHumidityOptions, plantTemperatureOptions } from "constants/PlantConstants";
-import PlantasticSelect from "../../shared/form/PlantasticSelect";
+import { plantHumidityOptions, plantTemperatureOptions } from "constants/PlantConstants";
+import PlantasticSelect from "components/shared/form/PlantasticSelect";
+import PlantFormFieldExposure from "components/plants/plant-form/fields/PlantFormFieldExposure";
 
 const PlantFormSectionCultivation = (props) => {
-  const plantExposureId = "plantExposure";
   const plantHumidityId = "plantHumidity";
   const plantTemperatureId = "plantTemperature";
   return (
@@ -13,13 +13,7 @@ const PlantFormSectionCultivation = (props) => {
       <h4>Cultivation requirements</h4>
       <Row>
         <Col xs={ 6 } lg={ 4 }>
-          <Label for={ plantExposureId }>Exposure:</Label>
-          <Field
-            id={ plantExposureId }
-            name="exposure"
-            items={ plantExposureOptions }
-            component={ PlantasticSelect }
-          />
+          <PlantFormFieldExposure />
         </Col>
         <Col xs={ 6 } lg={ 4 }>
           <Label for={ plantHumidityId }>Humidity:</Label>
