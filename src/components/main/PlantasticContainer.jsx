@@ -22,9 +22,9 @@ class PlantasticContainer extends React.PureComponent {
   }
 
   clearCategories = () => {
-    this.setState({ categories:[] });
+    this.setState({ categories: [] });
   }
-  
+
 
   componentDidMount() {
   }
@@ -69,23 +69,24 @@ class PlantasticContainer extends React.PureComponent {
     return (
       <Container>
         <Switch>
-          <Route exact path={ ROUTE_PLANTS }>
+          <Route exact path={ROUTE_PLANTS}>
             <PlantCreate />
             <PlantsContainer
-              delayFetch={ delayFetch }
+              delayFetch={delayFetch}
             />
           </Route>
-          <Route path={ ROUTE_CATEGORIES }>
+          <Route path={ROUTE_CATEGORIES}>
             <Categories
-              delayFetch={ delayFetch }
-              fetchCategories={ this.fetchCategories }
-              categoriesInProgress={ categoriesInProgress }
-              categoriesSuccess={ categoriesSuccess }
-              categories={ categories }
+              delayFetch={delayFetch}
+              fetchCategories={this.fetchCategories}
+              categoriesInProgress={categoriesInProgress}
+              categoriesSuccess={categoriesSuccess}
+              categories={categories}
+              clearCategories={this.clearCategories}
             />
           </Route>
-          <Route path={ ROUTE_ROOMS }>
-            <Rooms/>
+          <Route path={ROUTE_ROOMS}>
+            <Rooms />
           </Route>
         </Switch>
       </Container>
