@@ -21,19 +21,11 @@ class PlantasticContainer extends React.PureComponent {
     };
   }
 
-  clearCategories = () => {
-    this.setState({ categories: [] });
-  }
-
-
-  componentDidMount() {
-  }
-
   fetchCategories = () => {
     const requestUrl = 'http://gentle-tor-07382.herokuapp.com/categories/';
     const categoriesInProgress = true;
-    console.log('Typeof this.setState: ' + typeof this.setState);
-    this.setState({ categoriesInProgress });
+    const categories = [];
+    this.setState({ categories, categoriesInProgress });
     return this.props.delayFetch(CATEGORIES_FETCH_DELAY, (resolve, reject) => {
       axios.get(requestUrl)
         .then((response) => {
@@ -82,7 +74,6 @@ class PlantasticContainer extends React.PureComponent {
               categoriesInProgress={categoriesInProgress}
               categoriesSuccess={categoriesSuccess}
               categories={categories}
-              clearCategories={this.clearCategories}
             />
           </Route>
           <Route path={ROUTE_ROOMS}>

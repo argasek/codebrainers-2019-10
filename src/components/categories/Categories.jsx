@@ -4,15 +4,10 @@ import CategoryItem from "components/categories/CategoryItem";
 import InProgress from "components/shared/InProgress";
 import PropTypes from "prop-types";
 
-
 class Categories extends React.PureComponent {
 
   componentDidMount() {
     this.props.fetchCategories();
-  }
-
-  componentWillUnmount() {
-    this.props.clearCategories();
   }
 
   render() {
@@ -59,7 +54,6 @@ Categories.propTypes = {
   categoriesInProgress: PropTypes.bool.isRequired,
   categoriesSuccess: PropTypes.bool,
   fetchCategories: PropTypes.func.isRequired,
-  clearCategories: PropTypes.func.isRequired,
 }
 
 
