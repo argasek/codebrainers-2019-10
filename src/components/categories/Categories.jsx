@@ -4,13 +4,15 @@ import CategoryItem from "components/categories/CategoryItem";
 import InProgress from "components/shared/InProgress";
 import PropTypes from "prop-types";
 
-/**
- * TODO: refactor this component as a function component
- */
+
 class Categories extends React.PureComponent {
 
   componentDidMount() {
     this.props.fetchCategories();
+  }
+
+  componentWillUnmount() {
+    
   }
 
   render() {

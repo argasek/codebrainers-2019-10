@@ -21,6 +21,11 @@ class PlantasticContainer extends React.PureComponent {
     };
   }
 
+  clearCategories = () => {
+    this.setState({ categories:[] });
+  }
+  
+
   componentDidMount() {
   }
 
