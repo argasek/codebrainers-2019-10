@@ -1,24 +1,24 @@
 import React from "react";
-import { Label } from "reactstrap";
+import { FormGroup, Label } from "reactstrap";
 import { Field } from "formik";
 import { plantExposureOptions } from "constants/PlantConstants";
 import PlantasticSelect from "components/shared/form/PlantasticSelect";
 
-const PlantFormFieldExposure = (props) => {
+const PlantFormExposure = (props) => {
   const plantExposureId = "plantExposure";
   return (
-    <React.Fragment>
+    <FormGroup>
       <Label for={ plantExposureId }>Exposure:</Label>
       <Field
-        id={ plantExposureId }
-        name="exposure"
-        items={ plantExposureOptions }
         component={ PlantasticSelect }
+        id={ plantExposureId }
+        items={ plantExposureOptions }
+        name="exposure"
       />
-    </React.Fragment>
+    </FormGroup>
   );
 };
 
-PlantFormFieldExposure.propTypes = {};
+PlantFormExposure.propTypes = {};
 
-export default PlantFormFieldExposure;
+export default PlantFormExposure;

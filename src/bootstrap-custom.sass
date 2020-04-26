@@ -1,6 +1,12 @@
+@import "~bootstrap/scss/functions"
+@import "~bootstrap/scss/variables"
+@import "~bootstrap/scss/mixins/breakpoints"
 
 .form-control
   &::placeholder
-    color: #ccc
+    color: $gray-300
 
-
+.custom-control-inline-responsive
+  @include media-breakpoint-up(lg)
+    display: inline-flex
+    margin-right: $custom-control-spacer-x

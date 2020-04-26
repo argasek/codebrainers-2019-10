@@ -7,9 +7,9 @@ import {
 } from "constants/PlantConstants";
 import React from "react";
 import { Form, Formik } from "formik";
-import PlantFormSectionInfo from "./PlantFormSectionInfo";
-import PlantFormSectionCultivation from "./PlantFormSectionCultivation";
-import PlantFormSectionMaintenance from "./PlantFormSectionMaintenance";
+import PlantFormInformation from "components/plants/plant-form/sections/PlantFormInformation";
+import PlantFormCultivation from "components/plants/plant-form/sections/PlantFormCultivation";
+import PlantFormMaintenance from "components/plants/plant-form/sections/PlantFormMaintenance";
 
 class PlantForm extends React.PureComponent {
 
@@ -45,9 +45,10 @@ class PlantForm extends React.PureComponent {
       <Formik initialValues={ initialValues } onSubmit={ onSubmit }>
         { ({ isValid }) => (
           <Form className="plant-form">
-            <PlantFormSectionInfo />
-            <PlantFormSectionCultivation />
-            <PlantFormSectionMaintenance />
+            <h3 className="mb-4">Create plant</h3>
+            <PlantFormInformation />
+            <PlantFormCultivation />
+            <PlantFormMaintenance />
             <Button color="primary" type="submit" className="mt-3">
               Create new plant
             </Button>
