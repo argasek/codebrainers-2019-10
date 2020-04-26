@@ -20,7 +20,7 @@ class PlantasticNavbar extends React.PureComponent {
     super(props);
     this.state = {
       isOpen: false
-    }
+    };
   }
 
   toggle = () => {
@@ -33,17 +33,17 @@ class PlantasticNavbar extends React.PureComponent {
     return (
       <Navbar color="dark" dark expand="md" className="mb-4">
         <NavbarBrand href="/">Plantastic</NavbarBrand>
-        <NavbarToggler onClick={ this.toggle }/>
+        <NavbarToggler onClick={ this.toggle } />
         <Collapse isOpen={ isOpen } navbar>
           <Nav className="mr-auto" navbar>
-            <PlantasticNavItem path={ ROUTE_PLANTS } icon={ faSeedling } name='Plants'/>
-            <PlantasticNavItem path={ ROUTE_CATEGORIES } icon={ faLeaf } name='Categories'/>
-            <PlantasticNavItem path={ ROUTE_ROOMS } icon={ faHome } name='Rooms'/>
+            <PlantasticNavItem path={ ROUTE_PLANTS } icon={ faSeedling } name='Plants' />
+            <PlantasticNavItem path={ ROUTE_CATEGORIES } icon={ faLeaf } name='Categories' />
+            <PlantasticNavItem path={ ROUTE_ROOMS } icon={ faHome } name='Rooms' />
           </Nav>
           <Nav navbar>
             <UncontrolledDropdown nav inNavbar>
               <DropdownToggle nav caret>
-                <FontAwesomeIcon icon={ faCog }/>
+                <FontAwesomeIcon icon={ faCog } />
                 { ' ' }
                 Account
               </DropdownToggle>
@@ -51,7 +51,7 @@ class PlantasticNavbar extends React.PureComponent {
                 <DropdownItem>
                   Preferences…
                 </DropdownItem>
-                <DropdownItem divider/>
+                <DropdownItem divider />
                 <DropdownItem>
                   Logout
                 </DropdownItem>
@@ -60,7 +60,7 @@ class PlantasticNavbar extends React.PureComponent {
           </Nav>
         </Collapse>
       </Navbar>
-    )
+    );
   }
 }
 

@@ -61,7 +61,7 @@ class PlantsContainer extends React.PureComponent {
         })
         .finally(() => {
           this.setState({ inProgress: false });
-        })
+        });
     });
   }
 
@@ -82,8 +82,8 @@ class PlantsContainer extends React.PureComponent {
       <Card className="mb-4">
         <CardBody>
           <h3>List of plants</h3>
-          <p>You have {totalPlants} in all your rooms.</p>
-          <InProgress inProgress={ inProgress }/>
+          <p>You have { totalPlants } in all your rooms.</p>
+          <InProgress inProgress={ inProgress } />
           { successPlants === false && <p>Failed to fetch plants :-(</p> }
           { successPlants && (
             <Plants

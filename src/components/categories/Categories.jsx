@@ -21,7 +21,7 @@ class Categories extends React.PureComponent {
       <Card>
         <CardBody>
           <div className="app-container">
-            <InProgress inProgress={categoriesInProgress} />
+            <InProgress inProgress={ categoriesInProgress } />
             {
               categoriesSuccess === false &&
               <p>Failed to fetch plants' categories</p>
@@ -32,11 +32,11 @@ class Categories extends React.PureComponent {
                 {
                   categories.map((item, index, arr) =>
                     <CategoryItem
-                      category={item}
+                      category={ item }
                       label='category'
-                      key={index}
-                      isLastItem={arr.length - 1 === index}
-                      index={index}
+                      key={ index }
+                      isLastItem={ arr.length - 1 === index }
+                      index={ index }
                     />
                   )
                 }
@@ -45,7 +45,7 @@ class Categories extends React.PureComponent {
           </div>
         </CardBody>
       </Card>
-    )
+    );
   }
 }
 
@@ -54,7 +54,7 @@ Categories.propTypes = {
   categoriesInProgress: PropTypes.bool.isRequired,
   categoriesSuccess: PropTypes.bool,
   fetchCategories: PropTypes.func.isRequired,
-}
+};
 
 
 export default Categories;

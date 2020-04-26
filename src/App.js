@@ -26,12 +26,12 @@ class App extends React.PureComponent {
 
     return (
       <Router>
-        <PlantasticNavbar/>
+        <PlantasticNavbar />
         <PlantasticContainer
           delayFetch={ this.delayFetch }
         />
       </Router>
-    )
+    );
   }
 }
 

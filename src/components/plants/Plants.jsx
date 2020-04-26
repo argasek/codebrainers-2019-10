@@ -15,29 +15,29 @@ const Plants = ({ plants, categories }) => {
   return (
     <Table hover striped>
       <thead className="thead-dark">
-        <tr>
-          <th>Name</th>
-          <th>Category</th>
-          <th>Exposure</th>
-          <th>Humidity</th>
-          <th>Temperature</th>
-          <th>Blooming</th>
-          <th>Difficulty</th>
-          <th>Room</th>
-          <th>Last Fertilized</th>
-          <th>Last Watered</th>
-        </tr>
+      <tr>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Exposure</th>
+        <th>Humidity</th>
+        <th>Temperature</th>
+        <th>Blooming</th>
+        <th>Difficulty</th>
+        <th>Room</th>
+        <th>Last Fertilized</th>
+        <th>Last Watered</th>
+      </tr>
       </thead>
       <tbody>
-        {
-          plants.map((plant) => (
-            <Plant
-              plant={ plant }
-              plantCategories={ categories }
-              key={ plant.id }
-            />
-          ))
-        }
+      {
+        plants.map((plant) => (
+          <Plant
+            plant={ plant }
+            plantCategories={ categories }
+            key={ plant.id }
+          />
+        ))
+      }
       </tbody>
     </Table>
   );

@@ -12,7 +12,7 @@ import { CATEGORIES_FETCH_DELAY } from "constants/DebugConstants";
 class PlantasticContainer extends React.PureComponent {
 
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       categoriesInProgress: false,
       categoriesSuccess: undefined,
@@ -49,8 +49,8 @@ class PlantasticContainer extends React.PureComponent {
       .finally(() => {
         const categoriesInProgress = false;
         this.setState({ categoriesInProgress });
-      })
-  }
+      });
+  };
 
   fetchCategories = () => {
     console.log('Method PlantasticContainer.fetchCategories() fired');
@@ -59,7 +59,7 @@ class PlantasticContainer extends React.PureComponent {
     this.setState({ categories, categoriesInProgress });
     const promise = this.props.delayFetch(CATEGORIES_FETCH_DELAY, this.fetchCategoriesFromServer);
     return promise;
-  }
+  };
 
   render() {
     const {
@@ -78,7 +78,7 @@ class PlantasticContainer extends React.PureComponent {
       <Container>
         <Switch>
           <Route exact path={ ROUTE_PLANTS }>
-            <PlantCreate/>
+            <PlantCreate />
             <PlantsContainer
               delayFetch={ delayFetch }
               categories={ categories }
@@ -95,11 +95,11 @@ class PlantasticContainer extends React.PureComponent {
             />
           </Route>
           <Route path={ ROUTE_ROOMS }>
-            <Rooms/>
+            <Rooms />
           </Route>
         </Switch>
       </Container>
-    )
+    );
   }
 }
 

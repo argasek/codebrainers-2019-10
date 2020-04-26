@@ -12,7 +12,7 @@ const PlantasticRadioNoFeedback = React.memo(({ field, form: { touched, errors, 
       value={ field.value }
       onChange={ (event, value) => setFieldValue(field.name, field.value) }
     />
-  )
+  );
 });
 
 export default PlantasticRadioNoFeedback;

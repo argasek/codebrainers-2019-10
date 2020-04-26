@@ -28,7 +28,7 @@ const PlantFormSectionInfo = (props) => {
           <FormGroup tag="fieldset" className="mb-0">
             <legend className="col-form-label">
               Difficulty:
-              <span className="asterisk"/>
+              <span className="asterisk" />
             </legend>
             { plantDifficultyOptions.map((item) => (
               <Field

@@ -9,7 +9,7 @@ const Rooms = (props) => {
         <p>Yay! A list of rooms!</p>
       </CardBody>
     </Card>
-  )
+  );
 };
 
 

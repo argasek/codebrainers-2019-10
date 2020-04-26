@@ -43,7 +43,7 @@ class CategoryItem extends React.PureComponent {
       if (this.props.isLastItem === true) {
         let index = this.state.index;
         index = ++index === 4 ? 0 : index;
-        this.setState({ index })
+        this.setState({ index });
       }
     };
 

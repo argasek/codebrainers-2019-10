@@ -14,7 +14,7 @@ const PlantasticRadio = React.memo(({ field, form: { touched, errors, values, se
     >
       { touched[field.name] && errors[field.name] && <FormFeedback>{ errors[field.name] }</FormFeedback> }
     </CustomInput>
-  )
+  );
 });
 
 export default PlantasticRadio;
