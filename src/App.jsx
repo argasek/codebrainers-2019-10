@@ -1,8 +1,8 @@
 import React from 'react';
 import './App.scss';
 import { BrowserRouter as Router } from 'react-router-dom';
-import PlantasticNavbar from "components/nav/navbar/PlantasticNavbar";
-import PlantasticContainer from "components/main/PlantasticContainer";
+import AuthenticatedNavbar from "components/authenticated/AuthenticatedNavbar";
+import AuthenticatedContainer from "components/authenticated/AuthenticatedContainer";
 
 class App extends React.PureComponent {
 
@@ -10,8 +10,8 @@ class App extends React.PureComponent {
 
     return (
       <Router>
-        <PlantasticNavbar />
-        <PlantasticContainer />
+        <AuthenticatedNavbar />
+        <AuthenticatedContainer />
       </Router>
     );
   }

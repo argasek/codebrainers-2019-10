@@ -27,7 +27,7 @@ Wykorzystaj tabelę.
 #### 2020.04.15
 
 1. Analogicznie jak w przypadku `ROUTE_CATEGORIES`, dodaj pozostałe dwie stałe dla `ROUTE_PLANTS` i `ROUTE_ROOMS`, oraz użyje je w kodzie w tagach `<Route>`.
-2. Na podobnej zasadzie jak zrobiliśmy to z `PlantasticNavItem`, zrefaktoruj jako osobne komponenty:
+2. Na podobnej zasadzie jak zrobiliśmy to z `AuthenticatedNavbarItem`, zrefaktoruj jako osobne komponenty:
 a) blok `<Navbar>` (wraz tagiem Navbar)
 b) blok `<Container>` (wraz tagiem Container)
 c) trzy osobne komponenty, zawierające to, co leży **wewnątrz** każdego taga `<Route>`

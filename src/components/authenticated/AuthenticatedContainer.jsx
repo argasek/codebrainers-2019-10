@@ -9,11 +9,12 @@ import PlantCreate from 'components/plants/PlantCreate';
 import axios from 'axios';
 import { CATEGORIES_FETCH_DELAY, delay } from 'shared/Debug';
 
-class PlantasticContainer extends React.PureComponent {
+class AuthenticatedContainer extends React.PureComponent {
 
   constructor(props) {
     super(props);
     this.state = {
+      categoriesErrorMessage: '',
       categoriesInProgress: false,
       categoriesSuccess: undefined,
       categories: [],
@@ -36,14 +37,28 @@ class PlantasticContainer extends React.PureComponent {
           id: item.id,
           name: item.name
         }));
+
         const categoriesSuccess = true;
-        this.setState({ categories, categoriesSuccess });
+        const categoriesErrorMessage = '';
+        this.setState({
+          categories,
+          categoriesErrorMessage,
+          categoriesSuccess,
+        });
+
         console.log('Fetched categories');
+
         resolve();
       })
       .catch((error) => {
         const categoriesSuccess = false;
-        this.setState({ categoriesSuccess });
+        const categoriesErrorMessage = error.message;
+
+        this.setState({
+          categoriesErrorMessage,
+          categoriesSuccess,
+        });
+
         reject();
       })
       .finally(() => {
@@ -53,7 +68,7 @@ class PlantasticContainer extends React.PureComponent {
   };
 
   fetchCategoriesDelayed = () => {
-    console.log('Method PlantasticContainer.fetchCategoriesDelayed() fired');
+    console.log('Method AuthenticatedContainer.fetchCategoriesDelayed() fired');
 
     const categories = [];
     const categoriesInProgress = true;
@@ -65,6 +80,7 @@ class PlantasticContainer extends React.PureComponent {
 
   render() {
     const {
+      categoriesErrorMessage,
       categoriesInProgress,
       categoriesSuccess,
       categories,
@@ -86,10 +102,11 @@ class PlantasticContainer extends React.PureComponent {
           </Route>
           <Route path={ ROUTE_CATEGORIES }>
             <Categories
-              fetchCategories={ fetchCategories }
+              categories={ categories }
+              categoriesErrorMessage={ categoriesErrorMessage }
               categoriesInProgress={ categoriesInProgress }
               categoriesSuccess={ categoriesSuccess }
-              categories={ categories }
+              fetchCategories={ fetchCategories }
             />
           </Route>
           <Route path={ ROUTE_ROOMS }>
@@ -101,6 +118,6 @@ class PlantasticContainer extends React.PureComponent {
   }
 }
 
-export default PlantasticContainer;
+export default AuthenticatedContainer;
 
-PlantasticContainer.propTypes = {};
+AuthenticatedContainer.propTypes = {};

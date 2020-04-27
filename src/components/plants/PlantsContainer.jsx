@@ -5,12 +5,14 @@ import axios from "axios";
 import InProgress from 'components/shared/InProgress';
 import Plants from "components/plants/Plants";
 import { delay, PLANTS_FETCH_DELAY } from "shared/Debug";
+import OperationFailed from 'components/shared/OperationFailed';
 
 class PlantsContainer extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       plants: [],
+      plantsErrorMessage: undefined,
       plantsSuccess: undefined,
       plantsInProgress: false,
     };
@@ -20,7 +22,7 @@ class PlantsContainer extends React.PureComponent {
     const categoriesPromise = this.props.fetchCategories();
     const plantsPromise = this.fetchPlantsDelayed();
 
-    this.setState({ plantsInProgress: true })
+    this.setState({ plantsInProgress: true });
 
     categoriesPromise
       .then(plantsPromise)
@@ -53,13 +55,23 @@ class PlantsContainer extends React.PureComponent {
           }
         ));
 
+        const plantsErrorMessage = '';
         const plantsSuccess = true;
-        this.setState({ plants, plantsSuccess });
+        this.setState({
+          plants,
+          plantsSuccess,
+          plantsErrorMessage,
+        });
         console.log('Fetched plants');
         resolve();
       })
       .catch((error) => {
-        this.setState({ plantsSuccess: false });
+        const plantsErrorMessage = error.message;
+        const plantsSuccess = false;
+        this.setState({
+          plantsErrorMessage,
+          plantsSuccess,
+        });
         reject();
       });
   };
@@ -72,8 +84,9 @@ class PlantsContainer extends React.PureComponent {
   render() {
     const {
       plants,
+      plantsErrorMessage,
+      plantsInProgress,
       plantsSuccess,
-      plantsInProgress
     } = this.state;
 
     const {
@@ -87,14 +100,22 @@ class PlantsContainer extends React.PureComponent {
         <CardBody>
           <h3 className="mb-3">List of plants</h3>
           <p>You have { totalPlants } plants in all your rooms.</p>
+
           <InProgress inProgress={ plantsInProgress } />
-          { plantsSuccess === false && <p>Failed to fetch plants :-(</p> }
-          { plantsSuccess && (
+
+          <OperationFailed isFailed={ plantsSuccess === false }>
+            <strong>Failed to fetch plants.</strong>
+            { ' Reason: ' }
+            { plantsErrorMessage }
+          </OperationFailed>
+
+          {
+            plantsSuccess === true &&
             <Plants
               plants={ plants }
               categories={ categories }
             />
-          ) }
+          }
         </CardBody>
       </Card>
     );

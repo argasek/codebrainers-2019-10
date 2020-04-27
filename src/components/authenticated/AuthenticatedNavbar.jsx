@@ -9,13 +9,13 @@ import {
   NavbarToggler,
   UncontrolledDropdown
 } from "reactstrap";
-import PlantasticNavItem from "components/nav/nav-item/PlantasticNavItem";
+import AuthenticatedNavbarItem from "components/navbar/AuthenticatedNavbarItem";
 import { ROUTE_CATEGORIES, ROUTE_PLANTS, ROUTE_ROOMS } from "constants/Routes";
 import { faCog, faHome, faLeaf, faSeedling } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 
-class PlantasticNavbar extends React.PureComponent {
+class AuthenticatedNavbar extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -36,9 +36,9 @@ class PlantasticNavbar extends React.PureComponent {
         <NavbarToggler onClick={ this.toggle } />
         <Collapse isOpen={ isOpen } navbar>
           <Nav className="mr-auto" navbar>
-            <PlantasticNavItem path={ ROUTE_PLANTS } icon={ faSeedling } name='Plants' />
-            <PlantasticNavItem path={ ROUTE_CATEGORIES } icon={ faLeaf } name='Categories' />
-            <PlantasticNavItem path={ ROUTE_ROOMS } icon={ faHome } name='Rooms' />
+            <AuthenticatedNavbarItem path={ ROUTE_PLANTS } icon={ faSeedling } name='Plants' />
+            <AuthenticatedNavbarItem path={ ROUTE_CATEGORIES } icon={ faLeaf } name='Categories' />
+            <AuthenticatedNavbarItem path={ ROUTE_ROOMS } icon={ faHome } name='Rooms' />
           </Nav>
           <Nav navbar>
             <UncontrolledDropdown nav inNavbar>
@@ -64,4 +64,4 @@ class PlantasticNavbar extends React.PureComponent {
   }
 }
 
-export default PlantasticNavbar;
+export default AuthenticatedNavbar;

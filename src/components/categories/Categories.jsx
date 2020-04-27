@@ -4,6 +4,7 @@ import CategoryItem from "components/categories/CategoryItem";
 import InProgress from "components/shared/InProgress";
 import PropTypes from "prop-types";
 import { categoriesPropTypes } from 'proptypes/CommonPropTypes';
+import OperationFailed from 'components/shared/OperationFailed';
 
 class Categories extends React.PureComponent {
 
@@ -13,9 +14,10 @@ class Categories extends React.PureComponent {
 
   render() {
     const {
+      categories,
+      categoriesErrorMessage,
       categoriesInProgress,
       categoriesSuccess,
-      categories,
     } = this.props;
 
     return (
@@ -23,10 +25,11 @@ class Categories extends React.PureComponent {
         <CardBody>
           <div className="app-container">
             <InProgress inProgress={ categoriesInProgress } />
-            {
-              categoriesSuccess === false &&
-              <p>Failed to fetch plants' categories</p>
-            }
+            <OperationFailed isFailed={ categoriesSuccess === false }>
+              <strong>Failed to fetch categories.</strong>
+              { ' Reason: ' }
+              { categoriesErrorMessage }
+            </OperationFailed>
             {
               categoriesSuccess &&
               <ListGroup className="categories">
@@ -49,6 +52,7 @@ class Categories extends React.PureComponent {
 
 Categories.propTypes = {
   categories: categoriesPropTypes,
+  categoriesErrorMessage: PropTypes.string.isRequired,
   categoriesInProgress: PropTypes.bool.isRequired,
   categoriesSuccess: PropTypes.bool,
   fetchCategories: PropTypes.func.isRequired,
