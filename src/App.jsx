@@ -6,33 +6,16 @@ import PlantasticContainer from "components/main/PlantasticContainer";
 
 class App extends React.PureComponent {
 
-  constructor(props) {
-    super(props);
-
-    this.state = {};
-  }
-
-  /**
-   *
-   * @param ms
-   * @param func
-   * @returns {Promise<TimerHandler>}
-   */
-  delayFetch(ms, func) {
-    return new Promise((resolve, reject) => setTimeout(() => func(resolve, reject), ms));
-  }
-
   render() {
 
     return (
       <Router>
         <PlantasticNavbar />
-        <PlantasticContainer
-          delayFetch={ this.delayFetch }
-        />
+        <PlantasticContainer />
       </Router>
     );
   }
+
 }
 
 

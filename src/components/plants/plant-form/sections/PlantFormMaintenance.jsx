@@ -12,16 +12,16 @@ const PlantFormMaintenance = () => {
     <PlantFormSection>
       <PlantFormSectionHeader>Maintenance cycle</PlantFormSectionHeader>
       <Row>
-        <Col xs={ 12 } md={ 6 } lg={3} xl={ 2 } className="mb-4">
+        <Col xs={ 12 } md={ 6 } lg={ 3 } xl={ 2 } className="mb-4">
           <PlantFormWateringInterval />
         </Col>
-        <Col xs={ 12 } md={ 6 } lg={3} xl={ 2 } className="mb-4">
+        <Col xs={ 12 } md={ 6 } lg={ 3 } xl={ 2 } className="mb-4">
           <PlantFormFertilizingInterval />
         </Col>
-        <Col xs={ 12 } md={ 6 } lg={3} xl={ 4 } className="mb-4">
+        <Col xs={ 12 } md={ 6 } lg={ 3 } xl={ 4 } className="mb-4">
           <PlantFormLastWatered />
         </Col>
-        <Col xs={ 12 } md={ 6 } lg={3} xl={ 4 } className="mb-4">
+        <Col xs={ 12 } md={ 6 } lg={ 3 } xl={ 4 } className="mb-4">
           <PlantFormLastFertilized />
         </Col>
       </Row>

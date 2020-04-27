@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import axios from "axios";
 import InProgress from "components/shared/InProgress";
 import Plants from "components/plants/Plants";
-import { PLANTS_FETCH_DELAY } from "constants/DebugConstants";
+import { delay, PLANTS_FETCH_DELAY } from "shared/Debug";
 
 class PlantsContainer extends React.PureComponent {
   constructor(props) {
@@ -18,51 +18,53 @@ class PlantsContainer extends React.PureComponent {
 
   componentDidMount() {
     this.props.fetchCategories()
-      .then(() => this.fetchPlants());
+      .then(() => this.fetchPlantsDelayed());
   }
 
-  fetchPlants() {
-    console.log('Method PlantsContainer.fetchPlants() fired');
+  fetchPlants = (resolve, reject) => {
     const requestUrl = "http://gentle-tor-07382.herokuapp.com/plants/";
     this.setState({ inProgress: true });
-    return this.props.delayFetch(PLANTS_FETCH_DELAY, (resolve, reject) => {
-      axios
-        .get(requestUrl)
-        .then((response) => {
-          const data = response.data;
-          const plants = data.map((item) => (
-            {
-              id: item.id,
-              name: item.name,
-              url: item.url,
-              category: item.category,
-              categorySlug: item.category_slug,
-              fertilizingInterval: item.fertilizing_interval,
-              requiredExposure: item.required_exposure,
-              requiredHumidity: item.required_humidity,
-              requiredTemperature: item.required_temperature,
-              blooming: item.blomming,
-              difficulty: item.difficulty.toString(),
-              wateringInterval: item.watering_interval,
-              room: item.roms,
-              lastWatered: item.last_watered,
-              lastFertilized: item.last_fertilized,
-            }
-          ));
+    axios
+      .get(requestUrl)
+      .then((response) => {
+        const data = response.data;
+        const plants = data.map((item) => (
+          {
+            id: item.id,
+            name: item.name,
+            url: item.url,
+            category: item.category,
+            categorySlug: item.category_slug,
+            fertilizingInterval: item.fertilizing_interval,
+            requiredExposure: item.required_exposure,
+            requiredHumidity: item.required_humidity,
+            requiredTemperature: item.required_temperature,
+            blooming: item.blomming,
+            difficulty: item.difficulty.toString(),
+            wateringInterval: item.watering_interval,
+            room: item.roms,
+            lastWatered: item.last_watered,
+            lastFertilized: item.last_fertilized,
+          }
+        ));
 
-          const successPlants = true;
-          this.setState({ plants, successPlants });
-          console.log('Fetched plants');
-          resolve();
-        })
-        .catch((error) => {
-          this.setState({ successPlants: false });
-          reject();
-        })
-        .finally(() => {
-          this.setState({ inProgress: false });
-        });
-    });
+        const successPlants = true;
+        this.setState({ plants, successPlants });
+        console.log('Fetched plants');
+        resolve();
+      })
+      .catch((error) => {
+        this.setState({ successPlants: false });
+        reject();
+      })
+      .finally(() => {
+        this.setState({ inProgress: false });
+      });
+  };
+
+  fetchPlantsDelayed() {
+    console.log('Method PlantsContainer.fetchPlantsDelayed() fired');
+    return delay(PLANTS_FETCH_DELAY, this.fetchPlants);
   }
 
   render() {
@@ -98,7 +100,6 @@ class PlantsContainer extends React.PureComponent {
 }
 
 PlantsContainer.propTypes = {
-  delayFetch: PropTypes.func.isRequired,
   fetchCategories: PropTypes.func.isRequired,
 };
 

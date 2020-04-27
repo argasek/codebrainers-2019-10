@@ -1,13 +1,13 @@
-import React from "react";
-import { Container } from "reactstrap";
-import { Route, Switch } from "react-router-dom";
-import { ROUTE_CATEGORIES, ROUTE_PLANTS, ROUTE_ROOMS } from "constants/Routes";
-import PlantsContainer from "components/plants/PlantsContainer";
-import Categories from "components/categories/Categories";
-import Rooms from "components/rooms/Rooms";
+import React from 'react';
+import { Container } from 'reactstrap';
+import { Route, Switch } from 'react-router-dom';
+import { ROUTE_CATEGORIES, ROUTE_PLANTS, ROUTE_ROOMS } from 'constants/Routes';
+import PlantsContainer from 'components/plants/PlantsContainer';
+import Categories from 'components/categories/Categories';
+import Rooms from 'components/rooms/Rooms';
 import PlantCreate from 'components/plants/PlantCreate';
-import axios from "axios";
-import { CATEGORIES_FETCH_DELAY } from "constants/DebugConstants";
+import axios from 'axios';
+import { CATEGORIES_FETCH_DELAY, delay } from 'shared/Debug';
 
 class PlantasticContainer extends React.PureComponent {
 
@@ -26,8 +26,11 @@ class PlantasticContainer extends React.PureComponent {
    * @param {function} reject
    * @returns {Promise}
    */
-  fetchCategoriesFromServer = (resolve, reject) => {
+  fetchCategories = (resolve, reject) => {
     const requestUrl = 'http://gentle-tor-07382.herokuapp.com/categories/';
+    const categoriesInProgress = true;
+    const categories = [];
+    this.setState({ categories, categoriesInProgress });
 
     return axios.get(requestUrl)
       .then((response) => {
@@ -52,12 +55,9 @@ class PlantasticContainer extends React.PureComponent {
       });
   };
 
-  fetchCategories = () => {
-    console.log('Method PlantasticContainer.fetchCategories() fired');
-    const categoriesInProgress = true;
-    const categories = [];
-    this.setState({ categories, categoriesInProgress });
-    const promise = this.props.delayFetch(CATEGORIES_FETCH_DELAY, this.fetchCategoriesFromServer);
+  fetchCategoriesDelayed = () => {
+    console.log('Method PlantasticContainer.fetchCategoriesDelayed() fired');
+    const promise = delay(CATEGORIES_FETCH_DELAY, this.fetchCategories);
     return promise;
   };
 
@@ -80,15 +80,14 @@ class PlantasticContainer extends React.PureComponent {
           <Route exact path={ ROUTE_PLANTS }>
             <PlantCreate />
             <PlantsContainer
-              delayFetch={ delayFetch }
               categories={ categories }
-              fetchCategories={ this.fetchCategories }
+              fetchCategories={ this.fetchCategoriesDelayed }
             />
           </Route>
           <Route path={ ROUTE_CATEGORIES }>
             <Categories
               delayFetch={ delayFetch }
-              fetchCategories={ this.fetchCategories }
+              fetchCategories={ this.fetchCategoriesDelayed }
               categoriesInProgress={ categoriesInProgress }
               categoriesSuccess={ categoriesSuccess }
               categories={ categories }
@@ -104,3 +103,5 @@ class PlantasticContainer extends React.PureComponent {
 }
 
 export default PlantasticContainer;
+
+PlantasticContainer.propTypes = {};
