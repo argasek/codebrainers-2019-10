@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import "./Plant.scss";
 
 import {
@@ -8,6 +7,7 @@ import {
   plantHumidityOptions,
   plantTemperatureOptions,
 } from "constants/PlantConstants";
+import { categoriesPropTypes, plantPropTypes } from 'proptypes/CommonPropTypes';
 
 class Plant extends React.PureComponent {
 
@@ -43,11 +43,8 @@ class Plant extends React.PureComponent {
 }
 
 Plant.propTypes = {
-  plant: PropTypes.object.isRequired,
-  plantCategories: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-  })),
+  plant: plantPropTypes,
+  plantCategories: categoriesPropTypes,
 };
 
 export default Plant;

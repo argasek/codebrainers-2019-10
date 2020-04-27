@@ -28,9 +28,6 @@ class PlantasticContainer extends React.PureComponent {
    */
   fetchCategories = (resolve, reject) => {
     const requestUrl = 'http://gentle-tor-07382.herokuapp.com/categories/';
-    const categoriesInProgress = true;
-    const categories = [];
-    this.setState({ categories, categoriesInProgress });
 
     return axios.get(requestUrl)
       .then((response) => {
@@ -57,20 +54,23 @@ class PlantasticContainer extends React.PureComponent {
 
   fetchCategoriesDelayed = () => {
     console.log('Method PlantasticContainer.fetchCategoriesDelayed() fired');
+
+    const categories = [];
+    const categoriesInProgress = true;
+    this.setState({ categories, categoriesInProgress });
+
     const promise = delay(CATEGORIES_FETCH_DELAY, this.fetchCategories);
     return promise;
   };
 
   render() {
     const {
-      delayFetch,
-    } = this.props;
-
-    const {
       categoriesInProgress,
       categoriesSuccess,
       categories,
     } = this.state;
+
+    const fetchCategories = this.fetchCategoriesDelayed;
 
     console.log(categories);
 
@@ -81,13 +81,12 @@ class PlantasticContainer extends React.PureComponent {
             <PlantCreate />
             <PlantsContainer
               categories={ categories }
-              fetchCategories={ this.fetchCategoriesDelayed }
+              fetchCategories={ fetchCategories }
             />
           </Route>
           <Route path={ ROUTE_CATEGORIES }>
             <Categories
-              delayFetch={ delayFetch }
-              fetchCategories={ this.fetchCategoriesDelayed }
+              fetchCategories={ fetchCategories }
               categoriesInProgress={ categoriesInProgress }
               categoriesSuccess={ categoriesSuccess }
               categories={ categories }

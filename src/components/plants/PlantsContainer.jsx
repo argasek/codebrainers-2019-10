@@ -2,7 +2,7 @@ import { Card, CardBody } from "reactstrap";
 import React from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
-import InProgress from "components/shared/InProgress";
+import InProgress from 'components/shared/InProgress';
 import Plants from "components/plants/Plants";
 import { delay, PLANTS_FETCH_DELAY } from "shared/Debug";
 
@@ -11,21 +11,26 @@ class PlantsContainer extends React.PureComponent {
     super(props);
     this.state = {
       plants: [],
-      successPlants: undefined,
-      inProgress: false,
+      plantsSuccess: undefined,
+      plantsInProgress: false,
     };
   }
 
   componentDidMount() {
-    this.props.fetchCategories()
-      .then(() => this.fetchPlantsDelayed());
+    const categoriesPromise = this.props.fetchCategories();
+    const plantsPromise = this.fetchPlantsDelayed();
+
+    this.setState({ plantsInProgress: true })
+
+    categoriesPromise
+      .then(plantsPromise)
+      .finally(() => this.setState({ plantsInProgress: false }));
+
   }
 
   fetchPlants = (resolve, reject) => {
     const requestUrl = "http://gentle-tor-07382.herokuapp.com/plants/";
-    this.setState({ inProgress: true });
-    axios
-      .get(requestUrl)
+    return axios.get(requestUrl)
       .then((response) => {
         const data = response.data;
         const plants = data.map((item) => (
@@ -48,17 +53,14 @@ class PlantsContainer extends React.PureComponent {
           }
         ));
 
-        const successPlants = true;
-        this.setState({ plants, successPlants });
+        const plantsSuccess = true;
+        this.setState({ plants, plantsSuccess });
         console.log('Fetched plants');
         resolve();
       })
       .catch((error) => {
-        this.setState({ successPlants: false });
+        this.setState({ plantsSuccess: false });
         reject();
-      })
-      .finally(() => {
-        this.setState({ inProgress: false });
       });
   };
 
@@ -70,8 +72,8 @@ class PlantsContainer extends React.PureComponent {
   render() {
     const {
       plants,
-      successPlants,
-      inProgress
+      plantsSuccess,
+      plantsInProgress
     } = this.state;
 
     const {
@@ -85,9 +87,9 @@ class PlantsContainer extends React.PureComponent {
         <CardBody>
           <h3>List of plants</h3>
           <p>You have { totalPlants } in all your rooms.</p>
-          <InProgress inProgress={ inProgress } />
-          { successPlants === false && <p>Failed to fetch plants :-(</p> }
-          { successPlants && (
+          <InProgress inProgress={ plantsInProgress } />
+          { plantsSuccess === false && <p>Failed to fetch plants :-(</p> }
+          { plantsSuccess && (
             <Plants
               plants={ plants }
               categories={ categories }

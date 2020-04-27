@@ -3,6 +3,7 @@ import React from "react";
 import CategoryItem from "components/categories/CategoryItem";
 import InProgress from "components/shared/InProgress";
 import PropTypes from "prop-types";
+import { categoriesPropTypes } from 'proptypes/CommonPropTypes';
 
 class Categories extends React.PureComponent {
 
@@ -30,11 +31,10 @@ class Categories extends React.PureComponent {
               categoriesSuccess &&
               <ListGroup className="categories">
                 {
-                  categories.map((item, index, arr) =>
+                  categories.map((category, index, arr) =>
                     <CategoryItem
-                      category={ item }
-                      label='category'
-                      key={ index }
+                      category={ category }
+                      key={ category.id }
                       isLastItem={ arr.length - 1 === index }
                       index={ index }
                     />
@@ -50,7 +50,7 @@ class Categories extends React.PureComponent {
 }
 
 Categories.propTypes = {
-  categories: PropTypes.arrayOf(PropTypes.object).isRequired,
+  categories: categoriesPropTypes,
   categoriesInProgress: PropTypes.bool.isRequired,
   categoriesSuccess: PropTypes.bool,
   fetchCategories: PropTypes.func.isRequired,

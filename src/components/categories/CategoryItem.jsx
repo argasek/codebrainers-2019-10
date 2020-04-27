@@ -1,28 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './CategoryItem.scss';
-import { ListGroupItem } from "reactstrap";
+import { ListGroupItem } from 'reactstrap';
+import { categoryPropType } from 'proptypes/CommonPropTypes';
 
 class CategoryItem extends React.PureComponent {
-
   constructor(props) {
     super(props);
 
     this.state = {
       index: 0,
-      className: "category-item"
+      className: 'category-item'
     };
-
-    console.log('constructor(): ' + props.index);
-  }
-
-  componentDidMount() {
-    console.log('componentDidMount(): ' + this.props.index);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    console.log('componentDidUpdate()');
-
     this.updateClassNameWhenIndexChanged(prevState);
   }
 
@@ -38,6 +30,7 @@ class CategoryItem extends React.PureComponent {
 
   render() {
     const category = this.props.category;
+    const className = this.state.className;
 
     const onClick = () => {
       if (this.props.isLastItem === true) {
@@ -48,8 +41,8 @@ class CategoryItem extends React.PureComponent {
     };
 
     return (
-      <ListGroupItem className={ this.state.className } onClick={ onClick }>
-        { category }
+      <ListGroupItem className={ className } onClick={ onClick }>
+        { category.name }
       </ListGroupItem>
     );
   }
@@ -57,8 +50,7 @@ class CategoryItem extends React.PureComponent {
 }
 
 CategoryItem.propTypes = {
-  category: PropTypes.string.isRequired,
-  label: PropTypes.string,
+  category: categoryPropType,
   isLastItem: PropTypes.bool.isRequired,
   index: PropTypes.number.isRequired
 };

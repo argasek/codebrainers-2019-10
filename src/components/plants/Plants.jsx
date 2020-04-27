@@ -1,7 +1,7 @@
 import React from "react";
 import { Table } from "reactstrap";
 import Plant from "components/plants/Plant";
-import PropTypes from "prop-types";
+import { categoriesPropTypes, plantsPropTypes } from 'proptypes/CommonPropTypes';
 
 /**
  * This is an example of JSDoc comment.
@@ -44,7 +44,8 @@ const Plants = ({ plants, categories }) => {
 };
 
 Plants.propTypes = {
-  plants: PropTypes.arrayOf(PropTypes.object).isRequired
+  plants: plantsPropTypes,
+  categories: categoriesPropTypes,
 };
 
 export default Plants;
