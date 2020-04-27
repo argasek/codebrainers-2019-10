@@ -31,12 +31,10 @@ class Categories extends React.PureComponent {
               categoriesSuccess &&
               <ListGroup className="categories">
                 {
-                  categories.map((category, index, arr) =>
+                  categories.map((category) =>
                     <CategoryItem
                       category={ category }
                       key={ category.id }
-                      isLastItem={ arr.length - 1 === index }
-                      index={ index }
                     />
                   )
                 }

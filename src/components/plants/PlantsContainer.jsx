@@ -85,8 +85,8 @@ class PlantsContainer extends React.PureComponent {
     return (
       <Card className="mb-4">
         <CardBody>
-          <h3>List of plants</h3>
-          <p>You have { totalPlants } in all your rooms.</p>
+          <h3 className="mb-3">List of plants</h3>
+          <p>You have { totalPlants } plants in all your rooms.</p>
           <InProgress inProgress={ plantsInProgress } />
           { plantsSuccess === false && <p>Failed to fetch plants :-(</p> }
           { plantsSuccess && (
