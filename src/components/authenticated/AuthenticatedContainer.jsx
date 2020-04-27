@@ -8,6 +8,7 @@ import Rooms from 'components/rooms/Rooms';
 import PlantCreate from 'components/plants/PlantCreate';
 import axios from 'axios';
 import { CATEGORIES_FETCH_DELAY, delay } from 'shared/Debug';
+import Api from 'constants/Api';
 
 class AuthenticatedContainer extends React.PureComponent {
 
@@ -28,9 +29,8 @@ class AuthenticatedContainer extends React.PureComponent {
    * @returns {Promise}
    */
   fetchCategories = (resolve, reject) => {
-    const requestUrl = 'http://gentle-tor-07382.herokuapp.com/categories/';
 
-    return axios.get(requestUrl)
+    return axios.get(Api.CATEGORIES)
       .then((response) => {
         const data = response.data;
         const categories = data.map((item) => ({

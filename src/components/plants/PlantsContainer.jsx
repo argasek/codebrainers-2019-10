@@ -6,6 +6,7 @@ import InProgress from 'components/shared/InProgress';
 import Plants from "components/plants/Plants";
 import { delay, PLANTS_FETCH_DELAY } from "shared/Debug";
 import OperationFailed from 'components/shared/OperationFailed';
+import Api from 'constants/Api';
 
 class PlantsContainer extends React.PureComponent {
   constructor(props) {
@@ -31,8 +32,7 @@ class PlantsContainer extends React.PureComponent {
   }
 
   fetchPlants = (resolve, reject) => {
-    const requestUrl = "http://gentle-tor-07382.herokuapp.com/plants/";
-    return axios.get(requestUrl)
+    return axios.get(Api.PLANTS)
       .then((response) => {
         const data = response.data;
         const plants = data.map((item) => (
@@ -93,7 +93,7 @@ class PlantsContainer extends React.PureComponent {
       categories
     } = this.props;
 
-    const totalPlants = 0;
+    const totalPlants = plants.length;
 
     return (
       <Card className="mb-4">

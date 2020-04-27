@@ -5,6 +5,10 @@ import 'bootstrap-post-custom.sass';
 import './index.scss';
 import App from 'App';
 import * as serviceWorker from './serviceWorker';
+import axios from 'axios';
+import Api from 'constants/Api';
+
+axios.defaults.baseURL = Api.baseUrl;
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
