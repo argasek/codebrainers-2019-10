@@ -45,7 +45,6 @@ class PlantForm extends React.PureComponent {
       <Formik initialValues={ initialValues } onSubmit={ onSubmit }>
         { ({ isValid }) => (
           <Form className="plant-form">
-            <h3 className="mb-4">Create plant</h3>
             <PlantFormInformation />
             <PlantFormCultivation />
             <PlantFormMaintenance />
