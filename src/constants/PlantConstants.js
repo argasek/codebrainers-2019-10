@@ -1,9 +1,14 @@
+import PlantExposure from 'models/PlantExposure';
+import PlantHumidity from 'models/PlantHumidity';
+
 const plantExposureOptions = [
-  { id: 'dark', name: 'Dark' },
-  { id: 'shade', name: 'Shaded' },
-  { id: 'partsun', name: 'Partially sunny' },
-  { id: 'sunny', name: 'Fully sunny' },
+  new PlantExposure('dark', 'Full shade', '\u2601'),
+  new PlantExposure('shade', 'Partial shade', '\u26C5'),
+  new PlantExposure('partsun', 'Light shade', '\u{1F324}'),
+  new PlantExposure('fullsun', 'Full sun', '\u2600'),
 ];
+
+const plantExposureUnknown = new PlantExposure('unknown', 'Unknown', '\u{1F937}');
 
 const plantTemperatureOptions = [
   { id: 'cold', name: 'Cold' },
@@ -12,10 +17,12 @@ const plantTemperatureOptions = [
 ];
 
 const plantHumidityOptions = [
-  { id: 'low', name: 'Low' },
-  { id: 'medium', name: 'Medium' },
-  { id: 'high', name: 'High' },
+  new PlantHumidity('low', 'Dry', 1),
+  new PlantHumidity('medium', 'Standard', 2),
+  new PlantHumidity('high', 'Moist', 3),
 ];
+
+const plantHumidityUnknown = new PlantHumidity('unknown', 'Unknown', 0);
 
 const plantDifficultyOptions = [
   { id: '1', name: 'Very easy' },
@@ -27,7 +34,9 @@ const plantDifficultyOptions = [
 
 export {
   plantExposureOptions,
+  plantExposureUnknown,
   plantTemperatureOptions,
   plantHumidityOptions,
+  plantHumidityUnknown,
   plantDifficultyOptions,
 };

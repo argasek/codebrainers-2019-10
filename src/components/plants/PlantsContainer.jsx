@@ -46,10 +46,10 @@ class PlantsContainer extends React.PureComponent {
             requiredExposure: item.required_exposure,
             requiredHumidity: item.required_humidity,
             requiredTemperature: item.required_temperature,
-            blooming: item.blomming,
+            blooming: item.blooming,
             difficulty: item.difficulty.toString(),
             wateringInterval: item.watering_interval,
-            room: item.roms,
+            room: item.room,
             lastWatered: item.last_watered,
             lastFertilized: item.last_fertilized,
           }

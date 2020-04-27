@@ -14,14 +14,14 @@ const fasIconPropType = PropTypes.shape({
 });
 
 const plantPropTypes = PropTypes.shape({
-  blooming: PropTypes.string,
+  blooming: PropTypes.bool.isRequired,
   category: PropTypes.number.isRequired,
   categorySlug: PropTypes.string.isRequired,
   difficulty: PropTypes.string.isRequired,
   fertilizingInterval: PropTypes.number.isRequired,
   id: PropTypes.number.isRequired,
   lastFertilized: PropTypes.string,
-  lastWatered: PropTypes.string.isRequired,
+  lastWatered: PropTypes.string,
   name: PropTypes.string.isRequired,
   requiredExposure: PropTypes.string.isRequired,
   requiredHumidity: PropTypes.string.isRequired,

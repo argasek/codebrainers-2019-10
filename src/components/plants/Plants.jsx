@@ -13,7 +13,7 @@ import { categoriesPropTypes, plantsPropTypes } from 'proptypes/CommonPropTypes'
  */
 const Plants = ({ plants, categories }) => {
   return (
-    <Table hover striped>
+    <Table hover striped responsive>
       <thead className="thead-dark">
       <tr>
         <th>Name</th>
