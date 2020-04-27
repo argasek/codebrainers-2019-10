@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { NavLink as RouterNavLink } from 'react-router-dom';
 import { NavItem, NavLink } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { fasIconPropType } from 'proptypes/CommonPropTypes';
 
 const AuthenticatedNavbarItem = ({ icon, name, path }) => {
   return (
@@ -17,7 +18,7 @@ const AuthenticatedNavbarItem = ({ icon, name, path }) => {
 };
 
 AuthenticatedNavbarItem.propTypes = {
-  icon: PropTypes.object.isRequired,
+  icon: fasIconPropType,
   name: PropTypes.string.isRequired,
   path: PropTypes.string.isRequired,
 };

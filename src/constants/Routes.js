@@ -1,8 +1,8 @@
-const ROUTE_CATEGORIES = "/categories";
-const ROUTE_PLANTS = "/";
-const ROUTE_ROOMS = "/rooms";
-export {
-  ROUTE_CATEGORIES,
-  ROUTE_PLANTS,
-  ROUTE_ROOMS
-};
+class Routes {
+  static ROOT = '/';
+  static CATEGORIES = '/categories';
+  static PLANTS = '/plants';
+  static ROOMS = '/rooms';
+}
+
+export default Routes;

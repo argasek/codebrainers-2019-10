@@ -7,6 +7,12 @@ const categoryPropType = PropTypes.shape({
 
 const categoriesPropTypes = PropTypes.arrayOf(categoryPropType).isRequired;
 
+const fasIconPropType = PropTypes.shape({
+  icon: PropTypes.arrayOf(PropTypes.any).isRequired,
+  iconName: PropTypes.string.isRequired,
+  prefix: PropTypes.string.isRequired,
+});
+
 const plantPropTypes = PropTypes.shape({
   blooming: PropTypes.string,
   category: PropTypes.number.isRequired,
@@ -30,6 +36,7 @@ const plantsPropTypes = PropTypes.arrayOf(plantPropTypes).isRequired;
 export {
   categoryPropType,
   categoriesPropTypes,
+  fasIconPropType,
   plantPropTypes,
   plantsPropTypes,
 };

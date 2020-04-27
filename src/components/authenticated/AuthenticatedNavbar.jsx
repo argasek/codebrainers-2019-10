@@ -10,10 +10,11 @@ import {
   UncontrolledDropdown
 } from "reactstrap";
 import AuthenticatedNavbarItem from "components/navbar/AuthenticatedNavbarItem";
-import { ROUTE_CATEGORIES, ROUTE_PLANTS, ROUTE_ROOMS } from "constants/Routes";
-import { faCog, faHome, faLeaf, faSeedling } from "@fortawesome/free-solid-svg-icons";
+import Routes from "constants/Routes";
+import { faCog } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
+import navbarItems from 'components/navbar/constants/NavbarItems';
 
 class AuthenticatedNavbar extends React.PureComponent {
   constructor(props) {
@@ -32,13 +33,20 @@ class AuthenticatedNavbar extends React.PureComponent {
     const { isOpen } = this.state;
     return (
       <Navbar color="dark" dark expand="md" className="mb-4">
-        <NavbarBrand href="/">Plantastic</NavbarBrand>
+        <NavbarBrand href={ Routes.ROOT }>Plantastic</NavbarBrand>
         <NavbarToggler onClick={ this.toggle } />
         <Collapse isOpen={ isOpen } navbar>
           <Nav className="mr-auto" navbar>
-            <AuthenticatedNavbarItem path={ ROUTE_PLANTS } icon={ faSeedling } name='Plants' />
-            <AuthenticatedNavbarItem path={ ROUTE_CATEGORIES } icon={ faLeaf } name='Categories' />
-            <AuthenticatedNavbarItem path={ ROUTE_ROOMS } icon={ faHome } name='Rooms' />
+            {
+              navbarItems.map((navbarItem) =>
+                <AuthenticatedNavbarItem
+                  path={ navbarItem.path }
+                  icon={ navbarItem.icon }
+                  name={ navbarItem.name }
+                  key={ navbarItem.path }
+                />
+              )
+            }
           </Nav>
           <Nav navbar>
             <UncontrolledDropdown nav inNavbar>

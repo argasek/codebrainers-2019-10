@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container } from 'reactstrap';
-import { Route, Switch } from 'react-router-dom';
-import { ROUTE_CATEGORIES, ROUTE_PLANTS, ROUTE_ROOMS } from 'constants/Routes';
+import { Redirect, Route, Switch } from 'react-router-dom';
+import Routes from 'constants/Routes';
 import PlantsContainer from 'components/plants/PlantsContainer';
 import Categories from 'components/categories/Categories';
 import Rooms from 'components/rooms/Rooms';
@@ -93,14 +93,17 @@ class AuthenticatedContainer extends React.PureComponent {
     return (
       <Container>
         <Switch>
-          <Route exact path={ ROUTE_PLANTS }>
+          <Route exact path={ Routes.ROOT }>
+            <Redirect to={ Routes.PLANTS } />
+          </Route>
+          <Route path={ Routes.PLANTS }>
             <PlantCreate />
             <PlantsContainer
               categories={ categories }
               fetchCategories={ fetchCategories }
             />
           </Route>
-          <Route path={ ROUTE_CATEGORIES }>
+          <Route path={ Routes.CATEGORIES }>
             <Categories
               categories={ categories }
               categoriesErrorMessage={ categoriesErrorMessage }
@@ -109,7 +112,7 @@ class AuthenticatedContainer extends React.PureComponent {
               fetchCategories={ fetchCategories }
             />
           </Route>
-          <Route path={ ROUTE_ROOMS }>
+          <Route path={ Routes.ROOMS }>
             <Rooms />
           </Route>
         </Switch>
