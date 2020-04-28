@@ -1,5 +1,6 @@
 const CATEGORIES_FETCH_DELAY = 250;
 const PLANTS_FETCH_DELAY = 100;
+const ROOMS_FETCH_DELAY = 150;
 
 /**
  *
@@ -12,5 +13,6 @@ const delay = (delay, f) => new Promise((resolve, reject) => setTimeout(f, delay
 export {
   CATEGORIES_FETCH_DELAY,
   PLANTS_FETCH_DELAY,
+  ROOMS_FETCH_DELAY,
   delay,
 };

@@ -7,6 +7,7 @@ import Category from 'models/Category';
 
 const withCategories = (WrappedComponent) => {
   return class extends React.PureComponent {
+
     constructor(props) {
       super(props);
       this.state = {
@@ -89,6 +90,6 @@ const withCategories = (WrappedComponent) => {
       );
     }
   };
-}
+};
 
 export default withCategories;

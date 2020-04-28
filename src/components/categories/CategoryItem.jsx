@@ -1,7 +1,7 @@
 import React from 'react';
 import './CategoryItem.scss';
 import { ListGroupItem } from 'reactstrap';
-import { categoryPropType } from 'proptypes/CommonPropTypes';
+import { categoryPropType } from 'proptypes/CategoriesPropTypes';
 
 class CategoryItem extends React.PureComponent {
 

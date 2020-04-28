@@ -1,6 +1,5 @@
 import { Card, CardBody } from "reactstrap";
 import React from "react";
-import PropTypes from "prop-types";
 import axios from "axios";
 import InProgress from 'components/shared/InProgress';
 import Plants from "components/plants/Plants";
@@ -9,8 +8,10 @@ import OperationFailed from 'components/shared/OperationFailed';
 import Api from 'constants/Api';
 import Plant from 'models/Plant';
 import { plainToClass } from 'serializers/Serializer';
-import Room from 'models/Room';
 import withCategories from 'components/categories/Categories';
+import withRooms from 'components/rooms/Rooms';
+import { withRoomsPropTypes } from 'proptypes/RoomsPropTypes';
+import { withCategoriesPropTypes } from 'proptypes/CategoriesPropTypes';
 
 class PlantsContainer extends React.PureComponent {
   constructor(props) {
@@ -24,13 +25,19 @@ class PlantsContainer extends React.PureComponent {
   }
 
   componentDidMount() {
+    const roomsPromise = this.props.fetchRooms();
     const categoriesPromise = this.props.fetchCategories();
     const plantsPromise = this.fetchPlantsDelayed();
 
     this.setState({ plantsInProgress: true });
 
-    categoriesPromise
-      .then(plantsPromise)
+    const additionalPromises = Promise.all([
+      roomsPromise,
+      categoriesPromise,
+      plantsPromise,
+    ]);
+
+    additionalPromises
       .finally(() => this.setState({ plantsInProgress: false }));
 
   }
@@ -79,10 +86,12 @@ class PlantsContainer extends React.PureComponent {
     const {
       categories,
       categoriesSuccess,
+      rooms,
+      roomsSuccess
     } = this.props;
 
     const totalPlants = plants.length;
-    const success = categoriesSuccess && plantsSuccess;
+    const success = categoriesSuccess && plantsSuccess && roomsSuccess;
 
     return (
       <Card className="mb-4">
@@ -101,8 +110,9 @@ class PlantsContainer extends React.PureComponent {
           {
             success &&
             <Plants
-              plants={ plants }
               categories={ categories }
+              plants={ plants }
+              rooms={ rooms }
             />
           }
         </CardBody>
@@ -112,8 +122,8 @@ class PlantsContainer extends React.PureComponent {
 }
 
 PlantsContainer.propTypes = {
-  rooms: PropTypes.arrayOf(PropTypes.instanceOf(Room)).isRequired,
-  fetchRooms: PropTypes.func.isRequired,
+  ...withRoomsPropTypes,
+  ...withCategoriesPropTypes,
 };
 
-export default withCategories(PlantsContainer);
+export default withRooms(withCategories(PlantsContainer));

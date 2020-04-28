@@ -1,12 +1,7 @@
 import emoji from 'react-easy-emoji';
 import PlantExposure from 'models/PlantExposure';
 import PropTypes from 'prop-types';
-
-const emojiOptions = {
-  baseUrl: 'https://twemoji.maxcdn.com/2/svg/',
-  ext: '.svg',
-  size: ''
-};
+import emojiOptions from 'constants/EmojiOptions';
 
 /**
  *

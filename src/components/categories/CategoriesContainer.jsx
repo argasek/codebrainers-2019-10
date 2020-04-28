@@ -2,7 +2,7 @@ import { Card, CardBody, ListGroup } from "reactstrap";
 import React from "react";
 import CategoryItem from "components/categories/CategoryItem";
 import InProgress from "components/shared/InProgress";
-import { withCategoriesPropTypes } from 'proptypes/CommonPropTypes';
+import { withCategoriesPropTypes } from 'proptypes/CategoriesPropTypes';
 import OperationFailed from 'components/shared/OperationFailed';
 import withCategories from 'components/categories/Categories';
 

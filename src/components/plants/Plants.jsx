@@ -1,17 +1,20 @@
 import React from "react";
 import { Table } from "reactstrap";
 import Plant from "components/plants/Plant";
-import { categoriesPropTypes, plantsPropTypes } from 'proptypes/CommonPropTypes';
+import { plantsPropTypes } from 'proptypes/PlantsPropTypes';
+import { categoriesPropTypes } from 'proptypes/CategoriesPropTypes';
+import { roomsPropTypes } from 'proptypes/RoomsPropTypes';
 
 /**
  * This is an example of JSDoc comment.
  *
- * @param {array} plants Array of plants
- * @param {array} categories Array of categories
+ * @param {Plant[]} plants Array of plants
+ * @param {Category[]} categories Array of categories
+ * @param {Room[]} categories Array of categories
  * @returns {*}
  * @constructor
  */
-const Plants = ({ plants, categories }) => {
+const Plants = ({ plants, categories, rooms }) => {
   return (
     <Table hover striped responsive>
       <thead className="thead-dark">
@@ -34,6 +37,7 @@ const Plants = ({ plants, categories }) => {
           <Plant
             plant={ plant }
             plantCategories={ categories }
+            plantRooms={ rooms }
             key={ plant.id }
           />
         ))
@@ -46,6 +50,7 @@ const Plants = ({ plants, categories }) => {
 Plants.propTypes = {
   plants: plantsPropTypes,
   categories: categoriesPropTypes,
+  rooms: roomsPropTypes,
 };
 
 export default Plants;
