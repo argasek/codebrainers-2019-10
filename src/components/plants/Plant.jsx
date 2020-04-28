@@ -1,6 +1,7 @@
 import React from "react";
 import "./Plant.scss";
 import find from 'lodash-es/find';
+import * as moment from 'moment';
 
 import {
   plantDifficultyOptions,
@@ -13,6 +14,8 @@ import {
 import { categoriesPropTypes, plantPropTypes } from 'proptypes/CommonPropTypes';
 import PlantExposureIcon from 'components/plants/icons/PlantExposureIcon';
 import PlantHumidityIcon from 'components/plants/icons/PlantHumidityIcon';
+
+// import moment from 'moment';
 
 class Plant extends React.PureComponent {
 
@@ -27,6 +30,8 @@ class Plant extends React.PureComponent {
       plantCategories,
     } = this.props;
 
+    const asYmd = (value) => moment.isMoment(value) ? value.format('YYYY-MM-DD') : '';
+
     /**
      * @type PlantExposure
      */
@@ -36,6 +41,8 @@ class Plant extends React.PureComponent {
      */
     const plantHumidity = find(plantHumidityOptions, { id: plant.requiredHumidity }) || plantHumidityUnknown;
     const plantCategory = this.findValueByKey(plantCategories, plant.category);
+    const plantLastFertilized = asYmd(plant.lastFertilized);
+    const plantLastWatered = asYmd(plant.lastWatered);
 
     return (
       <tr key={ plant.id }>
@@ -51,8 +58,8 @@ class Plant extends React.PureComponent {
         <td>{ plant.blooming.toString() }</td>
         <td>{ this.findValueByKey(plantDifficultyOptions, plant.difficulty) }</td>
         <td>{ plant.room }</td>
-        <td>{ plant.lastFertilized }</td>
-        <td>{ plant.lastWatered }</td>
+        <td>{ plantLastFertilized }</td>
+        <td>{ plantLastWatered }</td>
       </tr>
     );
   }

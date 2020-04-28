@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import 'core-js/proposals/reflect-metadata';
 import 'bootstrap-pre-custom.sass';
 import 'bootstrap-post-custom.sass';
 import './index.scss';

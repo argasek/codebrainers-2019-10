@@ -25,11 +25,11 @@ const plantHumidityOptions = [
 const plantHumidityUnknown = new PlantHumidity('unknown', 'Unknown', 0);
 
 const plantDifficultyOptions = [
-  { id: '1', name: 'Very easy' },
-  { id: '2', name: 'Easy' },
-  { id: '3', name: 'Medium' },
-  { id: '4', name: 'Hard' },
-  { id: '5', name: 'Very hard' },
+  { id: 1, name: 'Very easy' },
+  { id: 2, name: 'Easy' },
+  { id: 3, name: 'Medium' },
+  { id: 4, name: 'Hard' },
+  { id: 5, name: 'Very hard' },
 ];
 
 export {

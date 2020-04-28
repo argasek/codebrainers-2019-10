@@ -1,4 +1,3 @@
-import React from 'react';
 import emoji from 'react-easy-emoji';
 import PlantHumidity from 'models/PlantHumidity';
 import PropTypes from 'prop-types';

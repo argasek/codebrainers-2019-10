@@ -7,6 +7,8 @@ import Plants from "components/plants/Plants";
 import { delay, PLANTS_FETCH_DELAY } from "shared/Debug";
 import OperationFailed from 'components/shared/OperationFailed';
 import Api from 'constants/Api';
+import Plant from 'models/Plant';
+import { plainToClass } from 'serializers/Serializer';
 
 class PlantsContainer extends React.PureComponent {
   constructor(props) {
@@ -35,25 +37,8 @@ class PlantsContainer extends React.PureComponent {
     return axios.get(Api.PLANTS)
       .then((response) => {
         const data = response.data;
-        const plants = data.map((item) => (
-          {
-            id: item.id,
-            name: item.name,
-            url: item.url,
-            category: item.category,
-            categorySlug: item.category_slug,
-            fertilizingInterval: item.fertilizing_interval,
-            requiredExposure: item.required_exposure,
-            requiredHumidity: item.required_humidity,
-            requiredTemperature: item.required_temperature,
-            blooming: item.blooming,
-            difficulty: item.difficulty.toString(),
-            wateringInterval: item.watering_interval,
-            room: item.room,
-            lastWatered: item.last_watered,
-            lastFertilized: item.last_fertilized,
-          }
-        ));
+        const plants = data
+          .map(item => plainToClass(Plant, item));
 
         const plantsErrorMessage = '';
         const plantsSuccess = true;
