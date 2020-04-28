@@ -9,8 +9,8 @@ import OperationFailed from 'components/shared/OperationFailed';
 import Api from 'constants/Api';
 import Plant from 'models/Plant';
 import { plainToClass } from 'serializers/Serializer';
-import Category from 'models/Category';
 import Room from 'models/Room';
+import withCategories from 'components/categories/Categories';
 
 class PlantsContainer extends React.PureComponent {
   constructor(props) {
@@ -77,10 +77,12 @@ class PlantsContainer extends React.PureComponent {
     } = this.state;
 
     const {
-      categories
+      categories,
+      categoriesSuccess,
     } = this.props;
 
     const totalPlants = plants.length;
+    const success = categoriesSuccess && plantsSuccess;
 
     return (
       <Card className="mb-4">
@@ -97,7 +99,7 @@ class PlantsContainer extends React.PureComponent {
           </OperationFailed>
 
           {
-            plantsSuccess === true &&
+            success &&
             <Plants
               plants={ plants }
               categories={ categories }
@@ -110,10 +112,8 @@ class PlantsContainer extends React.PureComponent {
 }
 
 PlantsContainer.propTypes = {
-  categories: PropTypes.arrayOf(PropTypes.instanceOf(Category)).isRequired,
   rooms: PropTypes.arrayOf(PropTypes.instanceOf(Room)).isRequired,
-  fetchCategories: PropTypes.func.isRequired,
   fetchRooms: PropTypes.func.isRequired,
 };
 
-export default PlantsContainer;
+export default withCategories(PlantsContainer);

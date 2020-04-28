@@ -8,6 +8,14 @@ const categoryPropType = PropTypes.shape({
 
 const categoriesPropTypes = PropTypes.arrayOf(categoryPropType).isRequired;
 
+const withCategoriesPropTypes = {
+  categories: categoriesPropTypes,
+  categoriesErrorMessage: PropTypes.string.isRequired,
+  categoriesInProgress: PropTypes.bool.isRequired,
+  categoriesSuccess: PropTypes.bool,
+  fetchCategories: PropTypes.func.isRequired,
+};
+
 const fasIconPropType = PropTypes.shape({
   icon: PropTypes.arrayOf(PropTypes.any).isRequired,
   iconName: PropTypes.string.isRequired,
@@ -37,6 +45,7 @@ const plantsPropTypes = PropTypes.arrayOf(plantPropTypes).isRequired;
 export {
   categoryPropType,
   categoriesPropTypes,
+  withCategoriesPropTypes,
   fasIconPropType,
   plantPropTypes,
   plantsPropTypes,

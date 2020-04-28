@@ -1,62 +1,94 @@
-import { Card, CardBody, ListGroup } from "reactstrap";
-import React from "react";
-import CategoryItem from "components/categories/CategoryItem";
-import InProgress from "components/shared/InProgress";
-import PropTypes from "prop-types";
-import { categoriesPropTypes } from 'proptypes/CommonPropTypes';
-import OperationFailed from 'components/shared/OperationFailed';
+import React from 'react';
+import axios from 'axios';
+import Api from 'constants/Api';
+import { CATEGORIES_FETCH_DELAY, delay } from 'shared/Debug';
+import { plainToClass } from 'serializers/Serializer';
+import Category from 'models/Category';
 
-class Categories extends React.PureComponent {
+const withCategories = (WrappedComponent) => {
+  return class extends React.PureComponent {
+    constructor(props) {
+      super(props);
+      this.state = {
+        categoriesErrorMessage: '',
+        categoriesInProgress: false,
+        categoriesSuccess: undefined,
+        categories: [],
+      };
+    }
 
-  componentDidMount() {
-    this.props.fetchCategories();
-  }
+    /**
+     *
+     * @param {function} resolve
+     * @param {function} reject
+     * @returns {Promise}
+     */
+    fetchCategories = (resolve, reject) => {
+      return axios.get(Api.CATEGORIES)
+        .then((response) => this.fetchCategoriesSuccess(response, resolve))
+        .catch((error) => this.fetchCategoriesFailure(error, reject));
+    };
 
-  render() {
-    const {
-      categories,
-      categoriesErrorMessage,
-      categoriesInProgress,
-      categoriesSuccess,
-    } = this.props;
+    /**
+     * Fetch Categories with some predefined delay.
+     * @returns {Promise<TimerHandler>}
+     */
+    fetchCategoriesDelayed = () => {
+      console.log('Method Categories.fetchCategoriesDelayed() fired');
 
-    return (
-      <Card>
-        <CardBody>
-          <div className="app-container">
-            <InProgress inProgress={ categoriesInProgress } />
-            <OperationFailed isFailed={ categoriesSuccess === false }>
-              <strong>Failed to fetch categories.</strong>
-              { ' Reason: ' }
-              { categoriesErrorMessage }
-            </OperationFailed>
-            {
-              categoriesSuccess &&
-              <ListGroup className="categories">
-                {
-                  categories.map((category) =>
-                    <CategoryItem
-                      category={ category }
-                      key={ category.id }
-                    />
-                  )
-                }
-              </ListGroup>
-            }
-          </div>
-        </CardBody>
-      </Card>
-    );
-  }
+      const categoriesInProgress = true;
+      this.setState({ categoriesInProgress });
+
+      return delay(CATEGORIES_FETCH_DELAY, this.fetchCategories)
+        .finally(this.fetchCategoriesFinally);
+    };
+
+    fetchCategoriesFailure = (error, reject) => {
+      const categoriesSuccess = false;
+      const categoriesErrorMessage = error.message;
+
+      this.setState({
+        categoriesErrorMessage,
+        categoriesSuccess,
+      });
+
+      reject();
+    };
+
+    fetchCategoriesFinally = () => {
+      console.log('Categories finally');
+      const categoriesInProgress = false;
+      this.setState({ categoriesInProgress });
+    };
+
+    fetchCategoriesSuccess = (response, resolve) => {
+      const data = response.data;
+
+      const categories = data.map(item => plainToClass(Category, item));
+      const categoriesSuccess = true;
+      const categoriesErrorMessage = '';
+
+      this.setState({
+        categories,
+        categoriesErrorMessage,
+        categoriesSuccess,
+      });
+
+      console.log('Fetched categories');
+
+      resolve();
+    };
+
+    render() {
+      return (
+        <WrappedComponent
+          { ...this.state }
+          { ...this.props }
+          fetchCategories={ this.fetchCategoriesDelayed }
+        />
+      );
+    }
+  };
 }
 
-Categories.propTypes = {
-  categories: categoriesPropTypes,
-  categoriesErrorMessage: PropTypes.string.isRequired,
-  categoriesInProgress: PropTypes.bool.isRequired,
-  categoriesSuccess: PropTypes.bool,
-  fetchCategories: PropTypes.func.isRequired,
-};
-
-
-export default Categories;
+export default withCategories;
