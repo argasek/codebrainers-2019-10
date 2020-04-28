@@ -10,6 +10,8 @@ import axios from 'axios';
 import { CATEGORIES_FETCH_DELAY, delay } from 'shared/Debug';
 import Api from 'constants/Api';
 import AuthenticatedDashboard from 'components/authenticated/AuthenticatedDashboard';
+import { plainToClass } from 'serializers/Serializer';
+import Category from 'models/Category';
 
 class AuthenticatedContainer extends React.PureComponent {
 
@@ -20,6 +22,7 @@ class AuthenticatedContainer extends React.PureComponent {
       categoriesInProgress: false,
       categoriesSuccess: undefined,
       categories: [],
+      rooms: []
     };
   }
 
@@ -30,42 +33,10 @@ class AuthenticatedContainer extends React.PureComponent {
    * @returns {Promise}
    */
   fetchCategories = (resolve, reject) => {
-
     return axios.get(Api.CATEGORIES)
-      .then((response) => {
-        const data = response.data;
-        const categories = data.map((item) => ({
-          id: item.id,
-          name: item.name
-        }));
-
-        const categoriesSuccess = true;
-        const categoriesErrorMessage = '';
-        this.setState({
-          categories,
-          categoriesErrorMessage,
-          categoriesSuccess,
-        });
-
-        console.log('Fetched categories');
-
-        resolve();
-      })
-      .catch((error) => {
-        const categoriesSuccess = false;
-        const categoriesErrorMessage = error.message;
-
-        this.setState({
-          categoriesErrorMessage,
-          categoriesSuccess,
-        });
-
-        reject();
-      })
-      .finally(() => {
-        const categoriesInProgress = false;
-        this.setState({ categoriesInProgress });
-      });
+      .then((response) => this.fetchCategoriesSuccess(response, resolve))
+      .catch((error) => this.fetchCategoriesFailure(error, reject))
+      .finally(this.fetchCategoriesFinally);
   };
 
   fetchCategoriesDelayed = () => {
@@ -79,17 +50,56 @@ class AuthenticatedContainer extends React.PureComponent {
     return promise;
   };
 
+  fetchCategoriesFailure = (error, reject) => {
+    const categoriesSuccess = false;
+    const categoriesErrorMessage = error.message;
+
+    this.setState({
+      categoriesErrorMessage,
+      categoriesSuccess,
+    });
+
+    reject();
+  };
+
+  fetchCategoriesFinally = () => {
+    const categoriesInProgress = false;
+    this.setState({ categoriesInProgress });
+  };
+
+  fetchCategoriesSuccess = (response, resolve) => {
+    const data = response.data;
+
+    const categories = data.map(item => plainToClass(Category, item));
+    const categoriesSuccess = true;
+    const categoriesErrorMessage = '';
+
+    this.setState({
+      categories,
+      categoriesErrorMessage,
+      categoriesSuccess,
+    });
+
+    console.log('Fetched categories');
+
+    resolve();
+  };
+
+  fetchRooms = () => {
+
+  };
+
   render() {
     const {
       categoriesErrorMessage,
       categoriesInProgress,
       categoriesSuccess,
       categories,
+      rooms,
     } = this.state;
 
     const fetchCategories = this.fetchCategoriesDelayed;
-
-    console.log(categories);
+    const fetchRooms = this.fetchRooms;
 
     return (
       <Container>
@@ -98,11 +108,13 @@ class AuthenticatedContainer extends React.PureComponent {
             <AuthenticatedDashboard />
           </Route>
           <Route path={ Routes.PLANTS }>
-            <PlantCreate />
             <PlantsContainer
               categories={ categories }
+              rooms={ rooms }
               fetchCategories={ fetchCategories }
+              fetchRooms={ fetchRooms }
             />
+            <PlantCreate />
           </Route>
           <Route path={ Routes.CATEGORIES }>
             <Categories

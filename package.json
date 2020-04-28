@@ -33,6 +33,7 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
     "reactstrap": "^8.4.1",
+    "singleton-decorator": "^0.2.2",
     "ta-json": "^2.5.0",
     "yup": "^0.28.4"
   },

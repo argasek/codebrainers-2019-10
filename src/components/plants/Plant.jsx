@@ -31,6 +31,7 @@ class Plant extends React.PureComponent {
     } = this.props;
 
     const asYmd = (value) => moment.isMoment(value) ? value.format('YYYY-MM-DD') : '';
+    const asAgo = (value) => moment.isMoment(value) ? value.fromNow() : '';
 
     /**
      * @type PlantExposure
@@ -42,7 +43,7 @@ class Plant extends React.PureComponent {
     const plantHumidity = find(plantHumidityOptions, { id: plant.requiredHumidity }) || plantHumidityUnknown;
     const plantCategory = this.findValueByKey(plantCategories, plant.category);
     const plantLastFertilized = asYmd(plant.lastFertilized);
-    const plantLastWatered = asYmd(plant.lastWatered);
+    const plantLastWatered = asAgo(plant.lastWatered);
 
     return (
       <tr key={ plant.id }>

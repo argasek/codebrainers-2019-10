@@ -1,5 +1,7 @@
 import moment from 'moment-es6';
+import Singleton from 'singleton-decorator';
 
+@Singleton
 class MomentSerializer {
   serialize(value) {
     if (moment.isMoment(value)) {
