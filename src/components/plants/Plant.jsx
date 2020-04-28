@@ -11,8 +11,8 @@ import {
   plantTemperatureOptions,
 } from "constants/PlantConstants";
 import { categoriesPropTypes, plantPropTypes } from 'proptypes/CommonPropTypes';
-import PlantExposureIcon from 'components/plants/PlantExposureIcon';
-import PlantHumidityIcon from 'components/plants/PlantHumidityIcon';
+import PlantExposureIcon from 'components/plants/icons/PlantExposureIcon';
+import PlantHumidityIcon from 'components/plants/icons/PlantHumidityIcon';
 
 class Plant extends React.PureComponent {
 
