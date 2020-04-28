@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container } from 'reactstrap';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import Routes from 'constants/Routes';
 import PlantsContainer from 'components/plants/PlantsContainer';
 import Categories from 'components/categories/Categories';
@@ -9,6 +9,7 @@ import PlantCreate from 'components/plants/PlantCreate';
 import axios from 'axios';
 import { CATEGORIES_FETCH_DELAY, delay } from 'shared/Debug';
 import Api from 'constants/Api';
+import AuthenticatedDashboard from 'components/authenticated/AuthenticatedDashboard';
 
 class AuthenticatedContainer extends React.PureComponent {
 
@@ -94,7 +95,7 @@ class AuthenticatedContainer extends React.PureComponent {
       <Container>
         <Switch>
           <Route exact path={ Routes.ROOT }>
-            <Redirect to={ Routes.PLANTS } />
+            <AuthenticatedDashboard />
           </Route>
           <Route path={ Routes.PLANTS }>
             <PlantCreate />
