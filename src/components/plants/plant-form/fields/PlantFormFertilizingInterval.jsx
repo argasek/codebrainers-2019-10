@@ -2,6 +2,7 @@ import React from "react";
 import { FormText, Label } from "reactstrap";
 import { Field } from "formik";
 import PlantasticInput from 'components/shared/form/PlantasticInput';
+import PlantFormFields from 'components/plants/plant-form/constants/PlantFormFields';
 
 const PlantFormFertilizingInterval = (props) => {
   const plantFertilizingIntervalId = "plantFertilizingInterval";
@@ -11,9 +12,9 @@ const PlantFormFertilizingInterval = (props) => {
       <Field
         component={ PlantasticInput }
         id={ plantFertilizingIntervalId }
-        name="fertilizingInterval"
+        name={ PlantFormFields.FERTILIZING_INTERVAL }
         placeholder="1"
-        type="text"
+        type="number"
       />
       <FormText color="muted">
         Number of days

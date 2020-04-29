@@ -1,5 +1,6 @@
 @import "~bootstrap/scss/functions";
 @import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/vendor/rfs";
 
 body {
   background-color: #f0f2f1;
@@ -7,6 +8,18 @@ body {
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+legend {
+  display: inline-block;
+}
+
+.legend-form-label {
+  padding-top: add($input-padding-y, $input-border-width);
+  padding-bottom: add($input-padding-y, $input-border-width);
+  margin-bottom: 0; // Override the `<label>/<legend>` default
+  @include font-size(inherit); // Override the `<legend>` default
+  line-height: $input-line-height;
 }
 
 .asterisk {

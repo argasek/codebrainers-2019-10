@@ -3,6 +3,7 @@ import { FormGroup, Label } from "reactstrap";
 import { Field } from "formik";
 import { plantExposureOptions } from "constants/PlantConstants";
 import PlantasticSelect from "components/shared/form/PlantasticSelect";
+import PlantFormFields from 'components/plants/plant-form/constants/PlantFormFields';
 
 const PlantFormExposure = (props) => {
   const plantExposureId = "plantExposure";
@@ -13,7 +14,7 @@ const PlantFormExposure = (props) => {
         component={ PlantasticSelect }
         id={ plantExposureId }
         items={ plantExposureOptions }
-        name="exposure"
+        name={ PlantFormFields.REQUIRED_EXPOSURE }
       />
     </FormGroup>
   );

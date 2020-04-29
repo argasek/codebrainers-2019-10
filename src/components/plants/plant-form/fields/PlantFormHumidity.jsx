@@ -3,6 +3,7 @@ import { FormGroup, Label } from "reactstrap";
 import { Field } from "formik";
 import { plantHumidityOptions } from "constants/PlantConstants";
 import PlantasticSelect from "components/shared/form/PlantasticSelect";
+import PlantFormFields from 'components/plants/plant-form/constants/PlantFormFields';
 
 const PlantFormHumidity = (props) => {
   const plantHumidityId = "plantHumidity";
@@ -13,7 +14,7 @@ const PlantFormHumidity = (props) => {
         component={ PlantasticSelect }
         id={ plantHumidityId }
         items={ plantHumidityOptions }
-        name="humidity"
+        name={ PlantFormFields.REQUIRED_HUMIDITY }
       />
     </FormGroup>
   );

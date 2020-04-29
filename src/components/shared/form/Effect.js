@@ -6,7 +6,7 @@ const Effect = ({ formik, onChange }) => {
   useEffect(() => {
     onChange(formik, ref.current);
     ref.current = formik;
-  }, [ formik ]);
+  }, [ formik, onChange ]);
   return null;
 };
 export default connect(Effect);
