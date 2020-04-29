@@ -1,5 +1,6 @@
 import PlantExposure from 'models/PlantExposure';
 import PlantHumidity from 'models/PlantHumidity';
+import PlantDifficulty from 'models/PlantDifficulty';
 
 const plantExposureOptions = [
   new PlantExposure('dark', 'Full shade', '\u2601'),
@@ -25,11 +26,11 @@ const plantHumidityOptions = [
 const plantHumidityUnknown = new PlantHumidity('unknown', 'Unknown', 0);
 
 const plantDifficultyOptions = [
-  { id: 1, name: 'Very easy' },
-  { id: 2, name: 'Easy' },
-  { id: 3, name: 'Medium' },
-  { id: 4, name: 'Hard' },
-  { id: 5, name: 'Very hard' },
+  new PlantDifficulty(1, 'Very easy', 1, 'You won\'t be able to kill this plant no matter what'),
+  new PlantDifficulty(2, 'Easy', 2, 'Well, to keep this one alive one has to water it once in a while'),
+  new PlantDifficulty(3, 'Medium', 3, 'A regular flower with moderate care requirements'),
+  new PlantDifficulty(4, 'Hard', 4, 'This plant will require a lot of love and regular care'),
+  new PlantDifficulty(5, 'Very hard', 5, 'Damn princess. Will find thousand of reasons to die'),
 ];
 
 export {

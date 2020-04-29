@@ -1,5 +1,5 @@
 import React from "react";
-import { FormGroup } from "reactstrap";
+import { FormGroup, FormText } from "reactstrap";
 import { Field } from "formik";
 import { plantDifficultyOptions } from "constants/PlantConstants";
 import PlantasticRadioNoFeedback from 'components/shared/form/PlantasticRadioNoFeedback';
@@ -19,6 +19,14 @@ const plantDifficultyOption = (item) => (
   />
 );
 
+const getDescription = (value) => plantDifficultyOptions.find(item => item.value === value).description;
+
+const PlantFormDifficultyDescription = ({ field }) => (
+  <FormText color="muted">
+    { getDescription(field.value) + '.' }
+  </FormText>
+);
+
 const PlantFormDifficulty = (props) => (
   <FormGroup tag="fieldset">
     <legend className="col-form-label">
@@ -28,6 +36,7 @@ const PlantFormDifficulty = (props) => (
     {
       plantDifficultyOptions.map(plantDifficultyOption)
     }
+    <Field name="difficultyLevel" component={ PlantFormDifficultyDescription } />
   </FormGroup>
 );
 
