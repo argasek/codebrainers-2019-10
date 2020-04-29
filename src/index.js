@@ -1,8 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import 'core-js/proposals/reflect-metadata';
-import 'bootstrap-pre-custom.sass';
-import 'bootstrap-post-custom.sass';
+import 'styles/bootstrap-pre-custom.sass';
+import 'styles/bootstrap-post-custom.sass';
+import 'react-datepicker/src/stylesheets/datepicker.scss';
+import 'styles/customize-datepicker.scss';
 import './index.scss';
 import App from 'App';
 import * as serviceWorker from './serviceWorker';
