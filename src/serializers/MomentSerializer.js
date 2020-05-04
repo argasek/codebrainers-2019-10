@@ -16,6 +16,25 @@ class MomentSerializer {
     }
     return property;
   }
+
+  /**
+   * @param {Date|*} value
+   * @param {*} [emptyValue]
+   * @returns {moment.Moment|*}
+   */
+  fromDate(value, emptyValue = undefined) {
+    return value instanceof Date ? moment(value) : emptyValue;
+  }
+
+  /**
+   * @param {moment.Moment|*} value
+   * @param {*} [emptyValue]
+   * @returns {Date|*}
+   */
+  toDate(value, emptyValue = undefined) {
+    return moment.isMoment(value) ? value.toDate() : emptyValue;
+  }
+
 }
 
 export default MomentSerializer;

@@ -12,6 +12,7 @@ import withCategories from 'components/categories/Categories';
 import withRooms from 'components/rooms/Rooms';
 import { withRoomsPropTypes } from 'proptypes/RoomsPropTypes';
 import { withCategoriesPropTypes } from 'proptypes/CategoriesPropTypes';
+import PlantCreate from 'components/plants/PlantCreate';
 
 class PlantsContainer extends React.PureComponent {
   constructor(props) {
@@ -75,6 +76,15 @@ class PlantsContainer extends React.PureComponent {
     return delay(PLANTS_FETCH_DELAY, this.fetchPlants);
   }
 
+  /**
+   * @param {Plant} plant
+   */
+  onSubmit = (plant) => {
+    const plants = [ ...this.state.plants ];
+    plants.unshift(plant);
+    this.setState({ plants });
+  };
+
   render() {
     const {
       plants,
@@ -94,29 +104,32 @@ class PlantsContainer extends React.PureComponent {
     const success = categoriesSuccess && plantsSuccess && roomsSuccess;
 
     return (
-      <Card className="mb-4">
-        <CardBody>
-          <h3 className="mb-3">List of plants</h3>
-          <p>You have { totalPlants } plants in all your rooms.</p>
+      <React.Fragment>
+        <PlantCreate onSubmit={ this.onSubmit } />
+        <Card className="mb-4">
+          <CardBody>
+            <h3 className="mb-3">List of plants</h3>
+            <p>You have { totalPlants } plants in all your rooms.</p>
 
-          <InProgress inProgress={ plantsInProgress } />
+            <InProgress inProgress={ plantsInProgress } />
 
-          <OperationFailed isFailed={ plantsSuccess === false }>
-            <strong>Failed to fetch plants.</strong>
-            { ' Reason: ' }
-            { plantsErrorMessage }
-          </OperationFailed>
+            <OperationFailed isFailed={ plantsSuccess === false }>
+              <strong>Failed to fetch plants.</strong>
+              { ' Reason: ' }
+              { plantsErrorMessage }
+            </OperationFailed>
 
-          {
-            success &&
-            <Plants
-              categories={ categories }
-              plants={ plants }
-              rooms={ rooms }
-            />
-          }
-        </CardBody>
-      </Card>
+            {
+              success &&
+              <Plants
+                categories={ categories }
+                plants={ plants }
+                rooms={ rooms }
+              />
+            }
+          </CardBody>
+        </Card>
+      </React.Fragment>
     );
   }
 }

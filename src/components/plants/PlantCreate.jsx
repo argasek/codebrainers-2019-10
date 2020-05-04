@@ -11,7 +11,10 @@ const PlantCreate = (props) => {
       </CardHeader>
       <CardBody>
         <h3 className="mb-4">Create plant</h3>
-        <PlantForm onPlantNameChange={ setPlantName } { ...props } />
+        <PlantForm
+          onPlantNameChange={ setPlantName }
+          { ...props }
+        />
       </CardBody>
     </Card>
   );

@@ -5,7 +5,6 @@ import Routes from 'constants/Routes';
 import PlantsContainer from 'components/plants/PlantsContainer';
 import CategoriesContainer from 'components/categories/CategoriesContainer';
 import RoomsContainer from 'components/rooms/RoomsContainer';
-import PlantCreate from 'components/plants/PlantCreate';
 import AuthenticatedDashboard from 'components/authenticated/AuthenticatedDashboard';
 
 class AuthenticatedContainer extends React.PureComponent {
@@ -20,7 +19,6 @@ class AuthenticatedContainer extends React.PureComponent {
           </Route>
           <Route path={ Routes.PLANTS }>
             <PlantsContainer />
-            <PlantCreate />
           </Route>
           <Route path={ Routes.CATEGORIES }>
             <CategoriesContainer />

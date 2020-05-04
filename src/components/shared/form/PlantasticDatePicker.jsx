@@ -1,18 +1,20 @@
 import React from 'react';
 import { useField, useFormikContext } from 'formik';
 import DatePicker from 'react-datepicker';
-import moment from 'moment';
+import MomentSerializer from 'serializers/MomentSerializer';
+
+const momentSerializer = new MomentSerializer();
 
 const PlantasticDatePicker = ({ ...props }) => {
   const { setFieldValue } = useFormikContext();
   const [ field ] = useField(props);
 
-  const selected = (moment.isMoment(field.value) && field.value.toDate()) || null;
-
   const onChange = value => {
-    const fieldValue = value === null ? value : moment(value);
+    const fieldValue = momentSerializer.fromDate(value);
     setFieldValue(field.name, fieldValue);
   };
+
+  const selected = momentSerializer.toDate(field.value);
 
   return (
     <DatePicker

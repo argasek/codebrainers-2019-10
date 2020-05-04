@@ -4,6 +4,46 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
+### Tips'n'tricks
+
+1.
+```javascript
+// Tworzenie obiektu "bez użycia" operatora new
+function moment(prop) {
+  return new Moment(prop);
+}
+
+const a = moment('coś');
+```
+2. HOC = High Order Component (komponent wyższego rzędu)     
+3. Lodash - biblioteka przydatnych funkcji
+4. Prop children -- pojawia się w nim wszystko co wsadziliśmy jako tagi "potomków".
+
+### Zadanie domowe
+
+#### 2020.04.29
+
+1. Napisz algorytm, który liczbę typu Number (załóż, że zawsze będzie to liczba całkowita) wypisuje na ekran:
+**BEZ** użycia metod konwertujących typy (zarówno explicite jak i implicite), czyli np. nie można zrobić:
+```javascript
+// NIE wolno!
+const a = 15;
+a.toString();
+
+// NIE wolno!
+const a = 15;
+'' + a;
+
+// NIE wolno!
+`${a}`
+
+
+// itd.
+```
+
+Żadnych zewnętrznych bibliotek, stack overflow! Itp. Reszta chwytów dozwolona. (Oczywiście nie robimy odpałów
+typu wysłanie przez API liczby do serwera i zwrot jako string). Podpowiedź: skorzystaj z metody [stringToCharCode](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/fromCharCode)
+
 ### Zadania domowe
 
 #### 2020.04.25
