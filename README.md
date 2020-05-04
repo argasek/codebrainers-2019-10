@@ -4,20 +4,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
-### Tips'n'tricks
-
-1.
-```javascript
-// Tworzenie obiektu "bez użycia" operatora new
-function moment(prop) {
-  return new Moment(prop);
-}
-
-const a = moment('coś');
-```
-2. HOC = High Order Component (komponent wyższego rzędu)     
-3. Lodash - biblioteka przydatnych funkcji
-4. Prop children -- pojawia się w nim wszystko co wsadziliśmy jako tagi "potomków".
+```npm start```
 
 ### Zadanie domowe
 
@@ -55,11 +42,11 @@ typu wysłanie przez API liczby do serwera i zwrot jako string). Podpowiedź: sk
 5. :white_check_mark: Opisz dokładnie dlaczego nie możemy `if (promise) { … }`
 6. :white_check_mark: Spraw aby `totalPlants` w `PlantsContainer.jsx` zwracało prawidłową całkowitą liczbę kwiatków we wszystkich pokojach.
 7. :white_check_mark: Przerób kod tak, aby progress indicator "Loading data…" był wyświetlany natychmiast po aktywacji komponentu Plants i był wyświetlany tak długo dopóki nie załadują się zarówno kwiaty jak i kategorie.
-8. *Dodaj w tabeli "List of plants" wyświetlanie nazwy pokoju w oparciu o [API call dostępny tutaj](http://gentle-tor-07382.herokuapp.com/rooms/). Tabela plants powinna się wyświetlać a progress indicator nie znikać tak długo dopóki wszystkie dane z serwera nie zostaną ściągnięte (tj. Plants, Categories i Rooms). 
+8. :white_check_mark: *Dodaj w tabeli "List of plants" wyświetlanie nazwy pokoju w oparciu o [API call dostępny tutaj](http://gentle-tor-07382.herokuapp.com/rooms/). Tabela plants powinna się wyświetlać a progress indicator nie znikać tak długo dopóki wszystkie dane z serwera nie zostaną ściągnięte (tj. Plants, Categories i Rooms). 
 
 #### 2020.04.18
 
-1. Dodać pola lastWatered i lastFertilized.
+1. Dodać pola `lastWatered` i `lastFertilized`.
 2. Na liście Plants wyświetlać więcej informacji niż tylko nazwę. Posłuż się https://getbootstrap.com/docs/4.4/content/tables/
 https://reactstrap.github.io/components/tables/
 Wykorzystaj tabelę. 
