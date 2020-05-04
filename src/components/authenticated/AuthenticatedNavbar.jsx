@@ -15,6 +15,7 @@ import { faCog } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import navbarItems from 'components/navbar/constants/NavbarItems';
+import PropTypes from 'prop-types';
 
 class AuthenticatedNavbar extends React.PureComponent {
   constructor(props) {
@@ -31,6 +32,7 @@ class AuthenticatedNavbar extends React.PureComponent {
 
   render() {
     const { isOpen } = this.state;
+    const { onLogout } = this.props;
     return (
       <Navbar color="dark" dark expand="md" className="mb-4">
         <NavbarBrand href={ Routes.ROOT }>Plantastic</NavbarBrand>
@@ -60,7 +62,7 @@ class AuthenticatedNavbar extends React.PureComponent {
                   Preferences…
                 </DropdownItem>
                 <DropdownItem divider />
-                <DropdownItem>
+                <DropdownItem onClick={ onLogout }>
                   Logout
                 </DropdownItem>
               </DropdownMenu>
@@ -73,3 +75,8 @@ class AuthenticatedNavbar extends React.PureComponent {
 }
 
 export default AuthenticatedNavbar;
+
+AuthenticatedNavbar.propTypes = {
+  onLogout: PropTypes.func.isRequired,
+};
+

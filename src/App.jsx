@@ -1,24 +1,39 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.scss';
-import { BrowserRouter as Router } from 'react-router-dom';
-import AuthenticatedNavbar from "components/authenticated/AuthenticatedNavbar";
-import AuthenticatedContainer from "components/authenticated/AuthenticatedContainer";
-import AuthenticatedFooter from 'components/authenticated/AuthenticatedFooter';
+import Authenticated from 'components/authenticated/Authenticated';
+import LoginPage from 'components/authentication/LoginPage';
+import Auth from 'constants/Auth';
+import axios from 'axios';
 
-class App extends React.PureComponent {
+const App = () => {
 
-  render() {
+  const [ token, setToken ] = useState(Auth.getTokenFromStorage());
+  const isAuthenticated = token !== '';
 
-    return (
-      <Router>
-        <AuthenticatedNavbar />
-        <AuthenticatedContainer />
-        <AuthenticatedFooter />
-      </Router>
-    );
-  }
+  const appendAxiosAuthorizationHeader = () => {
+    if (isAuthenticated) {
+      const value = Auth.getHeaderValueFromToken(token);
+      axios.defaults.headers.common[Auth.httpHeader] = value;
+    } else {
+      delete axios.defaults.headers.common[Auth.httpHeader];
+    }
+  };
 
-}
+  const onTokenObtained = (token) => {
+    Auth.putTokenToStorage(token);
+    setToken(token);
+  };
+
+  const onLogout = () => onTokenObtained('');
+
+  useEffect(appendAxiosAuthorizationHeader, [ token, isAuthenticated ]);
+
+  return isAuthenticated ?
+    <Authenticated onLogout={ onLogout } /> :
+    <LoginPage onTokenObtained={ onTokenObtained } />
+    ;
+
+};
 
 
 export default App;
