@@ -5,7 +5,7 @@ import Routes from 'constants/Routes';
 import PlantsContainer from 'components/plants/PlantsContainer';
 import CategoriesContainer from 'components/categories/CategoriesContainer';
 import RoomsContainer from 'components/rooms/RoomsContainer';
-import AuthenticatedDashboard from 'components/authenticated/AuthenticatedDashboard';
+import Dashboard from 'components/dashboard/Dashboard';
 
 class AuthenticatedContainer extends React.PureComponent {
 
@@ -15,7 +15,7 @@ class AuthenticatedContainer extends React.PureComponent {
       <Container>
         <Switch>
           <Route exact path={ Routes.ROOT }>
-            <AuthenticatedDashboard />
+            <Dashboard />
           </Route>
           <Route path={ Routes.PLANTS }>
             <PlantsContainer />

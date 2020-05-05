@@ -3,8 +3,8 @@ import React from 'react';
 import { Form, Formik } from 'formik';
 import PropTypes from 'prop-types';
 import LoginFormFields from 'components/authentication/constants/LoginFormFields';
-import LoginFormUsername from 'components/authentication/login-form/fields/LoginFormUsername';
-import LoginFormPassword from 'components/authentication/login-form/fields/LoginFormPassword';
+import LoginFormUsername from 'components/authentication/login/fields/LoginFormUsername';
+import LoginFormPassword from 'components/authentication/login/fields/LoginFormPassword';
 
 const LoginForm = (props) => {
 

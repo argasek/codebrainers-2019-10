@@ -1,38 +1,34 @@
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import './App.scss';
-import Authenticated from 'components/authenticated/Authenticated';
-import LoginPage from 'components/authentication/LoginPage';
+import LoginPage from 'pages/login/LoginPage';
 import Auth from 'constants/Auth';
-import axios from 'axios';
+import LoadingPage from 'pages/loading/LoadingPage';
+
+const Authenticated = React.lazy(() => import('pages/authenticated/AuthenticatedPage'));
 
 const App = () => {
 
   const [ token, setToken ] = useState(Auth.getTokenFromStorage());
-  const isAuthenticated = token !== '';
-
-  const appendAxiosAuthorizationHeader = () => {
-    if (isAuthenticated) {
-      const value = Auth.getHeaderValueFromToken(token);
-      axios.defaults.headers.common[Auth.httpHeader] = value;
-    } else {
-      delete axios.defaults.headers.common[Auth.httpHeader];
-    }
-  };
+  const isAuthenticated = token !== Auth.emptyToken;
 
   const onTokenObtained = (token) => {
     Auth.putTokenToStorage(token);
     setToken(token);
   };
 
-  const onLogout = () => onTokenObtained('');
+  const onLogout = () => onTokenObtained(Auth.emptyToken);
 
-  useEffect(appendAxiosAuthorizationHeader, [ token, isAuthenticated ]);
+  useEffect(Auth.appendAxiosAuthorizationHeader(token), [ token ]);
 
-  return isAuthenticated ?
-    <Authenticated onLogout={ onLogout } /> :
-    <LoginPage onTokenObtained={ onTokenObtained } />
-    ;
-
+  return (
+    <Suspense fallback={ <LoadingPage /> }>
+      {
+        isAuthenticated ?
+          <Authenticated onLogout={ onLogout } /> :
+          <LoginPage onTokenObtained={ onTokenObtained } />
+      }
+    </Suspense>
+  );
 };
 
 

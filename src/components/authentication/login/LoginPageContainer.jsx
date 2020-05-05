@@ -1,30 +1,11 @@
 import React from 'react';
 import { Card, CardBody, CardHeader, Col, Container, Row } from 'reactstrap';
-import LoginForm from 'components/authentication/login-form/LoginForm';
+import LoginForm from './LoginForm';
 import PropTypes from 'prop-types';
-import axios from 'axios';
-import Api from 'constants/Api';
 import Logo from 'components/shared/Logo';
-import './LoginPage.scss';
+import './LoginPageContainer.scss';
 
-const LoginPage = ({ onTokenObtained }) => {
-
-  /**
-   * @param {Credentials} credentials
-   * @return
-   */
-  const onSignIn = (credentials) => {
-    return axios.post(Api.AUTH_TOKEN, credentials)
-      .then((response) => {
-        const { token } = response.data;
-        onTokenObtained(token);
-      })
-      .catch((error) => {
-        // TODO: some decent error handling
-        console.warn('TODO');
-      });
-  };
-
+const LoginPageContainer = React.memo(({ onSubmit }) => {
   return (
     <Container className="h-100">
       <Row className="h-100 align-items-start align-items-md-center justify-content-center ">
@@ -39,7 +20,7 @@ const LoginPage = ({ onTokenObtained }) => {
                   <Logo className="application-logo" />
                 </Col>
                 <Col xs={ 12 } md={ 8 }>
-                  <LoginForm onSubmit={ onSignIn } />
+                  <LoginForm onSubmit={ onSubmit } />
                 </Col>
               </Row>
             </CardBody>
@@ -48,11 +29,11 @@ const LoginPage = ({ onTokenObtained }) => {
       </Row>
     </Container>
   );
+});
+
+LoginPageContainer.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
 };
 
-LoginPage.propTypes = {
-  onTokenObtained: PropTypes.func.isRequired,
-};
 
-
-export default LoginPage;
+export default LoginPageContainer;

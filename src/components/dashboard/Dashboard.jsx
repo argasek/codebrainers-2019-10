@@ -4,7 +4,7 @@ import { Button, Col, Jumbotron, Row } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import Routes from 'constants/Routes';
 
-const AuthenticatedDashboard = () => {
+const Dashboard = () => {
   return (
     <Jumbotron>
       <Row>
@@ -27,4 +27,4 @@ const AuthenticatedDashboard = () => {
   );
 };
 
-export default AuthenticatedDashboard;
+export default Dashboard;

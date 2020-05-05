@@ -12,7 +12,7 @@ import axios from 'axios';
 import Api from 'constants/Api';
 
 axios.defaults.baseURL = Api.baseUrl;
-axios.defaults.timeout = 3000;
+axios.defaults.timeout = Api.timeout;
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
