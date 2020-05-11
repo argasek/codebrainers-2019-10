@@ -1,12 +1,16 @@
 import React from "react";
 import { CustomInput, FormFeedback } from "reactstrap";
+import { FormikApiErrors } from 'components/shared/form/FormikApiErrors';
 
 const PlantasticSelect = React.memo(
-  ({ field, form: { touched, errors }, ...props }) => {
+  ({ field, form, ...props }) => {
+    const error = FormikApiErrors.getError(field.name, form);
+    const invalid = !!error;
+
     return (
       <CustomInput
         type="select"
-        invalid={ !!(touched[field.name] && errors[field.name]) }
+        invalid={ invalid }
         { ...field }
         { ...props }
       >
@@ -16,9 +20,7 @@ const PlantasticSelect = React.memo(
             { item.name }
           </option>
         )) }
-        { touched[field.name] && errors[field.name] && (
-          <FormFeedback>{ errors[field.name] }</FormFeedback>
-        ) }
+        { invalid && <FormFeedback>{ error }</FormFeedback> }
       </CustomInput>
     );
   }

@@ -5,6 +5,7 @@ import Api from 'constants/Api';
 import 'components/authentication/login/LoginPageContainer.scss';
 import LoadingPage from 'pages/loading/LoadingPage';
 import LoginPageContainer from 'components/authentication/login/LoginPageContainer';
+import get from 'lodash-es/get';
 
 const LoginPage = ({ onTokenObtained }) => {
   const isDestroyed = useRef(false);
@@ -12,20 +13,24 @@ const LoginPage = ({ onTokenObtained }) => {
 
   /**
    * @param {Credentials} credentials
+   * @param {function} onSubmitError
    * @return
    */
-  const onSignIn = (credentials) => {
+  const onSignIn = (credentials, onSubmitError) => {
     setLoginInProgress(true);
+    const onSignInErrorFn = (error) => onSignInError(error, onSubmitError);
 
-    axios.post(Api.AUTH_TOKEN, credentials)
+    return axios.post(Api.AUTH_TOKEN, credentials)
       .then(onSignInSuccess)
-      .catch(onSignInError)
+      .catch(onSignInErrorFn)
       .finally(onSignInFinally);
   };
 
-  const onSignInError = (error) => {
-    // TODO: some decent error handling
-    console.warn('TODO: Handle Sign In API errors');
+  const onSignInError = (error, onSubmitError) => {
+    const { response } = error;
+    const apiErrors = get(response, 'data', {});
+    const status = get(response, 'status', 0);
+    onSubmitError(apiErrors, status);
   };
 
   const onSignInFinally = () => {
@@ -46,7 +51,12 @@ const LoginPage = ({ onTokenObtained }) => {
     };
   });
 
-  return loginInProgress ? <LoadingPage /> : <LoginPageContainer onSubmit={ onSignIn } />;
+  return (
+    <React.Fragment>
+      <LoadingPage visible={ loginInProgress } />
+      <LoginPageContainer onSubmit={ onSignIn } visible={ !loginInProgress } />;
+    </React.Fragment>
+  );
 };
 
 LoginPage.propTypes = {

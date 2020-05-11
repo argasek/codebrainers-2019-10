@@ -1,13 +1,27 @@
 import Credentials from 'models/Credentials';
+import { FormikApiErrors } from 'components/shared/form/FormikApiErrors';
 
 class LoginFormFields {
-  static USERNAME = 'username';
-  static PASSWORD = 'password';
+  USERNAME = 'username';
+  PASSWORD = 'password';
 
-  static getInitialValues() {
+  getInitialValues() {
     const credentials = new Credentials();
 
     return credentials;
+  }
+
+  getInitialStatus() {
+    return FormikApiErrors.getInitialStatus();
+  }
+
+  /**
+   *
+   * @param apiErrors
+   * @return {ApiErrors}
+   */
+  getStatusFromApi(apiErrors) {
+    return FormikApiErrors.getStatusFromApi(apiErrors);
   }
 
   /**
@@ -15,12 +29,15 @@ class LoginFormFields {
    * @param {Object} values
    * @returns {Credentials}
    */
-  static toModel(values) {
+  toModel(values) {
     const credentials = new Credentials();
     credentials.username = values.username.trim();
     credentials.password = values.password;
     return credentials;
   }
+
 }
 
-export default LoginFormFields;
+const loginFormFields = new LoginFormFields();
+
+export default loginFormFields;

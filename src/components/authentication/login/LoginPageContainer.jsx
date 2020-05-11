@@ -4,12 +4,17 @@ import LoginForm from './LoginForm';
 import PropTypes from 'prop-types';
 import Logo from 'components/shared/Logo';
 import './LoginPageContainer.scss';
+import classNames from 'classnames';
 
-const LoginPageContainer = React.memo(({ onSubmit }) => {
+const LoginPageContainer = React.memo(({ onSubmit, visible }) => {
+  const className = classNames(
+    'h-100',
+    { 'd-none': !visible }
+  );
   return (
-    <Container className="h-100">
-      <Row className="h-100 align-items-start align-items-md-center justify-content-center ">
-        <Col xs={ { size: 12 } } sm={ { size: 10 } } lg={ { size: 8 } }>
+    <Container className={ className }>
+      <Row className="h-100 align-items-start align-items-md-center">
+        <Col xs={ { size: 12 } } sm={ { size: 10 } } lg={ { size: 8, offset: 2 } }>
           <Card className="login-container">
             <CardHeader>
               Welcome! Please sign in.
