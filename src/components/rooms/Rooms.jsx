@@ -1,9 +1,9 @@
 import React from 'react';
 import axios from 'axios';
-import Api from 'constants/Api';
 import { delay, ROOMS_FETCH_DELAY } from 'shared/Debug';
 import { plainToClass } from 'serializers/Serializer';
 import Room from 'models/Room';
+import { Api } from 'services/Api';
 
 const withRooms = (WrappedComponent) => {
   return class extends React.PureComponent {

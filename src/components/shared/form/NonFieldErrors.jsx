@@ -1,7 +1,7 @@
 import { connect, getIn } from 'formik';
-import { API_ERRORS, API_NON_FIELD_ERRORS } from 'components/shared/form/FormikApiErrors';
 import { Alert } from 'reactstrap';
 import React from 'react';
+import { API_ERRORS, API_NON_FIELD_ERRORS } from 'services/Api';
 
 const NonFieldError = ({ error, isNotLastError }) => (
   <>

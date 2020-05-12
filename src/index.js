@@ -9,7 +9,7 @@ import './index.scss';
 import App from 'App';
 import * as serviceWorker from './serviceWorker';
 import axios from 'axios';
-import Api from 'constants/Api';
+import { Api } from 'services/Api';
 
 axios.defaults.baseURL = Api.baseUrl;
 axios.defaults.timeout = Api.timeout;

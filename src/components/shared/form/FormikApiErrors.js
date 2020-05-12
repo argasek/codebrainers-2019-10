@@ -1,16 +1,15 @@
 import { getIn } from 'formik';
 import HttpStatus from 'http-status-codes';
+import { API_ERRORS, API_NON_FIELD_ERRORS, ApiErrors, ApiErrorTypes } from 'services/Api';
 
-const API_ERRORS = 'apiErrors';
-const API_NON_FIELD_ERRORS = 'non_field_errors';
+/**
+ *
+ * @param {ApiErrorStatus} status
+ * @return {string}
+ */
+const getErrorMessageFromStatus = function (status) {
+  const httpStatusCode = status.code;
 
-class ApiErrors {
-  constructor(apiErrors = {}) {
-    this[API_ERRORS] = apiErrors;
-  }
-}
-
-const getErrorMessageForHttpStatusCode = function (httpStatusCode) {
   switch (httpStatusCode) {
     case HttpStatus.IM_A_TEAPOT:
       return 'Unable to connect, network is offline';
@@ -44,12 +43,18 @@ class FormikApiErrors {
     return new ApiErrors();
   };
 
-  static getStatusFromApi = function (apiErrors, httpStatusCode) {
-    if (httpStatusCode === HttpStatus.BAD_REQUEST) {
+  /**
+   *
+   * @param {object} apiErrors
+   * @param {ApiErrorStatus} status
+   * @return {ApiErrors}
+   */
+  static getStatusFromApi = function (apiErrors, status) {
+    if (status.type === ApiErrorTypes.SERVER && status.code === HttpStatus.BAD_REQUEST) {
       return new ApiErrors(apiErrors);
     }
 
-    const customErrorMessage = getErrorMessageForHttpStatusCode(httpStatusCode);
+    const customErrorMessage = getErrorMessageFromStatus(status);
     const customErrors = {
       [API_NON_FIELD_ERRORS]: [ customErrorMessage ]
     };
@@ -60,8 +65,5 @@ class FormikApiErrors {
 }
 
 export {
-  API_ERRORS,
-  API_NON_FIELD_ERRORS,
-  ApiErrors,
   FormikApiErrors,
 };

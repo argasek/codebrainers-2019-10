@@ -6,13 +6,14 @@ import loginFormFields from 'components/authentication/constants/LoginFormFields
 import LoginFormUsername from 'components/authentication/login/fields/LoginFormUsername';
 import LoginFormPassword from 'components/authentication/login/fields/LoginFormPassword';
 import NonFieldErrors from 'components/shared/form/NonFieldErrors';
-import { ApiErrors } from 'components/shared/form/FormikApiErrors';
 
 const LoginForm = (props) => {
   const formFields = loginFormFields;
 
   const initialValues = formFields.getInitialValues();
   const initialStatus = formFields.getInitialStatus();
+  const validationSchema = formFields.getValidationSchema();
+  const validateOnMount = formFields.getValidateOnMount();
 
   /**
    *
@@ -38,8 +39,16 @@ const LoginForm = (props) => {
     return props.onSubmit(credentials, onSubmitApiErrors);
   };
 
+  const formikProps = {
+    initialValues,
+    initialStatus,
+    validateOnMount,
+    onSubmit,
+    validationSchema,
+  };
+
   return (
-    <Formik initialValues={ initialValues } initialStatus={ initialStatus } onSubmit={ onSubmit }>
+    <Formik { ...formikProps }>
       { ({ isValid }) => (
         <Form className="login-form">
           <NonFieldErrors label={ 'Unable to login' } />

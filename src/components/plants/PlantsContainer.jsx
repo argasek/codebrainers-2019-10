@@ -5,7 +5,6 @@ import InProgress from 'components/shared/InProgress';
 import Plants from "components/plants/Plants";
 import { delay, PLANTS_FETCH_DELAY } from "shared/Debug";
 import OperationFailed from 'components/shared/OperationFailed';
-import Api from 'constants/Api';
 import Plant from 'models/Plant';
 import { plainToClass } from 'serializers/Serializer';
 import withCategories from 'components/categories/Categories';
@@ -13,6 +12,7 @@ import withRooms from 'components/rooms/Rooms';
 import { withRoomsPropTypes } from 'proptypes/RoomsPropTypes';
 import { withCategoriesPropTypes } from 'proptypes/CategoriesPropTypes';
 import PlantCreate from 'components/plants/PlantCreate';
+import { Api } from 'services/Api';
 
 class PlantsContainer extends React.PureComponent {
   constructor(props) {

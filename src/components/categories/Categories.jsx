@@ -1,9 +1,9 @@
 import React from 'react';
 import axios from 'axios';
-import Api from 'constants/Api';
 import { CATEGORIES_FETCH_DELAY, delay } from 'shared/Debug';
 import { plainToClass } from 'serializers/Serializer';
 import Category from 'models/Category';
+import { Api } from 'services/Api';
 
 const withCategories = (WrappedComponent) => {
   return class extends React.PureComponent {
