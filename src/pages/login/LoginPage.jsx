@@ -6,6 +6,7 @@ import 'components/authentication/login/LoginPageContainer.scss';
 import LoadingPage from 'pages/loading/LoadingPage';
 import LoginPageContainer from 'components/authentication/login/LoginPageContainer';
 import get from 'lodash-es/get';
+import HttpStatus from 'http-status-codes';
 
 const LoginPage = ({ onTokenObtained }) => {
   const isDestroyed = useRef(false);
@@ -18,6 +19,7 @@ const LoginPage = ({ onTokenObtained }) => {
    */
   const onSignIn = (credentials, onSubmitError) => {
     setLoginInProgress(true);
+
     const onSignInErrorFn = (error) => onSignInError(error, onSubmitError);
 
     return axios.post(Api.AUTH_TOKEN, credentials)
@@ -29,7 +31,7 @@ const LoginPage = ({ onTokenObtained }) => {
   const onSignInError = (error, onSubmitError) => {
     const { response } = error;
     const apiErrors = get(response, 'data', {});
-    const status = get(response, 'status', 0);
+    const status = get(response, 'status', HttpStatus.IM_A_TEAPOT);
     onSubmitError(apiErrors, status);
   };
 

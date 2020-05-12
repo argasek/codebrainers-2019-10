@@ -1,5 +1,5 @@
 import Credentials from 'models/Credentials';
-import { FormikApiErrors } from 'components/shared/form/FormikApiErrors';
+import { ApiErrors, FormikApiErrors } from 'components/shared/form/FormikApiErrors';
 
 class LoginFormFields {
   USERNAME = 'username';
@@ -17,11 +17,12 @@ class LoginFormFields {
 
   /**
    *
-   * @param apiErrors
+   * @param {object} apiErrors
+   * @param {number} httpStatusCode
    * @return {ApiErrors}
    */
-  getStatusFromApi(apiErrors) {
-    return FormikApiErrors.getStatusFromApi(apiErrors);
+  getStatusFromApi(apiErrors, httpStatusCode) {
+    return FormikApiErrors.getStatusFromApi(apiErrors, httpStatusCode);
   }
 
   /**
