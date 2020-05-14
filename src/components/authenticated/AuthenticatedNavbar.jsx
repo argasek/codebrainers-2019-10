@@ -42,10 +42,11 @@ class AuthenticatedNavbar extends React.PureComponent {
             {
               navbarItems.map((navbarItem) =>
                 <AuthenticatedNavbarItem
-                  path={ navbarItem.path }
+                  exact={ navbarItem.exact }
                   icon={ navbarItem.icon }
-                  name={ navbarItem.name }
                   key={ navbarItem.path }
+                  name={ navbarItem.name }
+                  path={ navbarItem.path }
                 />
               )
             }

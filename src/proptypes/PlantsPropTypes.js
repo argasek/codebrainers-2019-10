@@ -1,27 +1,28 @@
 import PropTypes from 'prop-types';
-import moment from 'moment-es6';
+import Plant from 'models/Plant';
+import { categoriesPropType } from 'proptypes/CategoriesPropTypes';
+import { roomsPropType } from 'proptypes/RoomsPropTypes';
 
-const plantPropTypes = PropTypes.shape({
-  blooming: PropTypes.bool.isRequired,
-  category: PropTypes.number.isRequired,
-  categorySlug: PropTypes.string.isRequired,
-  difficulty: PropTypes.number.isRequired,
-  fertilizingInterval: PropTypes.number.isRequired,
-  id: PropTypes.number.isRequired,
-  lastFertilized: PropTypes.instanceOf(moment),
-  lastWatered: PropTypes.instanceOf(moment),
-  name: PropTypes.string.isRequired,
-  requiredExposure: PropTypes.string.isRequired,
-  requiredHumidity: PropTypes.string.isRequired,
-  requiredTemperature: PropTypes.string.isRequired,
-  room: PropTypes.number,
-  url: PropTypes.string.isRequired,
-  wateringInterval: PropTypes.number.isRequired,
-});
+const plantPropType = PropTypes.instanceOf(Plant).isRequired;
+const plantsPropType = PropTypes.arrayOf(plantPropType).isRequired;
 
-const plantsPropTypes = PropTypes.arrayOf(plantPropTypes).isRequired;
+const plantPropTypes = {
+  categories: categoriesPropType,
+  onEdit: PropTypes.func.isRequired,
+  plant: plantPropType,
+  rooms: roomsPropType,
+};
+
+const plantsPropTypes = {
+  categories: categoriesPropType,
+  onEdit: PropTypes.func.isRequired,
+  plants: plantsPropType,
+  rooms: roomsPropType,
+};
 
 export {
+  plantPropType,
   plantPropTypes,
+  plantsPropType,
   plantsPropTypes,
 };

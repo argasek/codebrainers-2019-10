@@ -1,14 +1,12 @@
 import PropTypes from 'prop-types';
+import Category from 'models/Category';
 
-const categoryPropType = PropTypes.shape({
-  id: PropTypes.number.isRequired,
-  name: PropTypes.string.isRequired,
-});
+const categoryPropType = PropTypes.instanceOf(Category).isRequired;
 
-const categoriesPropTypes = PropTypes.arrayOf(categoryPropType).isRequired;
+const categoriesPropType = PropTypes.arrayOf(categoryPropType).isRequired;
 
 const withCategoriesPropTypes = {
-  categories: categoriesPropTypes,
+  categories: categoriesPropType,
   categoriesErrorMessage: PropTypes.string.isRequired,
   categoriesInProgress: PropTypes.bool.isRequired,
   categoriesSuccess: PropTypes.bool,
@@ -17,6 +15,6 @@ const withCategoriesPropTypes = {
 
 export {
   categoryPropType,
-  categoriesPropTypes,
+  categoriesPropType,
   withCategoriesPropTypes,
 };

@@ -1,5 +1,4 @@
 import Plant from 'models/Plant';
-import { classToPlain } from 'serializers/Serializer';
 import pick from 'lodash-es/pick';
 import moment from 'moment';
 import {
@@ -10,6 +9,7 @@ import {
 } from 'constants/PlantConstants';
 
 class PlantFormFields {
+  static ID = 'id';
   static BLOOMING = 'blooming';
   static CATEGORY = 'category';
   static DIFFICULTY = 'difficulty';
@@ -23,14 +23,18 @@ class PlantFormFields {
   static ROOM = 'room';
   static WATERING_INTERVAL = 'wateringInterval';
 
-  static getInitialValues() {
+  /**
+   *
+   * @param {Plant} plant
+   * @return {*}
+   */
+  static getInitialValues(plant) {
     const firstOf = (arr) => arr[0].id;
 
-    const fields = classToPlain(new Plant(), false);
     const fieldNames = Object.values(PlantFormFields);
-    const initialValues = pick(fields, fieldNames);
+    const initialValues = pick(plant, fieldNames);
 
-    return Object.assign(initialValues, {
+    return plant.id ? initialValues : Object.assign(initialValues, {
       [PlantFormFields.LAST_FERTILIZED]: moment(),
       [PlantFormFields.LAST_WATERED]: moment(),
       [PlantFormFields.REQUIRED_EXPOSURE]: firstOf(plantExposureOptions),

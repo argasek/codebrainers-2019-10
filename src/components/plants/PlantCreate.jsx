@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import PlantForm from './plant-form/PlantForm';
 import { Card, CardBody, CardHeader } from 'reactstrap';
+import { plantCreatePropTypes } from 'proptypes/PlantFormPropTypes';
+import PlantFormFields from 'components/plants/plant-form/constants/PlantFormFields';
 
 const PlantCreate = (props) => {
-  const [ plantName, setPlantName ] = useState('');
+  const [ plantName, setPlantName ] = useState(props.initialValues[PlantFormFields.NAME]);
+  console.log('COMP: PlantCreate');
   return (
     <Card className="mb-4" color="light">
       <CardHeader>
@@ -20,6 +23,6 @@ const PlantCreate = (props) => {
   );
 };
 
-PlantCreate.propTypes = {};
+PlantCreate.propTypes = plantCreatePropTypes;
 
 export default PlantCreate;
