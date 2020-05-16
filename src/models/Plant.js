@@ -1,5 +1,6 @@
-import { JsonConverter, JsonObject, JsonProperty, JsonType } from 'ta-json';
+import { JsonConverter, JsonObject, JsonProperty, JsonType, OnDeserialized } from 'ta-json';
 import MomentSerializer from 'serializers/MomentSerializer';
+import { v1 as uuidv1 } from 'uuid';
 
 @JsonObject()
 class Plant {
@@ -64,6 +65,16 @@ class Plant {
   @JsonType(Number)
   @JsonProperty()
   wateringInterval = 0;
+
+  constructor() {
+    this.uuidRegenerate();
+  }
+
+  @OnDeserialized()
+  uuidRegenerate() {
+    this.uuid = uuidv1();
+  }
+
 }
 
 export default Plant;

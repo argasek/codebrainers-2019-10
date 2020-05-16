@@ -1,15 +1,19 @@
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import AuthenticatedNavbar from "components/authenticated/AuthenticatedNavbar";
-import AuthenticatedContainer from "components/authenticated/AuthenticatedContainer";
+import AuthenticatedNavbar from 'components/authenticated/AuthenticatedNavbar';
+import AuthenticatedContainer from 'components/authenticated/AuthenticatedContainer';
 import AuthenticatedFooter from 'components/authenticated/AuthenticatedFooter';
 import PropTypes from 'prop-types';
+import { ToastProvider } from 'react-toast-notifications';
+import { Notifications } from 'services/Notifications';
 
 const AuthenticatedPage = ({ onLogout }) => (
   <Router>
-    <AuthenticatedNavbar onLogout={ onLogout } />
-    <AuthenticatedContainer />
-    <AuthenticatedFooter />
+    <ToastProvider autoDismiss={ Notifications.toastAutoDismiss }>
+      <AuthenticatedNavbar onLogout={ onLogout } />
+      <AuthenticatedContainer />
+      <AuthenticatedFooter />
+    </ToastProvider>
   </Router>
 );
 

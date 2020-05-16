@@ -16,6 +16,9 @@ import PlantList from 'components/plants/PlantList';
 import memoize from 'lodash-es/memoize';
 import compose from 'compose-function';
 import withPlant from 'components/plants/api/WithPlant';
+import { withToastManager } from 'react-toast-notifications';
+import ToastContent from 'components/shared/ToastContent';
+import update from 'immutability-helper';
 
 class PlantsPage extends React.PureComponent {
   state = {
@@ -130,13 +133,31 @@ class PlantsPage extends React.PureComponent {
    * @param {Plant} plant
    */
   onSubmitPlantUpdate = (plant) => {
+    const updatePlantList = (response) => {
+      const { data } = response;
+      const plant = plainToClass(Plant, data);
+      const plantIndex = this.state.plants.findIndex((item) => item.id === plant.id);
+      const plants = update(this.state.plants, { [plantIndex]: { $set: plant } });
+      this.setState({ plants });
+    };
+
     const navigateToPlantList = () => {
       this.props.history.push(Routes.PLANTS);
     };
 
+    const onSubmitPlantUpdateError = (error) => {
+      // TODO: improve error handling
+      // const api = new Api();
+      // const { errors, status } = api.getErrorsFromApi(error);
+      const title = 'Updating of plant failed';
+      const message = error.message;
+      this.props.toastManager.add(<ToastContent title={ title }>{ message }</ToastContent>, { appearance: 'error' });
+    };
+
     const promise = this.props.updatePlant(plant)
-      .then((response) => console.log(response))
-      .then(navigateToPlantList);
+      .then(updatePlantList)
+      .then(navigateToPlantList)
+      .catch(onSubmitPlantUpdateError);
 
     return promise;
   };
@@ -225,4 +246,5 @@ export default compose(
   withCategories,
   withRouter,
   withPlant,
+  withToastManager,
 )(PlantsPage);

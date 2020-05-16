@@ -1,28 +1,33 @@
 import React from "react";
-import { Button, FormGroup } from "reactstrap";
+import { Col, Row } from "reactstrap";
 import PropTypes from 'prop-types';
+import PlantFormCancelButton from 'components/plants/plant-form/buttons/PlantFormCancelButton';
+import PlantFormSubmitButton from 'components/plants/plant-form/buttons/PlantFormSubmitButton';
+import PlantFormResetButton from 'components/plants/plant-form/buttons/PlantFormResetButton';
 
 /**
  * @component
  */
-const PlantFormButtons = ({ cancelLabel, submitDisabled, submitLabel }) => {
+const PlantFormButtons = ({ cancelLabel, resetLabel, submitDisabled, submitLabel }) => {
   return (
     <React.Fragment>
       <hr className="mb-4 mt-4" />
-      <FormGroup className="mb-2">
-        <Button color="primary" type="submit" disabled={ submitDisabled }>
-          { submitLabel }
-        </Button>
-        <Button color="secondary" type="reset" className="ml-0 ml-md-2">
-          { cancelLabel }
-        </Button>
-      </FormGroup>
+      <Row form className="mb-2">
+        <Col xs={ 6 }>
+          <PlantFormCancelButton label={ cancelLabel } />
+        </Col>
+        <Col xs={ 6 } className="mb-0 d-flex flex-row-reverse">
+          <PlantFormSubmitButton disabled={ submitDisabled } label={ submitLabel } />
+          <PlantFormResetButton label={ resetLabel } />
+        </Col>
+      </Row>
     </React.Fragment>
   );
 };
 
 PlantFormButtons.propTypes = {
   cancelLabel: PropTypes.string.isRequired,
+  resetLabel: PropTypes.string.isRequired,
   submitLabel: PropTypes.string.isRequired,
   submitDisabled: PropTypes.bool.isRequired,
 };

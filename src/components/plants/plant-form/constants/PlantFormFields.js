@@ -25,6 +25,7 @@ class PlantFormFields {
   static REQUIRED_TEMPERATURE = 'requiredTemperature';
   static ROOM = 'room';
   static URL = 'url';
+  static UUID = 'uuid';
   static WATERING_INTERVAL = 'wateringInterval';
 
   /**
@@ -67,7 +68,8 @@ class PlantFormFields {
       [ PlantFormFields.REQUIRED_HUMIDITY ],
       [ PlantFormFields.REQUIRED_TEMPERATURE ],
       [ PlantFormFields.ROOM ],
-      [ PlantFormFields.URL ], // Not really, as a derivative
+      [ PlantFormFields.URL ], // Not really, as a derivative of ID
+      [ PlantFormFields.UUID ],
       [ PlantFormFields.WATERING_INTERVAL ],
     ];
 

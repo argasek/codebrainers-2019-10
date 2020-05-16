@@ -23,6 +23,7 @@
     "core-js": "^3.6.5",
     "formik": "^2.1.4",
     "http-status-codes": "^1.4.0",
+    "immutability-helper": "^3.0.2",
     "lodash-es": "^4.17.15",
     "memoize-one": "^5.1.1",
     "moment": "^2.24.0",
@@ -35,10 +36,12 @@
     "react-easy-emoji": "^1.4.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
+    "react-toast-notifications": "^2.4.0",
     "reactstrap": "^8.4.1",
     "singleton-decorator": "^0.2.2",
     "snakecase-keys": "^3.2.0",
     "ta-json": "^2.5.0",
+    "uuid": "^8.0.0",
     "yup": "^0.28.4"
   },
   "scripts": {

@@ -1,3 +1,9 @@
+@import "styles/variables-pre-custom";
+
 html, body {
   height: 100%;
+}
+
+.toast-content {
+  font-size: $font-size-base;
 }

@@ -17,7 +17,7 @@ const PlantForm = (props) => {
 
   const onSubmit = (values) => {
     const plant = PlantFormFields.toModel(values);
-    props.onSubmit(plant);
+    return props.onSubmit(plant);
   };
 
   const {
@@ -26,7 +26,7 @@ const PlantForm = (props) => {
     rooms,
   } = props;
 
-  const key = initialValues.id;
+  const key = initialValues.uuid;
 
   const formikProps = {
     key,
@@ -36,7 +36,7 @@ const PlantForm = (props) => {
 
   return (
     <Formik { ...formikProps }>
-      { ({ isValid }) => (
+      { ({ isValid, isSubmitting }) => (
         <Form className="plant-form">
           <Effect onChange={ onChange } />
           <PlantFormInformation
@@ -46,8 +46,9 @@ const PlantForm = (props) => {
           <PlantFormCultivation />
           <PlantFormMaintenance />
           <PlantFormButtons
-            cancelLabel="Cancel"
-            submitDisabled={ !isValid }
+            cancelLabel="Back to the list"
+            resetLabel="Reset"
+            submitDisabled={ !isValid || isSubmitting }
             submitLabel={ key ? 'Save changes' : 'Create new plant' }
           />
         </Form>
@@ -59,4 +60,4 @@ const PlantForm = (props) => {
 
 PlantForm.propTypes = plantFormPropTypes;
 
-export default React.memo(PlantForm);
+export default PlantForm;

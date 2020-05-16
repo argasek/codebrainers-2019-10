@@ -1,5 +1,5 @@
 import React from "react";
-import { FormText, Label } from "reactstrap";
+import { FormGroup, FormText, Label } from "reactstrap";
 import { Field } from "formik";
 import PlantasticInput from 'components/shared/form/PlantasticInput';
 import PlantFormFields from 'components/plants/plant-form/constants/PlantFormFields';
@@ -7,7 +7,7 @@ import PlantFormFields from 'components/plants/plant-form/constants/PlantFormFie
 const PlantFormFertilizingInterval = (props) => {
   const plantFertilizingIntervalId = "plantFertilizingInterval";
   return (
-    <React.Fragment>
+    <FormGroup>
       <Label for={ plantFertilizingIntervalId }>Fertilizing interval:</Label>
       <Field
         component={ PlantasticInput }
@@ -19,7 +19,7 @@ const PlantFormFertilizingInterval = (props) => {
       <FormText color="muted">
         Number of days
       </FormText>
-    </React.Fragment>
+    </FormGroup>
   );
 };
 
