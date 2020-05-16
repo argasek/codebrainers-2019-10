@@ -20,6 +20,7 @@ const plantFormInitialValuesPropTypes = PropTypes.shape({
 const plantFormPropTypesBase = {
   initialValues: plantFormInitialValuesPropTypes,
   onSubmit: PropTypes.func.isRequired,
+  formLabel: PropTypes.string.isRequired,
 };
 
 const plantFormPropTypes = {

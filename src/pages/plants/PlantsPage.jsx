@@ -172,14 +172,16 @@ class PlantsPage extends React.PureComponent {
         </Route>
         <Route path={ Routes.PLANTS_CREATE }>
           <PlantCreate
-            onSubmit={ this.onSubmitPlantCreate }
+            formLabel="Create plant"
             initialValues={ initialValues }
+            onSubmit={ this.onSubmitPlantCreate }
           />
         </Route>
         <Route path={ Routes.PLANTS_EDIT }>
           <PlantCreate
-            onSubmit={ this.onSubmitPlantUpdate }
+            formLabel="Edit plant"
             initialValues={ initialValues }
+            onSubmit={ this.onSubmitPlantUpdate }
           />
         </Route>
       </Switch>
