@@ -44,6 +44,53 @@ class PlantFormFields {
     });
   }
 
+  static getDateAsYMD(value) {
+    return moment.isMoment(value) ? value.format('YYYY-MM-DD') : '';
+  }
+
+  static areValuesEqual(prevValues, nextValues) {
+    const prev = prevValues || {};
+    const next = nextValues || {};
+
+    const simpleTypeFields = [
+      [ PlantFormFields.ID ],
+      [ PlantFormFields.BLOOMING ],
+      [ PlantFormFields.CATEGORY ],
+      [ PlantFormFields.DIFFICULTY ],
+      [ PlantFormFields.FERTILIZING_INTERVAL ],
+      [ PlantFormFields.NAME ],
+      [ PlantFormFields.REQUIRED_EXPOSURE ],
+      [ PlantFormFields.REQUIRED_HUMIDITY ],
+      [ PlantFormFields.REQUIRED_TEMPERATURE ],
+      [ PlantFormFields.ROOM ],
+      [ PlantFormFields.WATERING_INTERVAL ],
+    ];
+
+    const simpleTypeDiff = (key) => prev[key] !== next[key];
+
+    if (simpleTypeFields.some(simpleTypeDiff)) {
+      return false;
+    }
+
+    const dateTimeFields = [
+      [ PlantFormFields.LAST_FERTILIZED ],
+      [ PlantFormFields.LAST_WATERED ],
+    ];
+
+    const dateDiff = (key) => {
+      const firstDateTime = prev[key];
+      const secondDateTime = next[key];
+      const asYmd = PlantFormFields.getDateAsYMD;
+      return asYmd(firstDateTime) !== asYmd(secondDateTime);
+    };
+
+    if (dateTimeFields.some(dateDiff)) {
+      return false;
+    }
+
+    return true;
+  }
+
   /**
    *
    * @param {Object} values

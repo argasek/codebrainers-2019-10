@@ -27,4 +27,4 @@ const PlantFormInformation = (props) => {
 
 PlantFormInformation.propTypes = {};
 
-export default PlantFormInformation;
+export default React.memo(PlantFormInformation);

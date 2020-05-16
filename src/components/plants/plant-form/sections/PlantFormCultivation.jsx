@@ -30,4 +30,4 @@ const PlantFormCultivation = () => {
 
 PlantFormCultivation.propTypes = {};
 
-export default PlantFormCultivation;
+export default React.memo(PlantFormCultivation);

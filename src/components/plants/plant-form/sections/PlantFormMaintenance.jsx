@@ -31,4 +31,4 @@ const PlantFormMaintenance = () => {
 
 PlantFormMaintenance.propTypes = {};
 
-export default PlantFormMaintenance;
+export default React.memo(PlantFormMaintenance);

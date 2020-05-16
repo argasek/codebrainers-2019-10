@@ -56,4 +56,4 @@ const PlantList = ({ plants, plantsErrorMessage, plantsInProgress, plantsSuccess
 
 PlantList.propTypes = plantListPropTypes;
 
-export default PlantList;
+export default React.memo(PlantList);

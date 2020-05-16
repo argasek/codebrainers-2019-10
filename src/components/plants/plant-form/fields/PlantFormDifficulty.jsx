@@ -23,11 +23,11 @@ const plantDifficultyOption = (item) => (
 
 const getDescription = (value) => plantDifficultyOptions.find(item => item.value === value).description;
 
-const PlantFormDifficultyDescription = ({ field }) => (
+const PlantFormDifficultyDescription = React.memo(({ field }) => (
   <FormText color="muted">
     { getDescription(field.value) + '.' }
   </FormText>
-);
+));
 
 const PlantFormDifficulty = (props) => (
   <FormGroup tag="fieldset">
@@ -44,4 +44,4 @@ const PlantFormDifficulty = (props) => (
 
 PlantFormDifficulty.propTypes = {};
 
-export default PlantFormDifficulty;
+export default React.memo(PlantFormDifficulty);

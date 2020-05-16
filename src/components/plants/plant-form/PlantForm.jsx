@@ -22,10 +22,10 @@ const PlantForm = (props) => {
 
   const { initialValues } = props;
 
-  const enableReinitialize = true;
+  const key = initialValues.id;
 
   const formikProps = {
-    enableReinitialize,
+    key,
     initialValues,
     onSubmit,
   };
@@ -50,4 +50,4 @@ const PlantForm = (props) => {
 
 PlantForm.propTypes = plantFormPropTypes;
 
-export default PlantForm;
+export default React.memo(PlantForm);

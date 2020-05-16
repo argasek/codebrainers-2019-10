@@ -13,21 +13,15 @@ import PlantFormFields from 'components/plants/plant-form/constants/PlantFormFie
 import { generatePath, matchPath, Route, Switch, withRouter } from 'react-router-dom';
 import Routes from 'constants/Routes';
 import PlantList from 'components/plants/PlantList';
+import memoize from 'lodash-es/memoize';
 
 class PlantsPage extends React.PureComponent {
-  constructor(props) {
-    super(props);
-
-    const initialValues = PlantFormFields.getInitialValues(new Plant());
-
-    this.state = {
-      initialValues,
-      plants: [],
-      plantsErrorMessage: undefined,
-      plantsSuccess: undefined,
-      plantsInProgress: false,
-    };
-  }
+  state = {
+    plants: [],
+    plantsErrorMessage: undefined,
+    plantsSuccess: undefined,
+    plantsInProgress: false,
+  };
 
   componentDidMount() {
     const roomsPromise = this.props.fetchRooms();
@@ -68,17 +62,19 @@ class PlantsPage extends React.PureComponent {
     const editPath = matchPath(pathname, { ...options, path: Routes.PLANTS_EDIT });
     const createPath = matchPath(pathname, { ...options, path: Routes.PLANTS_CREATE });
 
+    const getInitialValues = memoize(PlantFormFields.getInitialValues);
+
     if (editPath !== null) {
       const plantId = +editPath.params.plantId;
       const plants = this.state.plants;
       const plant = plants.find((item) => item.id === plantId);
-      const initialValues = PlantFormFields.getInitialValues(plant);
+      const initialValues = getInitialValues(plant);
       this.setState({ initialValues });
     }
 
     if (createPath !== null) {
       const plant = new Plant();
-      const initialValues = PlantFormFields.getInitialValues(plant);
+      const initialValues = getInitialValues(plant);
       this.setState({ initialValues });
     }
 
@@ -128,9 +124,16 @@ class PlantsPage extends React.PureComponent {
     // this.setState({ plants });
   };
 
+  /**
+   * @param {Plant} plant
+   */
   onSubmitPlantUpdate = (plant) => {
     console.warn('Edited plant:');
     console.log(plant);
+  };
+
+  onSubmit = (plant, routeProps) => {
+    debugger;
   };
 
   onEdit = (plantId) => {
@@ -158,32 +161,42 @@ class PlantsPage extends React.PureComponent {
 
     return (
       <Switch>
-        <Route exact path={ Routes.PLANTS }>
-          <PlantList
-            categories={ categories }
-            onEdit={ this.onEdit }
-            plants={ plants }
-            plantsErrorMessage={ plantsErrorMessage }
-            plantsInProgress={ plantsInProgress }
-            plantsSuccess={ plantsSuccess }
-            rooms={ rooms }
-            success={ success }
-          />
-        </Route>
-        <Route path={ Routes.PLANTS_CREATE }>
-          <PlantCreate
-            formLabel="Create plant"
-            initialValues={ initialValues }
-            onSubmit={ this.onSubmitPlantCreate }
-          />
-        </Route>
-        <Route path={ Routes.PLANTS_EDIT }>
-          <PlantCreate
-            formLabel="Edit plant"
-            initialValues={ initialValues }
-            onSubmit={ this.onSubmitPlantUpdate }
-          />
-        </Route>
+        <Route
+          exact
+          path={ Routes.PLANTS }
+          render={ () =>
+            <PlantList
+              categories={ categories }
+              onEdit={ this.onEdit }
+              plants={ plants }
+              plantsErrorMessage={ plantsErrorMessage }
+              plantsInProgress={ plantsInProgress }
+              plantsSuccess={ plantsSuccess }
+              rooms={ rooms }
+              success={ success }
+            />
+          }
+        />
+        <Route
+          path={ [ Routes.PLANTS_CREATE ] }
+          render={ () => (
+            <PlantCreate
+              formLabel="Create plant"
+              initialValues={ initialValues }
+              onSubmit={ this.onSubmitPlantCreate }
+            />
+          ) }
+        />
+        <Route
+          path={ Routes.PLANTS_EDIT }
+          render={ () => (
+            <PlantCreate
+              formLabel="Edit plant"
+              initialValues={ initialValues }
+              onSubmit={ this.onSubmitPlantUpdate }
+            />
+          ) }
+        />
       </Switch>
     );
   }
