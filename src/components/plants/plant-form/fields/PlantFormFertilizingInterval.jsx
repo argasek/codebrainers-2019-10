@@ -1,24 +1,23 @@
 import React from "react";
-import { FormGroup, FormText, Label } from "reactstrap";
+import { FormGroup, Label } from "reactstrap";
 import { Field } from "formik";
 import PlantasticInput from 'components/shared/form/PlantasticInput';
 import PlantFormFields from 'components/plants/plant-form/constants/PlantFormFields';
+import PlantFormTextInDays from 'components/plants/plant-form/shared/PlantFormTextInDays';
 
 const PlantFormFertilizingInterval = (props) => {
-  const plantFertilizingIntervalId = "plantFertilizingInterval";
+  const id = "plantFertilizingInterval";
   return (
     <FormGroup>
-      <Label for={ plantFertilizingIntervalId }>Fertilizing interval:</Label>
+      <Label for={ id } className="required">Fertilizing interval:</Label>
       <Field
         component={ PlantasticInput }
-        id={ plantFertilizingIntervalId }
+        id={ id }
         name={ PlantFormFields.FERTILIZING_INTERVAL }
         placeholder="1"
         type="number"
       />
-      <FormText color="muted">
-        Number of days
-      </FormText>
+      <PlantFormTextInDays />
     </FormGroup>
   );
 };

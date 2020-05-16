@@ -8,20 +8,22 @@ const PlantasticSelect = React.memo(
     const invalid = !!error;
 
     return (
-      <CustomInput
-        type="select"
-        invalid={ invalid }
-        { ...field }
-        { ...props }
-      >
-        { props.children }
-        { props.items.map((item) => (
-          <option value={ item.id } key={ item.id }>
-            { item.name }
-          </option>
-        )) }
+      <React.Fragment>
+        <CustomInput
+          type="select"
+          invalid={ invalid }
+          { ...field }
+          { ...props }
+        >
+          { props.children }
+          { props.items.map((item) => (
+            <option value={ item.id } key={ item.id }>
+              { item.name }
+            </option>
+          )) }
+        </CustomInput>
         { invalid && <FormFeedback>{ error }</FormFeedback> }
-      </CustomInput>
+      </React.Fragment>
     );
   }
 );

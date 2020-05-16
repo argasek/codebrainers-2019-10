@@ -2,12 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSave } from '@fortawesome/free-solid-svg-icons';
+import { faCircleNotch, faSave } from '@fortawesome/free-solid-svg-icons';
 
-const PlantFormSubmitButton = ({ label, disabled }) => {
+const PlantFormSubmitButton = ({ disabled, isSubmitting, label }) => {
+  const icon = isSubmitting ? faCircleNotch : faSave;
   return (
     <Button color="primary" type="submit" disabled={ disabled }>
-      <FontAwesomeIcon icon={ faSave } className="mr-2" />
+      <FontAwesomeIcon icon={ icon } className="mr-2" spin={ isSubmitting } />
       <span className="font-weight-semibold">{ label }</span>
     </Button>
   );
@@ -15,6 +16,7 @@ const PlantFormSubmitButton = ({ label, disabled }) => {
 
 PlantFormSubmitButton.propTypes = {
   disabled: PropTypes.bool.isRequired,
+  isSubmitting: PropTypes.bool.isRequired,
   label: PropTypes.string.isRequired,
 };
 

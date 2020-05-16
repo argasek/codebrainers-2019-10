@@ -1,10 +1,12 @@
 import React from 'react';
-import { FormGroup, Label } from 'reactstrap';
+import { FormGroup, FormText, Label } from 'reactstrap';
 import { Field } from 'formik';
 import PlantasticSelect from 'components/shared/form/PlantasticSelect';
 import PlantFormFields from 'components/plants/plant-form/constants/PlantFormFields';
 import { roomsPropType } from 'proptypes/RoomsPropTypes';
 import OptionPleaseSelect from 'components/shared/form/OptionPleaseSelect';
+import { Link } from 'react-router-dom';
+import Routes from 'constants/Routes';
 
 const PlantFormRoom = ({ rooms }) => {
   const id = 'plantRoom';
@@ -20,6 +22,9 @@ const PlantFormRoom = ({ rooms }) => {
       >
         <OptionPleaseSelect />
       </Field>
+      <FormText>
+        No room on the list? <Link to={ Routes.ROOMS } target="_blank">Create room…</Link>
+      </FormText>
     </FormGroup>
   );
 };

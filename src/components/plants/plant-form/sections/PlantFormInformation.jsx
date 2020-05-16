@@ -12,7 +12,7 @@ import { plantFormInformationPropTypes } from 'proptypes/PlantFormPropTypes';
 const PlantFormInformation = ({ categories, rooms }) => {
   return (
     <PlantFormSection>
-      <PlantFormSectionHeader>Basic information</PlantFormSectionHeader>
+      <PlantFormSectionHeader>General information</PlantFormSectionHeader>
       <Row>
         <Col xs={ 12 } lg={ 4 }>
           <PlantFormName />

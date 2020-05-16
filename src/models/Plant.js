@@ -1,4 +1,4 @@
-import { JsonConverter, JsonObject, JsonProperty, JsonType, OnDeserialized } from 'ta-json';
+import { JsonConverter, JsonObject, JsonProperty, JsonType, JsonWriteonly, OnDeserialized } from 'ta-json';
 import MomentSerializer from 'serializers/MomentSerializer';
 import { v1 as uuidv1 } from 'uuid';
 
@@ -14,6 +14,7 @@ class Plant {
 
   @JsonType(String)
   @JsonProperty()
+  @JsonWriteonly()
   categorySlug = '';
 
   @JsonType(Number)
@@ -22,7 +23,7 @@ class Plant {
 
   @JsonType(Number)
   @JsonProperty()
-  fertilizingInterval = 0;
+  fertilizingInterval = undefined;
 
   @JsonType(Number)
   @JsonProperty()
@@ -60,11 +61,12 @@ class Plant {
 
   @JsonType(String)
   @JsonProperty()
+  @JsonWriteonly()
   url = '';
 
   @JsonType(Number)
   @JsonProperty()
-  wateringInterval = 0;
+  wateringInterval = undefined;
 
   constructor() {
     this.uuidRegenerate();

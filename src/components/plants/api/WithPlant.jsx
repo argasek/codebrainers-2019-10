@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Api } from 'services/Api';
 import { classToPlain } from 'serializers/Serializer';
+import { withPlantPropTypes } from 'proptypes/WithPlantPropTypes';
 
 const withPlant = (WrappedComponent) => {
   return ({ ...props }) => {
@@ -40,6 +41,6 @@ const withPlant = (WrappedComponent) => {
 
 };
 
-withPlant.propTypes = {};
+withPlant.propTypes = withPlantPropTypes;
 
 export default withPlant;

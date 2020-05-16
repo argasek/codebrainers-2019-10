@@ -1,24 +1,25 @@
-import React from 'react';
 import axios from 'axios';
-import { delay, PLANTS_FETCH_DELAY } from 'shared/Debug';
-import Plant from 'models/Plant';
-import { plainToClass } from 'serializers/Serializer';
-import withCategories from 'components/categories/Categories';
-import withRooms from 'components/rooms/Rooms';
-import { withRoomsPropTypes } from 'proptypes/RoomsPropTypes';
-import { withCategoriesPropTypes } from 'proptypes/CategoriesPropTypes';
-import PlantFormCard from 'components/plants/PlantFormCard';
-import { Api } from 'services/Api';
-import PlantFormFields from 'components/plants/plant-form/constants/PlantFormFields';
-import { generatePath, matchPath, Route, Switch, withRouter } from 'react-router-dom';
-import Routes from 'constants/Routes';
-import PlantList from 'components/plants/PlantList';
-import memoize from 'lodash-es/memoize';
 import compose from 'compose-function';
-import withPlant from 'components/plants/api/WithPlant';
-import { withToastManager } from 'react-toast-notifications';
-import ToastContent from 'components/shared/ToastContent';
+import memoize from 'lodash-es/memoize';
+import Plant from 'models/Plant';
+import PlantFormCard from 'components/plants/PlantFormCard';
+import PlantFormFields from 'components/plants/plant-form/constants/PlantFormFields';
+import PlantList from 'components/plants/PlantList';
+import React from 'react';
+import Routes from 'constants/Routes';
+import { Toast } from 'components/shared/Toast';
 import update from 'immutability-helper';
+import withCategories from 'components/categories/Categories';
+import withPlant from 'components/plants/api/WithPlant';
+import withRooms from 'components/rooms/Rooms';
+import { Api } from 'services/Api';
+import { delay, PLANTS_FETCH_DELAY } from 'shared/Debug';
+import { generatePath, matchPath, Route, Switch, withRouter } from 'react-router-dom';
+import { plainToClass } from 'serializers/Serializer';
+import { withCategoriesPropTypes } from 'proptypes/CategoriesPropTypes';
+import { withPlantPropTypes } from 'proptypes/WithPlantPropTypes';
+import { withRoomsPropTypes } from 'proptypes/RoomsPropTypes';
+import { withToastManager } from 'react-toast-notifications';
 
 class PlantsPage extends React.PureComponent {
   state = {
@@ -27,6 +28,11 @@ class PlantsPage extends React.PureComponent {
     plantsSuccess: undefined,
     plantsInProgress: false,
   };
+
+  constructor(props) {
+    super(props);
+    this.toast = new Toast(props.toastManager);
+  }
 
   componentDidMount() {
     const roomsPromise = this.props.fetchRooms();
@@ -118,15 +124,45 @@ class PlantsPage extends React.PureComponent {
     return delay(PLANTS_FETCH_DELAY, this.fetchPlants);
   }
 
+  navigateToPlantList = () => {
+    this.props.history.push(Routes.PLANTS);
+  };
+
+  onSubmitPlantSuccess = (message, response) => {
+    this.toast.success(message);
+    return response;
+  };
+
+  onSubmitPlantError = (error, title) => {
+    // TODO: improve error handling
+    // const api = new Api();
+    // const { errors, status } = api.getErrorsFromApi(error);
+    const message = error.message;
+    this.toast.error(message, title);
+    return error;
+  };
+
   /**
    * @param {Plant} plant
    */
   onSubmitPlantCreate = (plant) => {
-    console.warn('Created plant:');
-    console.log(plant);
-    // const plants = [ ...this.state.plants ];
-    // plants.unshift(plant);
-    // this.setState({ plants });
+    const createPlantOnList = (response) => {
+      const { data } = response;
+      const plant = plainToClass(Plant, data);
+      const plants = update(this.state.plants, { $push: [ plant ] });
+      this.setState({ plants });
+    };
+
+    const errorTitle = 'Creating of plant failed';
+    const successMessage = `Created new plant: ${ plant.name }.`;
+
+    const promise = this.props.createPlant(plant)
+      .then((response) => this.onSubmitPlantSuccess(successMessage, response))
+      .then(createPlantOnList)
+      .then(this.navigateToPlantList)
+      .catch((error) => this.onSubmitPlantError(error, errorTitle));
+
+    return promise;
   };
 
   /**
@@ -141,29 +177,16 @@ class PlantsPage extends React.PureComponent {
       this.setState({ plants });
     };
 
-    const navigateToPlantList = () => {
-      this.props.history.push(Routes.PLANTS);
-    };
-
-    const onSubmitPlantUpdateError = (error) => {
-      // TODO: improve error handling
-      // const api = new Api();
-      // const { errors, status } = api.getErrorsFromApi(error);
-      const title = 'Updating of plant failed';
-      const message = error.message;
-      this.props.toastManager.add(<ToastContent title={ title }>{ message }</ToastContent>, { appearance: 'error' });
-    };
+    const errorTitle = `Updating of plant failed!`;
+    const successMessage = `Saved updates to ${ plant.name }.`;
 
     const promise = this.props.updatePlant(plant)
+      .then((response) => this.onSubmitPlantSuccess(successMessage, response))
       .then(updatePlantList)
-      .then(navigateToPlantList)
-      .catch(onSubmitPlantUpdateError);
+      .then(this.navigateToPlantList)
+      .catch((error) => this.onSubmitPlantError(error, errorTitle));
 
     return promise;
-  };
-
-  onSubmit = (plant, routeProps) => {
-    debugger;
   };
 
   onEdit = (plantId) => {
@@ -239,6 +262,7 @@ class PlantsPage extends React.PureComponent {
 PlantsPage.propTypes = {
   ...withRoomsPropTypes,
   ...withCategoriesPropTypes,
+  ...withPlantPropTypes,
 };
 
 export default compose(

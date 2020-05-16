@@ -8,7 +8,7 @@ import PlantFormResetButton from 'components/plants/plant-form/buttons/PlantForm
 /**
  * @component
  */
-const PlantFormButtons = ({ cancelLabel, resetLabel, submitDisabled, submitLabel }) => {
+const PlantFormButtons = ({ cancelLabel, isSubmitting, resetLabel, submitDisabled, submitLabel }) => {
   return (
     <React.Fragment>
       <hr className="mb-4 mt-4" />
@@ -17,7 +17,11 @@ const PlantFormButtons = ({ cancelLabel, resetLabel, submitDisabled, submitLabel
           <PlantFormCancelButton label={ cancelLabel } />
         </Col>
         <Col xs={ 6 } className="mb-0 d-flex flex-row-reverse">
-          <PlantFormSubmitButton disabled={ submitDisabled } label={ submitLabel } />
+          <PlantFormSubmitButton
+            disabled={ submitDisabled }
+            isSubmitting={ isSubmitting }
+            label={ submitLabel }
+          />
           <PlantFormResetButton label={ resetLabel } />
         </Col>
       </Row>
@@ -27,9 +31,10 @@ const PlantFormButtons = ({ cancelLabel, resetLabel, submitDisabled, submitLabel
 
 PlantFormButtons.propTypes = {
   cancelLabel: PropTypes.string.isRequired,
+  isSubmitting: PropTypes.bool.isRequired,
   resetLabel: PropTypes.string.isRequired,
-  submitLabel: PropTypes.string.isRequired,
   submitDisabled: PropTypes.bool.isRequired,
+  submitLabel: PropTypes.string.isRequired,
 };
 
 export default React.memo(PlantFormButtons);

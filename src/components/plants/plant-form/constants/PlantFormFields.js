@@ -1,12 +1,9 @@
 import Plant from 'models/Plant';
 import pick from 'lodash-es/pick';
-import moment from 'moment';
-import {
-  plantDifficultyOptions,
-  plantExposureOptions,
-  plantHumidityOptions,
-  plantTemperatureOptions
-} from 'constants/PlantConstants';
+import moment from 'moment-es6';
+import { plantDifficultyOptions } from 'constants/PlantConstants';
+import { FormikApiErrors } from 'components/shared/form/FormikApiErrors';
+import { DATE_FORMAT } from 'constants/Config';
 
 /**
  * @todo Refactoring required. We require almost all fields on the form, does this class make sense any more?
@@ -42,15 +39,18 @@ class PlantFormFields {
     return plant.id ? initialValues : Object.assign(initialValues, {
       [PlantFormFields.LAST_FERTILIZED]: moment(),
       [PlantFormFields.LAST_WATERED]: moment(),
-      [PlantFormFields.REQUIRED_EXPOSURE]: firstOf(plantExposureOptions),
-      [PlantFormFields.REQUIRED_HUMIDITY]: firstOf(plantHumidityOptions),
+      [PlantFormFields.WATERING_INTERVAL]: 7,
+      [PlantFormFields.FERTILIZING_INTERVAL]: 14,
       [PlantFormFields.DIFFICULTY]: firstOf(plantDifficultyOptions),
-      [PlantFormFields.REQUIRED_TEMPERATURE]: firstOf(plantTemperatureOptions),
     });
   }
 
+  static getInitialStatus() {
+    return FormikApiErrors.getInitialStatus();
+  }
+
   static getDateAsYMD(value) {
-    return moment.isMoment(value) ? value.format('YYYY-MM-DD') : '';
+    return moment.isMoment(value) ? value.format(DATE_FORMAT) : '';
   }
 
   static areValuesEqual(prevValues, nextValues) {

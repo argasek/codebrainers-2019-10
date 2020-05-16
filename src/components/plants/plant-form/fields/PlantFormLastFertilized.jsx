@@ -4,12 +4,12 @@ import PlantFormFields from 'components/plants/plant-form/constants/PlantFormFie
 import PlantasticDatePicker from 'components/shared/form/PlantasticDatePicker';
 
 const PlantFormLastFertilized = (props) => {
-  const plantLastFertilizedId = "plantLastFertilized";
+  const id = "plantLastFertilized";
   return (
     <FormGroup>
-      <Label for={ plantLastFertilizedId }>Last fertilized at:</Label>
+      <Label for={ id }>Last fertilized at:</Label>
       <PlantasticDatePicker
-        id={ plantLastFertilizedId }
+        id={ id }
         name={ PlantFormFields.LAST_FERTILIZED }
         dateFormat="yyyy-MM-dd"
         placeholderText="YYYY-MM-DD"
