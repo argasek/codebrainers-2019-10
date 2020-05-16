@@ -1,16 +1,13 @@
 import React, { useState } from 'react';
 import PlantForm from './plant-form/PlantForm';
 import { Card, CardBody } from 'reactstrap';
-import { plantFormCard } from 'proptypes/PlantFormPropTypes';
+import { plantFormCardPropTypes } from 'proptypes/PlantFormPropTypes';
 import PlantFormFields from 'components/plants/plant-form/constants/PlantFormFields';
 import get from 'lodash-es/get';
 
 /**
- * We assume certain simplification here -- in our case, we either use
- * this component as Create Plant; in such case subsequent equal "empty
- * form" values are enough to consider all properties equal. For Edit
- * Plant case we assume the same, i.e. we ignore comparing of label
- * changes etc.
+ * We assume certain simplification here by ignoring
+ * changes other than categories, rooms or initialValues.
  *
  * @param prevProps
  * @param nextProps
@@ -22,7 +19,10 @@ const propsAreEqual = function (prevProps, nextProps) {
     nextProps.initialValues
   );
 
-  return areValuesEqual;
+  const propList = [ 'categories', 'rooms' ];
+  const isPropEqual = (prop) => prevProps[prop] === nextProps[prop];
+
+  return areValuesEqual && propList.every(isPropEqual);
 };
 
 const PlantFormCard = ({ formLabel, initialValues, ...rest }) => {
@@ -43,6 +43,6 @@ const PlantFormCard = ({ formLabel, initialValues, ...rest }) => {
   ) : null;
 };
 
-PlantFormCard.propTypes = plantFormCard;
+PlantFormCard.propTypes = plantFormCardPropTypes;
 
 export default React.memo(PlantFormCard, propsAreEqual);

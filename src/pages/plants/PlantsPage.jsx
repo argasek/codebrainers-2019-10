@@ -46,7 +46,6 @@ class PlantsPage extends React.PureComponent {
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     const { location } = this.props;
-    const { plants } = this.state;
     if (prevProps.location !== location) {
       this.updateInitialValuesFromLocation(location);
     }
@@ -182,9 +181,11 @@ class PlantsPage extends React.PureComponent {
           path={ [ Routes.PLANTS_CREATE ] }
           render={ () => (
             <PlantFormCard
+              categories={ categories }
               formLabel="Create new plant"
               initialValues={ initialValues }
               onSubmit={ this.onSubmitPlantCreate }
+              rooms={ rooms }
             />
           ) }
         />
@@ -192,9 +193,11 @@ class PlantsPage extends React.PureComponent {
           path={ Routes.PLANTS_EDIT }
           render={ () => (
             <PlantFormCard
+              categories={ categories }
               formLabel="Edit plant"
               initialValues={ initialValues }
               onSubmit={ this.onSubmitPlantUpdate }
+              rooms={ rooms }
             />
           ) }
         />

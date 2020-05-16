@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const PlantFormSection = ({ children }) => (
-  <section className="mb-4">
+const PlantFormSection = ({ children, className = "mb-4" }) => (
+  <section className={ className }>
     { children }
   </section>
 );

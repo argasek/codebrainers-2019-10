@@ -1,4 +1,3 @@
-import { Button } from 'reactstrap';
 import React from 'react';
 import { Form, Formik } from 'formik';
 import PlantFormInformation from 'components/plants/plant-form/sections/PlantFormInformation';
@@ -7,6 +6,7 @@ import PlantFormMaintenance from 'components/plants/plant-form/sections/PlantFor
 import Effect from 'components/shared/form/Effect';
 import PlantFormFields from 'components/plants/plant-form/constants/PlantFormFields';
 import { plantFormPropTypes } from 'proptypes/PlantFormPropTypes';
+import PlantFormButtons from 'components/plants/plant-form/sections/PlantFormButtons';
 
 const PlantForm = (props) => {
 
@@ -20,7 +20,11 @@ const PlantForm = (props) => {
     props.onSubmit(plant);
   };
 
-  const { initialValues } = props;
+  const {
+    categories,
+    initialValues,
+    rooms,
+  } = props;
 
   const key = initialValues.id;
 
@@ -35,12 +39,17 @@ const PlantForm = (props) => {
       { ({ isValid }) => (
         <Form className="plant-form">
           <Effect onChange={ onChange } />
-          <PlantFormInformation />
+          <PlantFormInformation
+            categories={ categories }
+            rooms={ rooms }
+          />
           <PlantFormCultivation />
           <PlantFormMaintenance />
-          <Button color="primary" type="submit" className="mt-3" disabled={ !isValid }>
-            { key ? 'Update plant' : 'Create new plant' }
-          </Button>
+          <PlantFormButtons
+            cancelLabel="Cancel"
+            submitDisabled={ !isValid }
+            submitLabel={ key ? 'Save changes' : 'Create new plant' }
+          />
         </Form>
       ) }
     </Formik>

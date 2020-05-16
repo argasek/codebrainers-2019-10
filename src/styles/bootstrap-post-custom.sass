@@ -1,14 +1,16 @@
-@import "src/styles/variables"
-@import "node_modules/bootstrap/scss/functions"
-@import "node_modules/bootstrap/scss/variables"
-@import "node_modules/bootstrap/scss/mixins/breakpoints"
+@import "src/styles/variables-pre-custom"
+@import "src/styles/variables-post-custom"
+@import "~bootstrap/scss/mixins/breakpoints"
 
 h3, .h3
   font-weight: $font-weight-semibold
 
-.form-control
-  &::placeholder
-    color: $gray-300
+.custom-select:required
+  > option
+    color: $input-color
+
+  &:invalid
+    color: $input-placeholder-color
 
 .custom-control-inline-responsive
   @include media-breakpoint-up(lg)

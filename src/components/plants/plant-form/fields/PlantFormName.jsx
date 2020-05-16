@@ -8,9 +8,8 @@ const PlantFormName = (props) => {
   const plantNameId = "plantName";
   return (
     <FormGroup>
-      <Label for={ plantNameId }>
+      <Label for={ plantNameId } className="required">
         Plant name:
-        <span className="asterisk" />
       </Label>
       <Field
         component={ PlantasticInput }

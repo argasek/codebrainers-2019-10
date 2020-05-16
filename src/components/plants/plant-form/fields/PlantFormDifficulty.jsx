@@ -31,9 +31,8 @@ const PlantFormDifficultyDescription = React.memo(({ field }) => (
 
 const PlantFormDifficulty = (props) => (
   <FormGroup tag="fieldset">
-    <legend className="legend-form-label">
+    <legend className="legend-form-label required">
       Difficulty:
-      <span className="asterisk" />
     </legend>
     {
       plantDifficultyOptions.map(plantDifficultyOption)

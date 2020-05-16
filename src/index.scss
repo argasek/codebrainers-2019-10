@@ -1,6 +1,6 @@
-@import "~bootstrap/scss/functions";
-@import "~bootstrap/scss/variables";
 @import "~bootstrap/scss/vendor/rfs";
+@import "styles/variables-post-custom";
+@import "styles/mixins/asterisk";
 
 body {
   background-color: #f0f2f1;
@@ -15,16 +15,22 @@ legend {
 }
 
 .legend-form-label {
-  padding-top: add($input-padding-y, $input-border-width);
+  padding-top: 0;
   padding-bottom: add($input-padding-y, $input-border-width);
   margin-bottom: 0; // Override the `<label>/<legend>` default
   @include font-size(inherit); // Override the `<legend>` default
   line-height: $input-line-height;
 }
 
-.asterisk {
+label.required,
+.legend-form-label.required {
+  font-weight: $font-weight-semibold;
+}
+
+.asterisk,
+label.required,
+.legend-form-label.required {
   &:after {
-    content: " *";
-    color: $red
+    @include asterisk();
   }
 }

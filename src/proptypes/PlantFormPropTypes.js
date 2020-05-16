@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import moment from 'moment-es6';
 import PlantFormFields from 'components/plants/plant-form/constants/PlantFormFields';
+import { categoriesPropType } from 'proptypes/CategoriesPropTypes';
+import { roomsPropType } from 'proptypes/RoomsPropTypes';
 
 const plantFormInitialValuesPropTypes = PropTypes.shape({
   [PlantFormFields.BLOOMING]: PropTypes.bool.isRequired,
@@ -17,7 +19,13 @@ const plantFormInitialValuesPropTypes = PropTypes.shape({
   [PlantFormFields.WATERING_INTERVAL]: PropTypes.number.isRequired,
 });
 
+const plantFormInformationPropTypes = {
+  categories: categoriesPropType,
+  rooms: roomsPropType,
+};
+
 const plantFormPropTypesBase = {
+  ...plantFormInformationPropTypes,
   initialValues: plantFormInitialValuesPropTypes,
   onSubmit: PropTypes.func.isRequired,
 };
@@ -27,12 +35,13 @@ const plantFormPropTypes = {
   onPlantNameChange: PropTypes.func.isRequired,
 };
 
-const plantFormCard = {
+const plantFormCardPropTypes = {
   ...plantFormPropTypesBase,
   formLabel: PropTypes.string.isRequired,
 };
 
 export {
+  plantFormCardPropTypes,
+  plantFormInformationPropTypes,
   plantFormPropTypes,
-  plantFormCard,
 };
