@@ -39,7 +39,7 @@ const PlantForm = (props) => {
           <PlantFormCultivation />
           <PlantFormMaintenance />
           <Button color="primary" type="submit" className="mt-3" disabled={ !isValid }>
-            Create new plant
+            { key ? 'Update plant' : 'Create new plant' }
           </Button>
         </Form>
       ) }

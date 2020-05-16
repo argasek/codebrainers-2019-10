@@ -27,12 +27,12 @@ const plantFormPropTypes = {
   onPlantNameChange: PropTypes.func.isRequired,
 };
 
-const plantCreatePropTypes = {
+const plantFormCard = {
   ...plantFormPropTypesBase,
   formLabel: PropTypes.string.isRequired,
 };
 
 export {
   plantFormPropTypes,
-  plantCreatePropTypes,
+  plantFormCard,
 };

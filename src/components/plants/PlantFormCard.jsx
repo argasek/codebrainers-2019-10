@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import PlantForm from './plant-form/PlantForm';
-import { Card, CardBody, CardHeader } from 'reactstrap';
-import { plantCreatePropTypes } from 'proptypes/PlantFormPropTypes';
+import { Card, CardBody } from 'reactstrap';
+import { plantFormCard } from 'proptypes/PlantFormPropTypes';
 import PlantFormFields from 'components/plants/plant-form/constants/PlantFormFields';
 import get from 'lodash-es/get';
-import capitalize from 'lodash-es/capitalize';
 
 /**
  * We assume certain simplification here -- in our case, we either use
@@ -26,16 +25,14 @@ const propsAreEqual = function (prevProps, nextProps) {
   return areValuesEqual;
 };
 
-const PlantCreate = ({ cardHeaderLabel, formLabel, initialValues, ...rest }) => {
+const PlantFormCard = ({ formLabel, initialValues, ...rest }) => {
   const defaultPlantName = get(initialValues, PlantFormFields.NAME, '');
   const [ plantName, setPlantName ] = useState(defaultPlantName);
+  const cardHeaderLabel = get(initialValues, 'id') ? plantName || '…' : formLabel;
   return initialValues ? (
     <Card className="mb-4" color="light">
-      <CardHeader>
-        { capitalize(formLabel) }: <span className="font-weight-semibold">{ plantName }</span>
-      </CardHeader>
       <CardBody>
-        <h3 className="mb-4">{ formLabel }</h3>
+        <h3 className="mb-4">{ cardHeaderLabel }</h3>
         <PlantForm
           onPlantNameChange={ setPlantName }
           initialValues={ initialValues }
@@ -46,6 +43,6 @@ const PlantCreate = ({ cardHeaderLabel, formLabel, initialValues, ...rest }) => 
   ) : null;
 };
 
-PlantCreate.propTypes = plantCreatePropTypes;
+PlantFormCard.propTypes = plantFormCard;
 
-export default React.memo(PlantCreate, propsAreEqual);
+export default React.memo(PlantFormCard, propsAreEqual);

@@ -7,7 +7,7 @@ import withCategories from 'components/categories/Categories';
 import withRooms from 'components/rooms/Rooms';
 import { withRoomsPropTypes } from 'proptypes/RoomsPropTypes';
 import { withCategoriesPropTypes } from 'proptypes/CategoriesPropTypes';
-import PlantCreate from 'components/plants/PlantCreate';
+import PlantFormCard from 'components/plants/PlantFormCard';
 import { Api } from 'services/Api';
 import PlantFormFields from 'components/plants/plant-form/constants/PlantFormFields';
 import { generatePath, matchPath, Route, Switch, withRouter } from 'react-router-dom';
@@ -46,6 +46,7 @@ class PlantsPage extends React.PureComponent {
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     const { location } = this.props;
+    const { plants } = this.state;
     if (prevProps.location !== location) {
       this.updateInitialValuesFromLocation(location);
     }
@@ -180,8 +181,8 @@ class PlantsPage extends React.PureComponent {
         <Route
           path={ [ Routes.PLANTS_CREATE ] }
           render={ () => (
-            <PlantCreate
-              formLabel="Create plant"
+            <PlantFormCard
+              formLabel="Create new plant"
               initialValues={ initialValues }
               onSubmit={ this.onSubmitPlantCreate }
             />
@@ -190,7 +191,7 @@ class PlantsPage extends React.PureComponent {
         <Route
           path={ Routes.PLANTS_EDIT }
           render={ () => (
-            <PlantCreate
+            <PlantFormCard
               formLabel="Edit plant"
               initialValues={ initialValues }
               onSubmit={ this.onSubmitPlantUpdate }
