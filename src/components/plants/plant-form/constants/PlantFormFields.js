@@ -8,6 +8,9 @@ import {
   plantTemperatureOptions
 } from 'constants/PlantConstants';
 
+/**
+ * @todo Refactoring required. We require almost all fields on the form, does this class make sense any more?
+ */
 class PlantFormFields {
   static ID = 'id';
   static BLOOMING = 'blooming';
@@ -21,6 +24,7 @@ class PlantFormFields {
   static REQUIRED_HUMIDITY = 'requiredHumidity';
   static REQUIRED_TEMPERATURE = 'requiredTemperature';
   static ROOM = 'room';
+  static URL = 'url';
   static WATERING_INTERVAL = 'wateringInterval';
 
   /**
@@ -63,6 +67,7 @@ class PlantFormFields {
       [ PlantFormFields.REQUIRED_HUMIDITY ],
       [ PlantFormFields.REQUIRED_TEMPERATURE ],
       [ PlantFormFields.ROOM ],
+      [ PlantFormFields.URL ], // Not really, as a derivative
       [ PlantFormFields.WATERING_INTERVAL ],
     ];
 

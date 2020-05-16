@@ -1,6 +1,6 @@
-import React from "react";
-import axios from "axios";
-import { delay, PLANTS_FETCH_DELAY } from "shared/Debug";
+import React from 'react';
+import axios from 'axios';
+import { delay, PLANTS_FETCH_DELAY } from 'shared/Debug';
 import Plant from 'models/Plant';
 import { plainToClass } from 'serializers/Serializer';
 import withCategories from 'components/categories/Categories';
@@ -14,6 +14,8 @@ import { generatePath, matchPath, Route, Switch, withRouter } from 'react-router
 import Routes from 'constants/Routes';
 import PlantList from 'components/plants/PlantList';
 import memoize from 'lodash-es/memoize';
+import compose from 'compose-function';
+import withPlant from 'components/plants/api/WithPlant';
 
 class PlantsPage extends React.PureComponent {
   state = {
@@ -128,8 +130,15 @@ class PlantsPage extends React.PureComponent {
    * @param {Plant} plant
    */
   onSubmitPlantUpdate = (plant) => {
-    console.warn('Edited plant:');
-    console.log(plant);
+    const navigateToPlantList = () => {
+      this.props.history.push(Routes.PLANTS);
+    };
+
+    const promise = this.props.updatePlant(plant)
+      .then((response) => console.log(response))
+      .then(navigateToPlantList);
+
+    return promise;
   };
 
   onSubmit = (plant, routeProps) => {
@@ -211,4 +220,9 @@ PlantsPage.propTypes = {
   ...withCategoriesPropTypes,
 };
 
-export default withRooms(withCategories(withRouter(PlantsPage)));
+export default compose(
+  withRooms,
+  withCategories,
+  withRouter,
+  withPlant,
+)(PlantsPage);

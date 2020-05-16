@@ -1,6 +1,6 @@
 import { TaJson } from 'ta-json';
 import camelcaseKeys from 'camelcase-keys';
-import kebabcaseKeys from 'kebabcase-keys';
+import snakeCaseKeys from 'snakecase-keys';
 
 const plainToClass = function (className, plain, convertCase = true) {
   const camelCasePlain = convertCase ? camelcaseKeys(plain) : plain;
@@ -10,7 +10,7 @@ const plainToClass = function (className, plain, convertCase = true) {
 
 const classToPlain = function (object, convertCase = true) {
   const camelCasePlain = TaJson.serialize(object);
-  const plain = convertCase ? kebabcaseKeys(camelCasePlain) : camelCasePlain;
+  const plain = convertCase ? snakeCaseKeys(camelCasePlain) : camelCasePlain;
   return plain;
 };
 
