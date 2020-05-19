@@ -79,8 +79,12 @@ class PlantsPage extends React.PureComponent {
       const plantId = +editPath.params.plantId;
       const plants = this.state.plants;
       const plant = plants.find((item) => item.id === plantId);
-      const initialValues = getInitialValues(plant);
-      this.setState({ initialValues });
+      if (plant instanceof Plant) {
+        const initialValues = getInitialValues(plant);
+        this.setState({ initialValues });
+      } else {
+        this.props.history.push(Routes.NOT_FOUND);
+      }
     }
 
     if (createPath !== null) {
