@@ -29,10 +29,18 @@ const withPlant = (WrappedComponent) => {
         .finally(stopProgress);
     };
 
+    const removePlant = (plant) => {
+      setInProgress(true);
+      debugger;
+      return axios.delete(plant.url)
+        .finally(stopProgress);
+    };
+
     return (
       <WrappedComponent
         { ...props }
         createPlant={ createPlant }
+        removePlant={ removePlant }
         updatePlant={ updatePlant }
         plantInProgress={ inProgress }
       />

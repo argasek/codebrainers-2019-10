@@ -1,14 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'reactstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleNotch, faSave } from '@fortawesome/free-solid-svg-icons';
+import { faSave } from '@fortawesome/free-solid-svg-icons';
+import ProgressIcon from 'components/shared/ProgressIcon';
 
 const PlantFormSubmitButton = ({ disabled, isSubmitting, label }) => {
-  const icon = isSubmitting ? faCircleNotch : faSave;
   return (
     <Button color="primary" type="submit" disabled={ disabled }>
-      <FontAwesomeIcon icon={ icon } className="mr-2" spin={ isSubmitting } />
+      <ProgressIcon className="mr-2" icon={ faSave } inProgress={ isSubmitting } />
       <span className="font-weight-semibold">{ label }</span>
     </Button>
   );

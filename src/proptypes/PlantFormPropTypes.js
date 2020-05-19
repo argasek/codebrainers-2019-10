@@ -28,6 +28,8 @@ const plantFormPropTypesBase = {
   ...plantFormInformationPropTypes,
   initialValues: plantFormInitialValuesPropTypes,
   onSubmit: PropTypes.func.isRequired,
+  onRemove: PropTypes.func,
+  plantInProgress: PropTypes.bool.isRequired,
 };
 
 const plantFormPropTypes = {

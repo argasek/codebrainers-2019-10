@@ -124,16 +124,23 @@ class PlantsPage extends React.PureComponent {
     return delay(PLANTS_FETCH_DELAY, this.fetchPlants);
   }
 
+  /**
+   *
+   * @param {number} id
+   * @return {number}
+   */
+  getPlantIndexById = id => this.state.plants.findIndex((item) => item.id === id);
+
   navigateToPlantList = () => {
     this.props.history.push(Routes.PLANTS);
   };
 
-  onSubmitPlantSuccess = (message, response) => {
+  onPlantSuccess = (message, response) => {
     this.toast.success(message);
     return response;
   };
 
-  onSubmitPlantError = (error, title) => {
+  onPlantError = (error, title) => {
     // TODO: improve error handling
     // const api = new Api();
     // const { errors, status } = api.getErrorsFromApi(error);
@@ -145,7 +152,7 @@ class PlantsPage extends React.PureComponent {
   /**
    * @param {Plant} plant
    */
-  onSubmitPlantCreate = (plant) => {
+  onPlantCreate = (plant) => {
     const createPlantOnList = (response) => {
       const { data } = response;
       const plant = plainToClass(Plant, data);
@@ -157,18 +164,42 @@ class PlantsPage extends React.PureComponent {
     const successMessage = `Created new plant: ${ plant.name }.`;
 
     const promise = this.props.createPlant(plant)
-      .then((response) => this.onSubmitPlantSuccess(successMessage, response))
+      .then((response) => this.onPlantSuccess(successMessage, response))
       .then(createPlantOnList)
       .then(this.navigateToPlantList)
-      .catch((error) => this.onSubmitPlantError(error, errorTitle));
+      .catch((error) => this.onPlantError(error, errorTitle));
 
     return promise;
   };
 
+  onPlantRemove = () => {
+    const id = this.state.initialValues.id;
+    const plantIndex = this.getPlantIndexById(id);
+    const plant = this.state.plants[plantIndex];
+
+    const removePlantFromList = (plant) => {
+      const plantIndex = this.getPlantIndexById(plant.id);
+      const plants = update(this.state.plants, { $splice: [ [ plantIndex, 1 ] ] });
+      this.setState({ plants });
+    };
+
+    const errorTitle = 'Removing of plant failed';
+    const successMessage = `Plant ${ plant.name } was removed.`;
+
+    const promise = this.props.removePlant(plant)
+      .then((response) => this.onPlantSuccess(successMessage, response))
+      .then(() => removePlantFromList(plant))
+      .then(this.navigateToPlantList)
+      .catch((error) => this.onPlantError(error, errorTitle));
+
+    return promise;
+  };
+
+
   /**
    * @param {Plant} plant
    */
-  onSubmitPlantUpdate = (plant) => {
+  onPlantUpdate = (plant) => {
     const updatePlantList = (response) => {
       const { data } = response;
       const plant = plainToClass(Plant, data);
@@ -181,10 +212,10 @@ class PlantsPage extends React.PureComponent {
     const successMessage = `Saved updates to ${ plant.name }.`;
 
     const promise = this.props.updatePlant(plant)
-      .then((response) => this.onSubmitPlantSuccess(successMessage, response))
+      .then((response) => this.onPlantSuccess(successMessage, response))
       .then(updatePlantList)
       .then(this.navigateToPlantList)
-      .catch((error) => this.onSubmitPlantError(error, errorTitle));
+      .catch((error) => this.onPlantError(error, errorTitle));
 
     return promise;
   };
@@ -206,6 +237,7 @@ class PlantsPage extends React.PureComponent {
     const {
       categories,
       categoriesSuccess,
+      plantInProgress,
       rooms,
       roomsSuccess
     } = this.props;
@@ -237,7 +269,8 @@ class PlantsPage extends React.PureComponent {
               categories={ categories }
               formLabel="Create new plant"
               initialValues={ initialValues }
-              onSubmit={ this.onSubmitPlantCreate }
+              onSubmit={ this.onPlantCreate }
+              plantInProgress={ plantInProgress }
               rooms={ rooms }
             />
           ) }
@@ -249,7 +282,9 @@ class PlantsPage extends React.PureComponent {
               categories={ categories }
               formLabel="Edit plant"
               initialValues={ initialValues }
-              onSubmit={ this.onSubmitPlantUpdate }
+              onSubmit={ this.onPlantUpdate }
+              onRemove={ this.onPlantRemove }
+              plantInProgress={ plantInProgress }
               rooms={ rooms }
             />
           ) }

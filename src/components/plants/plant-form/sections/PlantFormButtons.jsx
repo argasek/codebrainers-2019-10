@@ -4,17 +4,25 @@ import PropTypes from 'prop-types';
 import PlantFormCancelButton from 'components/plants/plant-form/buttons/PlantFormCancelButton';
 import PlantFormSubmitButton from 'components/plants/plant-form/buttons/PlantFormSubmitButton';
 import PlantFormResetButton from 'components/plants/plant-form/buttons/PlantFormResetButton';
+import PlantFormRemoveButton from 'components/plants/plant-form/buttons/PlantFormRemoveButton';
 
 /**
  * @component
  */
-const PlantFormButtons = ({ cancelLabel, isSubmitting, resetLabel, submitDisabled, submitLabel }) => {
+const PlantFormButtons = React.memo((props) => {
+  const {
+    isSubmitting,
+    onRemove,
+    plantInProgress,
+    submitDisabled,
+    submitLabel
+  } = props;
   return (
     <React.Fragment>
       <hr className="mb-4 mt-4" />
       <Row form className="mb-2">
         <Col xs={ 6 }>
-          <PlantFormCancelButton label={ cancelLabel } />
+          <PlantFormCancelButton label="Back to the list" />
         </Col>
         <Col xs={ 6 } className="mb-0 d-flex flex-row-reverse">
           <PlantFormSubmitButton
@@ -22,19 +30,26 @@ const PlantFormButtons = ({ cancelLabel, isSubmitting, resetLabel, submitDisable
             isSubmitting={ isSubmitting }
             label={ submitLabel }
           />
-          <PlantFormResetButton label={ resetLabel } />
+          <PlantFormResetButton label="Reset" />
+          {
+            onRemove &&
+            <PlantFormRemoveButton
+              label="Remove"
+              onClick={ onRemove }
+              plantInProgress={ plantInProgress }
+            />
+          }
         </Col>
       </Row>
     </React.Fragment>
   );
-};
+});
 
 PlantFormButtons.propTypes = {
-  cancelLabel: PropTypes.string.isRequired,
   isSubmitting: PropTypes.bool.isRequired,
-  resetLabel: PropTypes.string.isRequired,
+  onRemove: PropTypes.func,
   submitDisabled: PropTypes.bool.isRequired,
   submitLabel: PropTypes.string.isRequired,
 };
 
-export default React.memo(PlantFormButtons);
+export default PlantFormButtons;

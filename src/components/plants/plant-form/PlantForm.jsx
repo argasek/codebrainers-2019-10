@@ -14,13 +14,19 @@ const PlantForm = (props) => {
   const {
     categories,
     initialValues,
+    onRemove,
+    plantInProgress,
     rooms,
   } = props;
 
   const initialStatus = PlantFormFields.getInitialStatus();
   const key = initialValues.uuid;
-  const validateOnMount = !initialValues.id;
-  const validationSchema = initialValues.id ? plantFormUpdateSchema : plantFormCreateSchema;
+
+  const isCreateMode = !initialValues.id;
+  const isUpdateMode = !!initialValues.id;
+
+  const validateOnMount = isCreateMode;
+  const validationSchema = isUpdateMode ? plantFormUpdateSchema : plantFormCreateSchema;
 
   const onChange = (currentState) => {
     const { name } = currentState.values;
@@ -60,11 +66,11 @@ const PlantForm = (props) => {
           <PlantFormCultivation />
           <PlantFormMaintenance />
           <PlantFormButtons
-            cancelLabel="Back to the list"
             isSubmitting={ isSubmitting }
-            resetLabel="Reset"
             submitDisabled={ submitDisabled(isValid, isSubmitting) }
-            submitLabel={ key ? 'Save changes' : 'Create new plant' }
+            submitLabel={ isCreateMode ? 'Create new plant' : 'Save changes' }
+            onRemove={ onRemove }
+            plantInProgress={ plantInProgress }
           />
         </Form>
       ) }
