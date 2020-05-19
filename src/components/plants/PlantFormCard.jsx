@@ -19,7 +19,7 @@ const propsAreEqual = function (prevProps, nextProps) {
     nextProps.initialValues
   );
 
-  const propList = [ 'categories', 'rooms' ];
+  const propList = [ 'categories', 'rooms', 'plantInProgress' ];
   const isPropEqual = (prop) => prevProps[prop] === nextProps[prop];
 
   return areValuesEqual && propList.every(isPropEqual);

@@ -10,7 +10,7 @@ import Routes from 'constants/Routes';
 import { Toast } from 'components/shared/Toast';
 import update from 'immutability-helper';
 import withCategories from 'components/categories/Categories';
-import withPlant from 'components/plants/api/WithPlant';
+import { withPlant } from 'components/plants/api/WithPlant';
 import withRooms from 'components/rooms/Rooms';
 import { Api } from 'services/Api';
 import { delay, PLANTS_FETCH_DELAY } from 'shared/Debug';

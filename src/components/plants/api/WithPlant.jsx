@@ -4,14 +4,19 @@ import { Api } from 'services/Api';
 import { classToPlain } from 'serializers/Serializer';
 import { withPlantPropTypes } from 'proptypes/WithPlantPropTypes';
 
+const PLANT_PROGRESS_CREATE = 'create';
+const PLANT_PROGRESS_UPDATE = 'update';
+const PLANT_PROGRESS_REMOVE = 'remove';
+const PLANT_PROGRESS_STOPPED = '';
+
 const withPlant = (WrappedComponent) => {
   return ({ ...props }) => {
-    const [ inProgress, setInProgress ] = useState(false);
+    const [ inProgress, setInProgress ] = useState(PLANT_PROGRESS_STOPPED);
 
-    const stopProgress = () => setInProgress(false);
+    const stopProgress = () => setInProgress(PLANT_PROGRESS_STOPPED);
 
     const createPlant = (plant) => {
-      setInProgress(true);
+      setInProgress(PLANT_PROGRESS_CREATE);
       const data = classToPlain(plant);
       return axios.post(Api.PLANTS, data)
         .finally(stopProgress);
@@ -23,15 +28,14 @@ const withPlant = (WrappedComponent) => {
      * @return {Promise<void>}
      */
     const updatePlant = (plant) => {
-      setInProgress(true);
+      setInProgress(PLANT_PROGRESS_UPDATE);
       const data = classToPlain(plant);
       return axios.put(plant.url, data)
         .finally(stopProgress);
     };
 
     const removePlant = (plant) => {
-      setInProgress(true);
-      debugger;
+      setInProgress(PLANT_PROGRESS_REMOVE);
       return axios.delete(plant.url)
         .finally(stopProgress);
     };
@@ -51,4 +55,9 @@ const withPlant = (WrappedComponent) => {
 
 withPlant.propTypes = withPlantPropTypes;
 
-export default withPlant;
+export {
+  PLANT_PROGRESS_CREATE,
+  PLANT_PROGRESS_UPDATE,
+  PLANT_PROGRESS_REMOVE,
+  withPlant,
+};

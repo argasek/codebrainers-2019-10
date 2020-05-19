@@ -5,6 +5,8 @@ import PlantFormCancelButton from 'components/plants/plant-form/buttons/PlantFor
 import PlantFormSubmitButton from 'components/plants/plant-form/buttons/PlantFormSubmitButton';
 import PlantFormResetButton from 'components/plants/plant-form/buttons/PlantFormResetButton';
 import PlantFormRemoveButton from 'components/plants/plant-form/buttons/PlantFormRemoveButton';
+import { PLANT_PROGRESS_REMOVE } from 'components/plants/api/WithPlant';
+import { plantInProgressPropType } from 'proptypes/PlantFormPropTypes';
 
 /**
  * @component
@@ -36,7 +38,7 @@ const PlantFormButtons = React.memo((props) => {
             <PlantFormRemoveButton
               label="Remove"
               onClick={ onRemove }
-              plantInProgress={ plantInProgress }
+              inProgress={ plantInProgress === PLANT_PROGRESS_REMOVE }
             />
           }
         </Col>
@@ -48,6 +50,7 @@ const PlantFormButtons = React.memo((props) => {
 PlantFormButtons.propTypes = {
   isSubmitting: PropTypes.bool.isRequired,
   onRemove: PropTypes.func,
+  plantInProgress: plantInProgressPropType,
   submitDisabled: PropTypes.bool.isRequired,
   submitLabel: PropTypes.string.isRequired,
 };
