@@ -265,6 +265,7 @@ class PlantsPage extends React.PureComponent {
               success={ success }
             />
           }
+          title="List of plants"
         />
         <Route
           path={ [ Routes.PLANTS_CREATE ] }
@@ -278,6 +279,7 @@ class PlantsPage extends React.PureComponent {
               rooms={ rooms }
             />
           ) }
+          title="Create plant"
         />
         <Route
           path={ Routes.PLANTS_EDIT }
@@ -292,6 +294,7 @@ class PlantsPage extends React.PureComponent {
               rooms={ rooms }
             />
           ) }
+          title="Edit plant"
         />
       </Switch>
     );

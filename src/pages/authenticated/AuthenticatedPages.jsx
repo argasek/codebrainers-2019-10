@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { ToastProvider } from 'react-toast-notifications';
 import { Notifications } from 'services/Notifications';
 
-const AuthenticatedPage = ({ onLogout }) => (
+const AuthenticatedPages = ({ onLogout }) => (
   <Router>
     <ToastProvider autoDismiss={ Notifications.toastAutoDismiss }>
       <AuthenticatedNavbar onLogout={ onLogout } />
@@ -17,9 +17,9 @@ const AuthenticatedPage = ({ onLogout }) => (
   </Router>
 );
 
-AuthenticatedPage.propTypes = {
+AuthenticatedPages.propTypes = {
   onLogout: PropTypes.func.isRequired,
 };
 
 
-export default AuthenticatedPage;
+export default AuthenticatedPages;
