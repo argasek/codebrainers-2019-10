@@ -1,7 +1,7 @@
 import React from "react";
 import { Col, Row } from "reactstrap";
 import PropTypes from 'prop-types';
-import PlantFormCancelButton from 'components/plants/plant-form/buttons/PlantFormCancelButton';
+import PlantFormCancelButton from 'components/plants/plant-form/buttons/PlantFormBackToListButton';
 import PlantFormSubmitButton from 'components/plants/plant-form/buttons/PlantFormSubmitButton';
 import PlantFormResetButton from 'components/plants/plant-form/buttons/PlantFormResetButton';
 import PlantFormRemoveButton from 'components/plants/plant-form/buttons/PlantFormRemoveButton';

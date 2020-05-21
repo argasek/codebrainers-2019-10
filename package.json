@@ -35,6 +35,7 @@
     "react-dom": "^16.12.0",
     "react-easy-emoji": "^1.4.0",
     "react-helmet-async": "^1.0.6",
+    "react-router-breadcrumbs-hoc": "^3.2.10",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "react-toast-notifications": "^2.4.0",

@@ -34,7 +34,7 @@ class AuthenticatedNavbar extends React.PureComponent {
     const { isOpen } = this.state;
     const { onLogout } = this.props;
     return (
-      <Navbar color="dark" dark expand="md" className="mb-4">
+      <Navbar color="dark" dark expand="md">
         <NavbarBrand href={ Routes.ROOT }>Plantastic</NavbarBrand>
         <NavbarToggler onClick={ this.toggle } />
         <Collapse isOpen={ isOpen } navbar>

@@ -14,12 +14,13 @@ import { withPlant } from 'components/plants/api/WithPlant';
 import withRooms from 'components/rooms/Rooms';
 import { Api } from 'services/Api';
 import { delay, PLANTS_FETCH_DELAY } from 'shared/Debug';
-import { generatePath, matchPath, Route, Switch, withRouter } from 'react-router-dom';
+import { generatePath, matchPath, Switch, withRouter } from 'react-router-dom';
 import { plainToClass } from 'serializers/Serializer';
 import { withCategoriesPropTypes } from 'proptypes/CategoriesPropTypes';
 import { withPlantPropTypes } from 'proptypes/WithPlantPropTypes';
 import { withRoomsPropTypes } from 'proptypes/RoomsPropTypes';
 import { withToastManager } from 'react-toast-notifications';
+import HelmetRoute from 'components/shared/HelmetRoute';
 
 class PlantsPage extends React.PureComponent {
   state = {
@@ -70,7 +71,7 @@ class PlantsPage extends React.PureComponent {
 
     const { pathname } = location;
 
-    const editPath = matchPath(pathname, { ...options, path: Routes.PLANTS_EDIT });
+    const editPath = matchPath(pathname, { ...options, path: Routes.PLANT_EDIT });
     const createPath = matchPath(pathname, { ...options, path: Routes.PLANTS_CREATE });
 
     const getInitialValues = memoize(PlantFormFields.getInitialValues);
@@ -225,7 +226,7 @@ class PlantsPage extends React.PureComponent {
   };
 
   onEdit = (plantId) => {
-    const path = generatePath(Routes.PLANTS_EDIT, { plantId });
+    const path = generatePath(Routes.PLANT_EDIT, { plantId });
     this.props.history.push(path);
   };
 
@@ -250,7 +251,7 @@ class PlantsPage extends React.PureComponent {
 
     return (
       <Switch>
-        <Route
+        <HelmetRoute
           exact
           path={ Routes.PLANTS }
           render={ () =>
@@ -267,7 +268,7 @@ class PlantsPage extends React.PureComponent {
           }
           title="List of plants"
         />
-        <Route
+        <HelmetRoute
           path={ [ Routes.PLANTS_CREATE ] }
           render={ () => (
             <PlantFormCard
@@ -281,8 +282,8 @@ class PlantsPage extends React.PureComponent {
           ) }
           title="Create plant"
         />
-        <Route
-          path={ Routes.PLANTS_EDIT }
+        <HelmetRoute
+          path={ Routes.PLANT_EDIT }
           render={ () => (
             <PlantFormCard
               categories={ categories }
@@ -294,7 +295,7 @@ class PlantsPage extends React.PureComponent {
               rooms={ rooms }
             />
           ) }
-          title="Edit plant"
+          title={ initialValues && initialValues.name }
         />
       </Switch>
     );

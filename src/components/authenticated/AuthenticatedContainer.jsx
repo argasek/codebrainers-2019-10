@@ -9,6 +9,7 @@ import PlantsPage from 'pages/plants/PlantsPage';
 import NotFound from 'pages/errors/NotFound';
 import HelmetRoute from 'components/shared/HelmetRoute';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
+import AuthenticatedBreadcrumbs from 'components/authenticated/AuthenticatedBreadcrumbs';
 
 const AuthenticatedContainer = function () {
 
@@ -16,6 +17,7 @@ const AuthenticatedContainer = function () {
     <HelmetProvider>
       <Container>
         <Helmet titleTemplate="%s – Plantastic" defaultTitle="Plantastic" />
+        <AuthenticatedBreadcrumbs />
         <Switch>
           <HelmetRoute path={ Routes.CATEGORIES } render={ () => <CategoriesContainer /> } title="Categories" />
           <HelmetRoute path={ Routes.PLANTS } render={ () => <PlantsPage /> } title="Plants" />
