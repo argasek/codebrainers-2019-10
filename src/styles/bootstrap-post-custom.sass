@@ -5,12 +5,24 @@
 h3, .h3
   font-weight: $font-weight-semibold
 
-.custom-select:required
-  > option
+// Firefox oddity -- strange text shadow is applied after choice was made
+@mixin firefox-no-text-shadow()
+  &:focus
+    text-shadow: none
+
+.custom-select
+  @include firefox-no-text-shadow()
+
+  &:focus
+    // Firefox renders text as white without this, why?
     color: $input-color
 
-  &:invalid
-    color: $input-placeholder-color
+  &:required
+    > option
+      color: $input-color
+
+    &:invalid
+      color: $input-placeholder-color
 
 .custom-control-inline-responsive
   @include media-breakpoint-up(lg)
@@ -19,3 +31,7 @@ h3, .h3
 
 .font-weight-semibold
   font-weight: $font-weight-semibold
+
+// Another Firefox oddity -- strange text shadow is applied after choice was made
+input
+  @include firefox-no-text-shadow()

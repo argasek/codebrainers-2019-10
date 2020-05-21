@@ -1,36 +1,36 @@
+@import "src/styles/variables-pre-custom";
+
 // Datepicker
 
+.react-datepicker {
+  font-size: $font-size-base;
+}
+
 .react-datepicker-popper {
-  z-index: 2;
-  top: 34px !important;
-  /* needed because we made it inline */
+  // This way an arrow is not covered by input focus outline
+  z-index: 3;
 }
 
-.react-datepicker-wrapper,
-.react-datepicker-wrapper .react-datepicker__input-container {
-  /* https://github.com/Hacker0x01/react-datepicker/issues/1672 */
-
-  /* to make it exactly the same height as the bootstrap input-group-addons */
-  display: inline;
+.react-datepicker-wrapper {
+  display: initial;
 }
 
-.react-datepicker__day-name,
-.react-datepicker__day,
-.react-datepicker__time-name {
-  width: 2.7rem;
-  line-height: 2.7rem;
-  font-size: 1.1rem;
+.react-datepicker__day {
+  width: 1.85rem;
 }
 
-.react-datepicker__current-month,
-.react-datepicker-time__header {
-  font-size: 1.4rem;
-}
+//.react-datepicker-popper[data-placement^="top"] {
+//  margin-bottom: 2px;
+//}
 
-.date.form-group .input-group-addon {
-  cursor: pointer;
-}
+.date {
+  &.form-group {
+    .input-group-addon {
+      cursor: pointer;
 
-.date.form-group .input-group-addon:hover {
-  opacity: 0.8;
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+  }
 }

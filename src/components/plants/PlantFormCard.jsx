@@ -4,6 +4,7 @@ import { Card, CardBody } from 'reactstrap';
 import { plantFormCardPropTypes } from 'proptypes/PlantFormPropTypes';
 import PlantFormFields from 'components/plants/plant-form/constants/PlantFormFields';
 import get from 'lodash-es/get';
+import InProgress from 'components/shared/InProgress';
 
 /**
  * We assume certain simplification here by ignoring
@@ -29,18 +30,23 @@ const PlantFormCard = ({ formLabel, initialValues, ...rest }) => {
   const defaultPlantName = get(initialValues, PlantFormFields.NAME, '');
   const [ plantName, setPlantName ] = useState(defaultPlantName);
   const cardHeaderLabel = get(initialValues, 'id') ? plantName || '…' : formLabel;
-  return initialValues ? (
+  return (
     <Card className="mb-4" color="light">
       <CardBody>
         <h3 className="mb-4">{ cardHeaderLabel }</h3>
-        <PlantForm
-          onPlantNameChange={ setPlantName }
-          initialValues={ initialValues }
-          { ...rest }
-        />
+        {
+          initialValues ?
+            <PlantForm
+              onPlantNameChange={ setPlantName }
+              initialValues={ initialValues }
+              { ...rest }
+            />
+            :
+            <InProgress inProgress={ true } />
+        }
       </CardBody>
     </Card>
-  ) : null;
+  );
 };
 
 PlantFormCard.propTypes = plantFormCardPropTypes;
