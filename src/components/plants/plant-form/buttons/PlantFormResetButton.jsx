@@ -4,7 +4,7 @@ import { Button } from 'reactstrap';
 
 const PlantFormResetButton = ({ label }) => {
   return (
-    <Button color="secondary" type="reset" className="mr-2 d-none d-md-inline-block">
+    <Button color="secondary" type="reset" outline className="mr-2 d-none d-md-inline-block">
       { label }
     </Button>
   );

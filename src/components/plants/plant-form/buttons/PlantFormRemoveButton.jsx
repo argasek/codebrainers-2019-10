@@ -6,9 +6,9 @@ import ProgressIcon from 'components/shared/ProgressIcon';
 
 const PlantFormRemoveButton = ({ label, onClick, inProgress }) => {
   return (
-    <Button color="danger" type="button" className="mr-0 mr-md-2" onClick={ onClick } disabled={ inProgress }>
-      <ProgressIcon className="mr-2" icon={ faTrash } inProgress={ inProgress } />
-      { label }
+    <Button color="danger" type="button" className="mr-1 mr-md-2" onClick={ onClick } disabled={ inProgress }>
+      <ProgressIcon icon={ faTrash } inProgress={ inProgress } />
+      <span className="d-none d-sm-inline">{ label }</span>
     </Button>
   );
 };

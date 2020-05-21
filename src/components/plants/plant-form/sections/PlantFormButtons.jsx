@@ -23,16 +23,18 @@ const PlantFormButtons = React.memo((props) => {
     <React.Fragment>
       <hr className="mb-4 mt-4" />
       <Row form className="mb-2">
-        <Col xs={ 6 }>
-          <PlantFormCancelButton label="Back to the list" />
+        <Col xs={ 4 }>
+          <PlantFormCancelButton
+            mobileLabel="Back"
+            label="Back to the list"
+          />
         </Col>
-        <Col xs={ 6 } className="mb-0 d-flex flex-row-reverse">
+        <Col xs={ 8 } className="mb-0 d-flex flex-row-reverse">
           <PlantFormSubmitButton
             disabled={ submitDisabled }
             isSubmitting={ isSubmitting }
             label={ submitLabel }
           />
-          <PlantFormResetButton label="Reset" />
           {
             onRemove &&
             <PlantFormRemoveButton
@@ -41,6 +43,7 @@ const PlantFormButtons = React.memo((props) => {
               inProgress={ plantInProgress === PLANT_PROGRESS_REMOVE }
             />
           }
+          <PlantFormResetButton label="Reset" />
         </Col>
       </Row>
     </React.Fragment>
