@@ -1,29 +1,29 @@
 import axios from 'axios';
-import Category from 'models/Category';
+import Room from 'models/Room';
 import { Api } from 'services/Api';
 import { createSlice } from '@reduxjs/toolkit';
 import { plainToClass } from 'serializers/Serializer';
 import { setterReducer, sliceStateSelector } from 'ducks/utils';
 
-const SLICE_NAME = 'categories';
+const SLICE_NAME = 'rooms';
 
-const STATE_CATEGORIES = 'categories';
+const STATE_ROOMS = 'rooms';
 const STATE_ERROR_MESSAGE = 'inProgress';
 const STATE_IN_PROGRESS = 'errorMessage';
 const STATE_SUCCESS = 'success';
 
 const stateSelector = sliceStateSelector(SLICE_NAME);
 
-export const categoriesSlice = createSlice({
+export const roomsSlice = createSlice({
   name: SLICE_NAME,
   initialState: {
-    [STATE_CATEGORIES]: [],
+    [STATE_ROOMS]: [],
     [STATE_ERROR_MESSAGE]: '',
     [STATE_IN_PROGRESS]: false,
     [STATE_SUCCESS]: undefined,
   },
   reducers: {
-    setCategories: setterReducer(STATE_CATEGORIES),
+    setRooms: setterReducer(STATE_ROOMS),
     setErrorMessage: setterReducer(STATE_ERROR_MESSAGE),
     setInProgress: setterReducer(STATE_IN_PROGRESS),
     setSuccess: setterReducer(STATE_SUCCESS),
@@ -31,27 +31,27 @@ export const categoriesSlice = createSlice({
 });
 
 export const {
-  setCategories,
+  setRooms,
   setErrorMessage,
   setInProgress,
   setSuccess,
-} = categoriesSlice.actions;
+} = roomsSlice.actions;
 
-export const fetchCategories = () => async dispatch => {
+export const fetchRooms = () => async dispatch => {
   dispatch(setInProgress(true));
   dispatch(setSuccess(undefined));
 
   try {
-    const response = await axios.get(Api.CATEGORIES);
+    const response = await axios.get(Api.ROOMS);
     const data = response.data;
 
-    const categories = data.map(item => plainToClass(Category, item));
+    const rooms = data.map(item => plainToClass(Room, item));
     const errorMessage = '';
     const success = true;
 
     dispatch(setSuccess(success));
     dispatch(setErrorMessage(errorMessage));
-    dispatch(setCategories(categories));
+    dispatch(setRooms(rooms));
   } catch (error) {
     const errorMessage = error.message;
     const success = false;
@@ -63,9 +63,9 @@ export const fetchCategories = () => async dispatch => {
   }
 };
 
-export const selectCategories = stateSelector(STATE_CATEGORIES);
-export const selectCategoriesErrorMessage = stateSelector(STATE_ERROR_MESSAGE);
-export const selectCategoriesInProgress = stateSelector(STATE_IN_PROGRESS);
-export const selectCategoriesSuccess = stateSelector(STATE_SUCCESS);
+export const selectRooms = stateSelector(STATE_ROOMS);
+export const selectRoomsErrorMessage = stateSelector(STATE_ERROR_MESSAGE);
+export const selectRoomsInProgress = stateSelector(STATE_IN_PROGRESS);
+export const selectRoomsSuccess = stateSelector(STATE_SUCCESS);
 
-export default categoriesSlice.reducer;
+export default roomsSlice.reducer;

@@ -1,57 +1,53 @@
-import { Card, CardBody, ListGroup } from "reactstrap";
-import React from "react";
-import RoomItem from "components/rooms/RoomItem";
-import InProgress from "components/shared/InProgress";
-import { withRoomsPropTypes } from 'proptypes/RoomsPropTypes';
+import InProgress from 'components/shared/InProgress';
 import OperationFailed from 'components/shared/OperationFailed';
+import React, { useEffect } from 'react';
+import RoomItem from 'components/rooms/RoomItem';
 import withRooms from 'components/rooms/Rooms';
+import { Card, CardBody, ListGroup } from 'reactstrap';
+import useRooms from 'ducks/rooms/useRooms';
 
-class RoomsContainer extends React.PureComponent {
+const RoomsContainer = () => {
 
-  componentDidMount() {
-    this.props.fetchRooms();
-  }
+  const {
+    rooms,
+    roomsErrorMessage,
+    roomsInProgress,
+    roomsSuccess,
+    fetchRooms,
+  } = useRooms();
 
-  render() {
-    const {
-      rooms,
-      roomsErrorMessage,
-      roomsInProgress,
-      roomsSuccess,
-    } = this.props;
+  useEffect(() => {
+    fetchRooms();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-    return (
-      <Card>
-        <CardBody>
-          <div className="app-container">
-            <InProgress inProgress={ roomsInProgress } />
-            <OperationFailed isFailed={ roomsSuccess === false }>
-              <strong>Failed to fetch rooms.</strong>
-              { ' Reason: ' }
-              { roomsErrorMessage }
-            </OperationFailed>
+  return (
+    <Card>
+      <CardBody>
+        <InProgress inProgress={ roomsInProgress } />
+        <OperationFailed isFailed={ roomsSuccess === false }>
+          <strong>Failed to fetch rooms.</strong>
+          { ' Reason: ' }
+          { roomsErrorMessage }
+        </OperationFailed>
+        {
+          roomsSuccess &&
+          <ListGroup className="rooms">
             {
-              roomsSuccess &&
-              <ListGroup className="rooms">
-                {
-                  rooms.map((room) =>
-                    <RoomItem
-                      room={ room }
-                      key={ room.id }
-                    />
-                  )
-                }
-              </ListGroup>
+              rooms.map((room) =>
+                <RoomItem
+                  room={ room }
+                  key={ room.id }
+                />
+              )
             }
-          </div>
-        </CardBody>
-      </Card>
-    );
-  }
-}
-
-RoomsContainer.propTypes = {
-  ...withRoomsPropTypes
+          </ListGroup>
+        }
+      </CardBody>
+    </Card>
+  );
 };
+
+RoomsContainer.propTypes = {};
 
 export default withRooms(RoomsContainer);
