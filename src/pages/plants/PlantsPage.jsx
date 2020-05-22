@@ -1,5 +1,5 @@
 import axios from 'axios';
-import compose from 'compose-function';
+import HelmetRoute from 'components/shared/HelmetRoute';
 import memoize from 'lodash-es/memoize';
 import Plant from 'models/Plant';
 import PlantFormCard from 'components/plants/PlantFormCard';
@@ -7,20 +7,20 @@ import PlantFormFields from 'components/plants/plant-form/constants/PlantFormFie
 import PlantList from 'components/plants/PlantList';
 import React from 'react';
 import Routes from 'constants/Routes';
-import { Toast } from 'components/shared/Toast';
 import update from 'immutability-helper';
 import withCategories from 'components/categories/Categories';
-import { withPlant } from 'components/plants/api/WithPlant';
 import withRooms from 'components/rooms/Rooms';
 import { Api } from 'services/Api';
+import { compose } from 'redux';
 import { delay, PLANTS_FETCH_DELAY } from 'shared/Debug';
 import { generatePath, matchPath, Switch, withRouter } from 'react-router-dom';
 import { plainToClass } from 'serializers/Serializer';
+import { Toast } from 'components/shared/Toast';
 import { withCategoriesPropTypes } from 'proptypes/CategoriesPropTypes';
+import { withPlant } from 'components/plants/api/WithPlant';
 import { withPlantPropTypes } from 'proptypes/WithPlantPropTypes';
 import { withRoomsPropTypes } from 'proptypes/RoomsPropTypes';
 import { withToastManager } from 'react-toast-notifications';
-import HelmetRoute from 'components/shared/HelmetRoute';
 
 class PlantsPage extends React.PureComponent {
   state = {

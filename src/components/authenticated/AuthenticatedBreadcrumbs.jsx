@@ -1,9 +1,9 @@
 import BreadcrumbItem from 'components/breadcrumbs/BreadcrumbItem';
-import compose from 'compose-function';
 import React from 'react';
 import Routes from 'constants/Routes';
 import withBreadcrumbs from 'react-router-breadcrumbs-hoc';
 import { Breadcrumb } from 'reactstrap';
+import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 
 const PlantEditBreadcrumb = ({ location, match }) => {

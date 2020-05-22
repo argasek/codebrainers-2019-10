@@ -1,6 +1,6 @@
 import { JsonConverter, JsonObject, JsonProperty, JsonType, JsonWriteonly, OnDeserialized } from 'ta-json';
 import MomentSerializer from 'serializers/MomentSerializer';
-import { v1 as uuidv1 } from 'uuid';
+import { nanoid } from 'nanoid';
 
 @JsonObject()
 class Plant {
@@ -74,7 +74,7 @@ class Plant {
 
   @OnDeserialized()
   uuidRegenerate() {
-    this.uuid = uuidv1();
+    this.uuid = nanoid();
   }
 
 }

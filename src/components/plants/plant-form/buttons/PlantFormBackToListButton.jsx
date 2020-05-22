@@ -1,11 +1,11 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'reactstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretLeft } from '@fortawesome/free-solid-svg-icons';
-import compose from 'compose-function';
-import withHistoryBackButtonOptions from 'components/shared/WithHistoryBackButtonOptions';
+import React from 'react';
 import Routes from 'constants/Routes';
+import withHistoryBackButtonOptions from 'components/shared/WithHistoryBackButtonOptions';
+import { Button } from 'reactstrap';
+import { compose } from 'redux';
+import { faCaretLeft } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const PlantFormBackToListButton = ({ label, mobileLabel, ...rest }) => {
   return (

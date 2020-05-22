@@ -1,7 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { BreadcrumbItem as Item } from 'reactstrap';
-import compose from 'compose-function';
+import { compose } from 'redux';
+import { Link } from 'react-router-dom';
 
 const BreadcrumbItem = ({ active, children, url }) => {
   return (
