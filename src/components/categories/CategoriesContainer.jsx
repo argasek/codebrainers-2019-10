@@ -1,57 +1,54 @@
-import { Card, CardBody, ListGroup } from "reactstrap";
-import React from "react";
-import CategoryItem from "components/categories/CategoryItem";
-import InProgress from "components/shared/InProgress";
-import { withCategoriesPropTypes } from 'proptypes/CategoriesPropTypes';
+import CategoryItem from 'components/categories/CategoryItem';
+import InProgress from 'components/shared/InProgress';
 import OperationFailed from 'components/shared/OperationFailed';
-import withCategories from 'components/categories/Categories';
+import React, { useEffect } from 'react';
+import useCategories from 'ducks/categories/useCategories';
+import { Card, CardBody, ListGroup } from 'reactstrap';
 
-class CategoriesContainer extends React.PureComponent {
+const CategoriesContainer = () => {
 
-  componentDidMount() {
-    this.props.fetchCategories();
-  }
+  const {
+    categories,
+    categoriesErrorMessage,
+    categoriesInProgress,
+    categoriesSuccess,
+    fetchCategories,
+  } = useCategories();
 
-  render() {
-    const {
-      categories,
-      categoriesErrorMessage,
-      categoriesInProgress,
-      categoriesSuccess,
-    } = this.props;
+  useEffect(() => {
+    fetchCategories();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-    return (
-      <Card>
-        <CardBody>
-          <div className="app-container">
-            <InProgress inProgress={ categoriesInProgress } />
-            <OperationFailed isFailed={ categoriesSuccess === false }>
-              <strong>Failed to fetch categories.</strong>
-              { ' Reason: ' }
-              { categoriesErrorMessage }
-            </OperationFailed>
-            {
-              categoriesSuccess &&
-              <ListGroup className="categories">
-                {
-                  categories.map((category) =>
-                    <CategoryItem
-                      category={ category }
-                      key={ category.id }
-                    />
-                  )
-                }
-              </ListGroup>
-            }
-          </div>
-        </CardBody>
-      </Card>
-    );
-  }
-}
-
-CategoriesContainer.propTypes = {
-  ...withCategoriesPropTypes
+  return (
+    <Card>
+      <CardBody>
+        <div className="app-container">
+          <InProgress inProgress={ categoriesInProgress } />
+          <OperationFailed isFailed={ categoriesSuccess === false }>
+            <strong>Failed to fetch categories.</strong>
+            { ' Reason: ' }
+            { categoriesErrorMessage }
+          </OperationFailed>
+          {
+            categoriesSuccess &&
+            <ListGroup className="categories">
+              {
+                categories.map((category) =>
+                  <CategoryItem
+                    category={ category }
+                    key={ category.id }
+                  />
+                )
+              }
+            </ListGroup>
+          }
+        </div>
+      </CardBody>
+    </Card>
+  );
 };
 
-export default withCategories(CategoriesContainer);
+CategoriesContainer.propTypes = {};
+
+export default CategoriesContainer;

@@ -248,6 +248,7 @@ class PlantsPage extends React.PureComponent {
     } = this.props;
 
     const success = categoriesSuccess && plantsSuccess && roomsSuccess;
+    console.log('---', categoriesSuccess, plantsSuccess, roomsSuccess);
 
     return (
       <Switch>

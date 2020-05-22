@@ -1,10 +1,10 @@
-import categoriesReducers from 'ducks/categories/categoriesReducers';
+import categoriesReducer from 'ducks/categories/categoriesSlice';
 import plantsReducers from 'ducks/plants/plantsReducers';
 import roomsReducers from 'ducks/rooms/roomsReducers';
 import { combineReducers } from 'redux';
 
 const rootReducer = combineReducers({
-  categories: categoriesReducers,
+  categories: categoriesReducer,
   plants: plantsReducers,
   rooms: roomsReducers,
 });
