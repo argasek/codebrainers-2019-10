@@ -1,5 +1,5 @@
 import React, { Suspense, useEffect, useState } from 'react';
-import './App.scss';
+import 'app/App.scss';
 import LoginPage from 'pages/login/LoginPage';
 import Auth from 'services/Auth';
 import LoadingPage from 'pages/loading/LoadingPage';
