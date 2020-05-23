@@ -1,18 +1,15 @@
-import axios from 'axios';
 import HelmetRoute from 'components/shared/HelmetRoute';
 import memoize from 'lodash-es/memoize';
 import Plant from 'models/Plant';
 import PlantFormCard from 'components/plants/PlantFormCard';
 import PlantFormFields from 'components/plants/plant-form/constants/PlantFormFields';
 import PlantList from 'components/plants/PlantList';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Routes from 'constants/Routes';
 import update from 'immutability-helper';
 import withCategories from 'components/categories/Categories';
 import withRooms from 'components/rooms/Rooms';
-import { Api } from 'services/Api';
 import { compose } from 'redux';
-import { delay, PLANTS_FETCH_DELAY } from 'shared/Debug';
 import { generatePath, matchPath, Switch, withRouter } from 'react-router-dom';
 import { plainToClass } from 'serializers/Serializer';
 import { Toast } from 'components/shared/Toast';
@@ -21,49 +18,68 @@ import { withPlant } from 'components/plants/api/WithPlant';
 import { withPlantPropTypes } from 'proptypes/WithPlantPropTypes';
 import { withRoomsPropTypes } from 'proptypes/RoomsPropTypes';
 import { withToastManager } from 'react-toast-notifications';
+import useCategories from 'ducks/categories/useCategories';
+import useRooms from 'ducks/rooms/useRooms';
+import usePlants from 'ducks/plants/usePlants';
 
-class PlantsPage extends React.PureComponent {
-  state = {
-    plants: [],
-    plantsErrorMessage: undefined,
-    plantsSuccess: undefined,
-    plantsInProgress: false,
-  };
+const PlantsPage = (props) => {
+  const toast = new Toast(props.toastManager);
 
-  constructor(props) {
-    super(props);
-    this.toast = new Toast(props.toastManager);
-  }
+  const [ initialValues, setInitialValues ] = useState();
 
-  componentDidMount() {
-    const roomsPromise = this.props.fetchRooms();
-    const categoriesPromise = this.props.fetchCategories();
-    const plantsPromise = this.fetchPlantsDelayed();
+  const {
+    categories,
+    categoriesErrorMessage,
+    categoriesInProgress,
+    categoriesSuccess,
+    fetchCategories,
+  } = useCategories();
+
+  const {
+    rooms,
+    roomsErrorMessage,
+    roomsInProgress,
+    roomsSuccess,
+    fetchRooms,
+  } = useRooms();
+
+  const {
+    plants,
+    plantsErrorMessage,
+    plantsInProgress,
+    plantsSuccess,
+    fetchPlants,
+  } = usePlants();
+
+  useEffect(() => {
+    const roomsPromise = fetchRooms();
+    const categoriesPromise = fetchCategories();
+    const plantsPromise = fetchPlants();
 
     plantsPromise
-      .then(() => this.updateInitialValuesFromLocation(this.props.location));
+      .then(() => updateInitialValuesFromLocation(props.location));
 
     this.setState({ plantsInProgress: true });
 
-    const additionalPromises = Promise.all([
+    const allPromises = Promise.all([
       roomsPromise,
       categoriesPromise,
       plantsPromise,
     ]);
 
-    additionalPromises
+    allPromises
       .finally(() => this.setState({ plantsInProgress: false }));
 
-  }
+  }, []);
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    const { location } = this.props;
-    if (prevProps.location !== location) {
-      this.updateInitialValuesFromLocation(location);
-    }
-  }
+  // componentDidUpdate(prevProps, prevState, snapshot) {
+  //   const { location } = props;
+  //   if (prevProps.location !== location) {
+  //     this.updateInitialValuesFromLocation(location);
+  //   }
+  // }
 
-  updateInitialValuesFromLocation = (location) => {
+  const updateInitialValuesFromLocation = (location) => {
     const options = {
       exact: false,
       strict: false
@@ -78,13 +94,12 @@ class PlantsPage extends React.PureComponent {
 
     if (editPath !== null) {
       const plantId = +editPath.params.plantId;
-      const plants = this.state.plants;
       const plant = plants.find((item) => item.id === plantId);
       if (plant instanceof Plant) {
         const initialValues = getInitialValues(plant);
         this.setState({ initialValues });
       } else {
-        this.props.history.push(Routes.NOT_FOUND);
+        props.history.push(Routes.NOT_FOUND);
       }
     }
 
@@ -96,39 +111,6 @@ class PlantsPage extends React.PureComponent {
 
   };
 
-  fetchPlants = (resolve, reject) => {
-    return axios.get(Api.PLANTS)
-      .then((response) => {
-        const data = response.data;
-        const plants = data
-          .map(item => plainToClass(Plant, item));
-
-        const plantsErrorMessage = '';
-        const plantsSuccess = true;
-        this.setState({
-          plants,
-          plantsSuccess,
-          plantsErrorMessage,
-        });
-        console.log('Fetched plants');
-        resolve();
-      })
-      .catch((error) => {
-        const plantsErrorMessage = error.message;
-        const plantsSuccess = false;
-        this.setState({
-          plantsErrorMessage,
-          plantsSuccess,
-        });
-        reject();
-      });
-  };
-
-  fetchPlantsDelayed() {
-    console.log('Method PlantsContainer.fetchPlantsDelayed() fired');
-    return delay(PLANTS_FETCH_DELAY, this.fetchPlants);
-  }
-
   /**
    *
    * @param {number} id
@@ -137,11 +119,11 @@ class PlantsPage extends React.PureComponent {
   getPlantIndexById = id => this.state.plants.findIndex((item) => item.id === id);
 
   navigateToPlantList = () => {
-    this.props.history.push(Routes.PLANTS);
+    props.history.push(Routes.PLANTS);
   };
 
   onPlantSuccess = (message, response) => {
-    this.toast.success(message);
+    toast.success(message);
     return response;
   };
 
@@ -150,7 +132,7 @@ class PlantsPage extends React.PureComponent {
     // const api = new Api();
     // const { errors, status } = api.getErrorsFromApi(error);
     const message = error.message;
-    this.toast.error(message, title);
+    toast.error(message, title);
     return error;
   };
 
@@ -168,7 +150,7 @@ class PlantsPage extends React.PureComponent {
     const errorTitle = 'Creating of plant failed';
     const successMessage = `Created new plant: ${ plant.name }.`;
 
-    const promise = this.props.createPlant(plant)
+    const promise = props.createPlant(plant)
       .then((response) => this.onPlantSuccess(successMessage, response))
       .then(createPlantOnList)
       .then(this.navigateToPlantList)
@@ -191,7 +173,7 @@ class PlantsPage extends React.PureComponent {
     const errorTitle = 'Removing of plant failed';
     const successMessage = `Plant ${ plant.name } was removed.`;
 
-    const promise = this.props.removePlant(plant)
+    const promise = props.removePlant(plant)
       .then((response) => this.onPlantSuccess(successMessage, response))
       .then(() => removePlantFromList(plant))
       .then(this.navigateToPlantList)
@@ -216,7 +198,7 @@ class PlantsPage extends React.PureComponent {
     const errorTitle = `Updating of plant failed!`;
     const successMessage = `Saved updates to ${ plant.name }.`;
 
-    const promise = this.props.updatePlant(plant)
+    const promise = props.updatePlant(plant)
       .then((response) => this.onPlantSuccess(successMessage, response))
       .then(updatePlantList)
       .then(this.navigateToPlantList)
@@ -227,7 +209,7 @@ class PlantsPage extends React.PureComponent {
 
   onEdit = (plantId) => {
     const path = generatePath(Routes.PLANT_EDIT, { plantId });
-    this.props.history.push(path);
+    props.history.push(path);
   };
 
   render() {
@@ -245,7 +227,7 @@ class PlantsPage extends React.PureComponent {
       plantInProgress,
       rooms,
       roomsSuccess
-    } = this.props;
+    } = props;
 
     const success = categoriesSuccess && plantsSuccess && roomsSuccess;
     console.log('---', categoriesSuccess, plantsSuccess, roomsSuccess);
