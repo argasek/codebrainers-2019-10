@@ -8,8 +8,8 @@ import { setterReducer, sliceStateSelector } from 'ducks/utils';
 const SLICE_NAME = 'plants';
 
 const STATE_PLANTS = 'plants';
-const STATE_ERROR_MESSAGE = 'inProgress';
-const STATE_IN_PROGRESS = 'errorMessage';
+const STATE_ERROR_MESSAGE = 'errorMessage';
+const STATE_IN_PROGRESS = 'inProgress';
 const STATE_SUCCESS = 'success';
 
 const stateSelector = sliceStateSelector(SLICE_NAME);
@@ -23,18 +23,38 @@ export const plantsSlice = createSlice({
     [STATE_SUCCESS]: undefined,
   },
   reducers: {
+    createPlant: (state, action) => {
+      const plants = state[STATE_PLANTS];
+      plants.push(action.payload);
+    },
+    removePlantById: (state, action) => {
+      const plant = action.payload;
+      const plants = state[STATE_PLANTS];
+      // Immutable version
+      state[STATE_PLANTS] = plants.filter(item => item.id !== plant.id);
+      // How to create mutable version? :)
+    },
     setPlants: setterReducer(STATE_PLANTS),
     setErrorMessage: setterReducer(STATE_ERROR_MESSAGE),
     setInProgress: setterReducer(STATE_IN_PROGRESS),
     setSuccess: setterReducer(STATE_SUCCESS),
+    updatePlant: (state, action) => {
+      const plant = action.payload;
+      const plants = state[STATE_PLANTS];
+      const { id } = plant;
+      state[STATE_PLANTS] = plants.map(item => item.id === id ? plant : item);
+    },
   },
 });
 
 export const {
+  createPlant,
+  removePlantById,
   setPlants,
   setErrorMessage,
   setInProgress,
   setSuccess,
+  updatePlant,
 } = plantsSlice.actions;
 
 export const fetchPlants = () => async dispatch => {

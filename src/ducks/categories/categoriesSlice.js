@@ -8,8 +8,8 @@ import { setterReducer, sliceStateSelector } from 'ducks/utils';
 const SLICE_NAME = 'categories';
 
 const STATE_CATEGORIES = 'categories';
-const STATE_ERROR_MESSAGE = 'inProgress';
-const STATE_IN_PROGRESS = 'errorMessage';
+const STATE_ERROR_MESSAGE = 'errorMessage';
+const STATE_IN_PROGRESS = 'inProgress';
 const STATE_SUCCESS = 'success';
 
 const stateSelector = sliceStateSelector(SLICE_NAME);

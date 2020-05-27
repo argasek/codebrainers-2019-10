@@ -1,5 +1,6 @@
 import get from 'lodash-es/get';
 import HttpStatus from 'http-status-codes';
+import { compile } from 'path-to-regexp';
 
 const API_ERRORS = 'apiErrors';
 const API_NON_FIELD_ERRORS = 'non_field_errors';
@@ -29,6 +30,7 @@ class Api {
   static timeout = process.env.REACT_APP_PLANTS_API_TIMEOUT;
   static AUTH_TOKEN = '/api-token-auth/';
   static PLANTS = '/plants/';
+  static PLANT = '/plants/:plantId/';
   static CATEGORIES = '/categories/';
   static ROOMS = '/rooms/';
 
@@ -82,6 +84,12 @@ class Api {
       errors,
       status,
     };
+  }
+
+  getPath(url, options) {
+    debugger;
+    const toPath = compile(url, { encode: encodeURIComponent });
+    return toPath(options);
   }
 }
 

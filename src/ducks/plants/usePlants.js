@@ -1,21 +1,27 @@
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  createPlant,
   fetchPlants,
+  removePlantById,
   selectPlants,
   selectPlantsErrorMessage,
   selectPlantsInProgress,
-  selectPlantsSuccess
+  selectPlantsSuccess,
+  updatePlant,
 } from 'ducks/plants/plantsSlice';
 
 const usePlants = () => {
   const dispatch = useDispatch();
 
   return {
+    fetchPlants: () => dispatch(fetchPlants()),
     plants: useSelector(selectPlants),
+    plantsCreatePlant: (plant) => dispatch(createPlant(plant)),
     plantsErrorMessage: useSelector(selectPlantsErrorMessage),
     plantsInProgress: useSelector(selectPlantsInProgress),
+    plantsRemovePlant: (plantId) => dispatch(removePlantById(plantId)),
     plantsSuccess: useSelector(selectPlantsSuccess),
-    fetchPlants: () => dispatch(fetchPlants())
+    plantsUpdatePlant: (plant) => dispatch(updatePlant(plant)),
   };
 
 };

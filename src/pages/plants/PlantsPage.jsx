@@ -4,82 +4,56 @@ import Plant from 'models/Plant';
 import PlantFormCard from 'components/plants/PlantFormCard';
 import PlantFormFields from 'components/plants/plant-form/constants/PlantFormFields';
 import PlantList from 'components/plants/PlantList';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Routes from 'constants/Routes';
-import update from 'immutability-helper';
-import withCategories from 'components/categories/Categories';
-import withRooms from 'components/rooms/Rooms';
-import { compose } from 'redux';
-import { generatePath, matchPath, Switch, withRouter } from 'react-router-dom';
-import { plainToClass } from 'serializers/Serializer';
-import { Toast } from 'components/shared/Toast';
-import { withCategoriesPropTypes } from 'proptypes/CategoriesPropTypes';
-import { withPlant } from 'components/plants/api/WithPlant';
-import { withPlantPropTypes } from 'proptypes/WithPlantPropTypes';
-import { withRoomsPropTypes } from 'proptypes/RoomsPropTypes';
-import { withToastManager } from 'react-toast-notifications';
 import useCategories from 'ducks/categories/useCategories';
-import useRooms from 'ducks/rooms/useRooms';
 import usePlants from 'ducks/plants/usePlants';
+import useRooms from 'ducks/rooms/useRooms';
+import { compose } from 'redux';
+import { createPlant, removePlantById, selectPlantInProgress, updatePlant, } from 'ducks/plant/plantSlice';
+import { generatePath, matchPath, Switch, useHistory, useLocation } from 'react-router-dom';
+import { Toast } from 'components/shared/Toast';
+import { unwrapResult } from '@reduxjs/toolkit';
+import { useDispatch, useSelector } from 'react-redux';
+import { withToastManager } from 'react-toast-notifications';
 
 const PlantsPage = (props) => {
-  const toast = new Toast(props.toastManager);
+  const history = useHistory();
+  const location = useLocation();
+  const { toastManager } = props;
 
-  const [ initialValues, setInitialValues ] = useState();
+  const toast = new Toast(toastManager);
+
+  const [ initialValues, setInitialValues ] = useState(undefined);
+  const [ inProgress, setInProgress ] = useState(false);
 
   const {
     categories,
-    categoriesErrorMessage,
-    categoriesInProgress,
     categoriesSuccess,
     fetchCategories,
   } = useCategories();
 
   const {
     rooms,
-    roomsErrorMessage,
-    roomsInProgress,
     roomsSuccess,
     fetchRooms,
   } = useRooms();
 
   const {
-    plants,
-    plantsErrorMessage,
-    plantsInProgress,
-    plantsSuccess,
     fetchPlants,
+    plants,
+    plantsCreatePlant,
+    plantsErrorMessage,
+    plantsRemovePlant,
+    plantsSuccess,
+    plantsUpdatePlant,
   } = usePlants();
 
-  useEffect(() => {
-    const roomsPromise = fetchRooms();
-    const categoriesPromise = fetchCategories();
-    const plantsPromise = fetchPlants();
+  const dispatch = useDispatch();
 
-    plantsPromise
-      .then(() => updateInitialValuesFromLocation(props.location));
+  const plantInProgress = useSelector(selectPlantInProgress);
 
-    this.setState({ plantsInProgress: true });
-
-    const allPromises = Promise.all([
-      roomsPromise,
-      categoriesPromise,
-      plantsPromise,
-    ]);
-
-    allPromises
-      .finally(() => this.setState({ plantsInProgress: false }));
-
-  }, []);
-
-  // componentDidUpdate(prevProps, prevState, snapshot) {
-  //   const { location } = props;
-  //   if (prevProps.location !== location) {
-  //     this.updateInitialValuesFromLocation(location);
-  //   }
-  // }
-
-  const updateInitialValuesFromLocation = (location) => {
+  const updateInitialValuesFromLocation = useCallback((location) => {
     const options = {
       exact: false,
       strict: false
@@ -96,205 +70,181 @@ const PlantsPage = (props) => {
       const plantId = +editPath.params.plantId;
       const plant = plants.find((item) => item.id === plantId);
       if (plant instanceof Plant) {
-        const initialValues = getInitialValues(plant);
-        this.setState({ initialValues });
+        setInitialValues(getInitialValues(plant));
       } else {
-        props.history.push(Routes.NOT_FOUND);
+        history.push(Routes.NOT_FOUND);
       }
     }
 
     if (createPath !== null) {
       const plant = new Plant();
-      const initialValues = getInitialValues(plant);
-      this.setState({ initialValues });
+      setInitialValues(getInitialValues(plant));
     }
 
+  }, [ history, plants ]);
+
+  useEffect(() => {
+    const roomsPromise = fetchRooms();
+    const categoriesPromise = fetchCategories();
+    const plantsPromise = fetchPlants();
+
+    plantsPromise
+      .then(() => updateInitialValuesFromLocation(location));
+
+    setInProgress(true);
+
+    const allPromises = Promise.all([
+      roomsPromise,
+      categoriesPromise,
+      plantsPromise,
+    ]);
+
+    allPromises
+      .finally(() => setInProgress(false));
+
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    updateInitialValuesFromLocation(location);
+  }, [ location, updateInitialValuesFromLocation ]);
+
+  const navigateToPlantList = () => {
+    history.push(Routes.PLANTS);
   };
 
-  /**
-   *
-   * @param {number} id
-   * @return {number}
-   */
-  getPlantIndexById = id => this.state.plants.findIndex((item) => item.id === id);
-
-  navigateToPlantList = () => {
-    props.history.push(Routes.PLANTS);
-  };
-
-  onPlantSuccess = (message, response) => {
-    toast.success(message);
-    return response;
-  };
-
-  onPlantError = (error, title) => {
-    // TODO: improve error handling
-    // const api = new Api();
-    // const { errors, status } = api.getErrorsFromApi(error);
+  const onPlantError = (action, title) => {
+    if (action.payload) {
+      // TODO: improve error handling
+      // const api = new Api();
+      // const { errors, status } = api.getErrorsFromApi(error);
+    } else {
+      // …
+    }
+    const error = action.error;
     const message = error.message;
     toast.error(message, title);
-    return error;
+    return action;
   };
 
   /**
    * @param {Plant} plant
    */
-  onPlantCreate = (plant) => {
-    const createPlantOnList = (response) => {
-      const { data } = response;
-      const plant = plainToClass(Plant, data);
-      const plants = update(this.state.plants, { $push: [ plant ] });
-      this.setState({ plants });
-    };
+  const onPlantCreate = async (plant) => {
 
-    const errorTitle = 'Creating of plant failed';
-    const successMessage = `Created new plant: ${ plant.name }.`;
+    const action = await dispatch(createPlant(plant));
 
-    const promise = props.createPlant(plant)
-      .then((response) => this.onPlantSuccess(successMessage, response))
-      .then(createPlantOnList)
-      .then(this.navigateToPlantList)
-      .catch((error) => this.onPlantError(error, errorTitle));
+    if (createPlant.fulfilled.match(action)) {
+      const plant = unwrapResult(action);
+      const successMessage = `Created new plant: ${ plant.name }.`;
+      toast.success(successMessage);
+      plantsCreatePlant(plant);
+      navigateToPlantList();
+    } else {
+      const errorTitle = 'Creating of plant failed';
+      onPlantError(action, errorTitle);
+    }
 
-    return promise;
+    return action;
   };
 
-  onPlantRemove = () => {
-    const id = this.state.initialValues.id;
-    const plantIndex = this.getPlantIndexById(id);
-    const plant = this.state.plants[plantIndex];
+  const onPlantRemove = async () => {
+    const id = initialValues.id;
+    const action = await dispatch(removePlantById(id));
 
-    const removePlantFromList = (plant) => {
-      const plantIndex = this.getPlantIndexById(plant.id);
-      const plants = update(this.state.plants, { $splice: [ [ plantIndex, 1 ] ] });
-      this.setState({ plants });
-    };
+    if (removePlantById.fulfilled.match(action)) {
+      const name = '';
+      const successMessage = `Plant ${ name } was removed.`;
+      toast.success(successMessage);
+      plantsRemovePlant(id);
+      navigateToPlantList();
+    } else {
+      const errorTitle = 'Removing of plant failed';
+      onPlantError(action, errorTitle);
+    }
 
-    const errorTitle = 'Removing of plant failed';
-    const successMessage = `Plant ${ plant.name } was removed.`;
-
-    const promise = props.removePlant(plant)
-      .then((response) => this.onPlantSuccess(successMessage, response))
-      .then(() => removePlantFromList(plant))
-      .then(this.navigateToPlantList)
-      .catch((error) => this.onPlantError(error, errorTitle));
-
-    return promise;
+    return action;
   };
-
 
   /**
    * @param {Plant} plant
    */
-  onPlantUpdate = (plant) => {
-    const updatePlantList = (response) => {
-      const { data } = response;
-      const plant = plainToClass(Plant, data);
-      const plantIndex = this.state.plants.findIndex((item) => item.id === plant.id);
-      const plants = update(this.state.plants, { [plantIndex]: { $set: plant } });
-      this.setState({ plants });
-    };
+  const onPlantUpdate = async (plant) => {
+    const action = await dispatch(updatePlant(plant));
 
-    const errorTitle = `Updating of plant failed!`;
-    const successMessage = `Saved updates to ${ plant.name }.`;
+    if (updatePlant.fulfilled.match(action)) {
+      const successMessage = `Saved updates to ${ plant.name }.`;
+      toast.success(successMessage);
+      plantsUpdatePlant(plant);
+      navigateToPlantList();
+    } else {
+      const errorTitle = `Updating of plant failed!`;
+      onPlantError(action, errorTitle);
+    }
 
-    const promise = props.updatePlant(plant)
-      .then((response) => this.onPlantSuccess(successMessage, response))
-      .then(updatePlantList)
-      .then(this.navigateToPlantList)
-      .catch((error) => this.onPlantError(error, errorTitle));
-
-    return promise;
+    return action;
   };
 
-  onEdit = (plantId) => {
+  const onEdit = (plantId) => {
     const path = generatePath(Routes.PLANT_EDIT, { plantId });
-    props.history.push(path);
+    history.push(path);
   };
 
-  render() {
-    const {
-      initialValues,
-      plants,
-      plantsErrorMessage,
-      plantsInProgress,
-      plantsSuccess,
-    } = this.state;
+  const success = categoriesSuccess && plantsSuccess && roomsSuccess;
 
-    const {
-      categories,
-      categoriesSuccess,
-      plantInProgress,
-      rooms,
-      roomsSuccess
-    } = props;
-
-    const success = categoriesSuccess && plantsSuccess && roomsSuccess;
-    console.log('---', categoriesSuccess, plantsSuccess, roomsSuccess);
-
-    return (
-      <Switch>
-        <HelmetRoute
-          exact
-          path={ Routes.PLANTS }
-          render={ () =>
-            <PlantList
-              categories={ categories }
-              onEdit={ this.onEdit }
-              plants={ plants }
-              plantsErrorMessage={ plantsErrorMessage }
-              plantsInProgress={ plantsInProgress }
-              plantsSuccess={ plantsSuccess }
-              rooms={ rooms }
-              success={ success }
-            />
-          }
-          title="List of plants"
-        />
-        <HelmetRoute
-          path={ [ Routes.PLANTS_CREATE ] }
-          render={ () => (
-            <PlantFormCard
-              categories={ categories }
-              formLabel="Create new plant"
-              initialValues={ initialValues }
-              onSubmit={ this.onPlantCreate }
-              plantInProgress={ plantInProgress }
-              rooms={ rooms }
-            />
-          ) }
-          title="Create plant"
-        />
-        <HelmetRoute
-          path={ Routes.PLANT_EDIT }
-          render={ () => (
-            <PlantFormCard
-              categories={ categories }
-              formLabel="Edit plant"
-              initialValues={ initialValues }
-              onSubmit={ this.onPlantUpdate }
-              onRemove={ this.onPlantRemove }
-              plantInProgress={ plantInProgress }
-              rooms={ rooms }
-            />
-          ) }
-          title={ initialValues && initialValues.name }
-        />
-      </Switch>
-    );
-  }
-}
-
-PlantsPage.propTypes = {
-  ...withRoomsPropTypes,
-  ...withCategoriesPropTypes,
-  ...withPlantPropTypes,
+  return (
+    <Switch>
+      <HelmetRoute
+        exact
+        path={ Routes.PLANTS }
+        render={ () =>
+          <PlantList
+            categories={ categories }
+            onEdit={ onEdit }
+            plants={ plants }
+            plantsErrorMessage={ plantsErrorMessage }
+            plantsInProgress={ inProgress }
+            plantsSuccess={ plantsSuccess }
+            rooms={ rooms }
+            success={ success }
+          />
+        }
+        title="List of plants"
+      />
+      <HelmetRoute
+        path={ [ Routes.PLANTS_CREATE ] }
+        render={ () => (
+          <PlantFormCard
+            categories={ categories }
+            formLabel="Create new plant"
+            initialValues={ initialValues }
+            onSubmit={ onPlantCreate }
+            plantInProgress={ plantInProgress }
+            rooms={ rooms }
+          />
+        ) }
+        title="Create plant"
+      />
+      <HelmetRoute
+        path={ Routes.PLANT_EDIT }
+        render={ () => (
+          <PlantFormCard
+            categories={ categories }
+            formLabel="Edit plant"
+            initialValues={ initialValues }
+            onSubmit={ onPlantUpdate }
+            onRemove={ onPlantRemove }
+            plantInProgress={ plantInProgress }
+            rooms={ rooms }
+          />
+        ) }
+        title={ initialValues && initialValues.name }
+      />
+    </Switch>
+  );
 };
 
+PlantsPage.propTypes = {};
+
 export default compose(
-  withRooms,
-  withCategories,
-  withRouter,
-  withPlant,
   withToastManager,
 )(PlantsPage);
