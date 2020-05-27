@@ -2,11 +2,11 @@ import InProgress from 'components/shared/InProgress';
 import OperationFailed from 'components/shared/OperationFailed';
 import React, { useEffect } from 'react';
 import RoomItem from 'components/rooms/RoomItem';
-import withRooms from 'components/rooms/Rooms';
 import { Card, CardBody, ListGroup } from 'reactstrap';
 import useRooms from 'ducks/rooms/useRooms';
+import TopHeaderWithActionButton from 'components/shared/TopHeaderWithActionButton';
 
-const RoomsContainer = () => {
+const RoomsPage = () => {
 
   const {
     rooms,
@@ -24,6 +24,9 @@ const RoomsContainer = () => {
   return (
     <Card>
       <CardBody>
+        <TopHeaderWithActionButton title="Rooms">
+        </TopHeaderWithActionButton>
+
         <InProgress inProgress={ roomsInProgress } />
         <OperationFailed isFailed={ roomsSuccess === false }>
           <strong>Failed to fetch rooms.</strong>
@@ -48,6 +51,6 @@ const RoomsContainer = () => {
   );
 };
 
-RoomsContainer.propTypes = {};
+RoomsPage.propTypes = {};
 
-export default withRooms(RoomsContainer);
+export default RoomsPage;

@@ -4,8 +4,9 @@ import OperationFailed from 'components/shared/OperationFailed';
 import React, { useEffect } from 'react';
 import useCategories from 'ducks/categories/useCategories';
 import { Card, CardBody, ListGroup } from 'reactstrap';
+import TopHeaderWithActionButton from 'components/shared/TopHeaderWithActionButton';
 
-const CategoriesContainer = () => {
+const CategoriesPage = () => {
 
   const {
     categories,
@@ -23,6 +24,9 @@ const CategoriesContainer = () => {
   return (
     <Card>
       <CardBody>
+        <TopHeaderWithActionButton title="Categories">
+        </TopHeaderWithActionButton>
+
         <InProgress inProgress={ categoriesInProgress } />
         <OperationFailed isFailed={ categoriesSuccess === false }>
           <strong>Failed to fetch categories.</strong>
@@ -47,6 +51,6 @@ const CategoriesContainer = () => {
   );
 };
 
-CategoriesContainer.propTypes = {};
+CategoriesPage.propTypes = {};
 
-export default CategoriesContainer;
+export default CategoriesPage;

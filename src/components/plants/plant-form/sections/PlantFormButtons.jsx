@@ -5,8 +5,8 @@ import PlantFormCancelButton from 'components/plants/plant-form/buttons/PlantFor
 import PlantFormSubmitButton from 'components/plants/plant-form/buttons/PlantFormSubmitButton';
 import PlantFormResetButton from 'components/plants/plant-form/buttons/PlantFormResetButton';
 import PlantFormRemoveButton from 'components/plants/plant-form/buttons/PlantFormRemoveButton';
-import { PLANT_PROGRESS_REMOVE } from 'components/plants/api/WithPlant';
 import { plantInProgressPropType } from 'proptypes/PlantFormPropTypes';
+import { PLANT_PROGRESS_REMOVE } from 'ducks/plant/plantSlice';
 
 /**
  * @component
