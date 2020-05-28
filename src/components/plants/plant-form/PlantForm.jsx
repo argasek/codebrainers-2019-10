@@ -1,7 +1,7 @@
 import Effect from 'components/shared/form/Effect';
 import PlantFormButtons from 'components/plants/plant-form/sections/PlantFormButtons';
 import PlantFormCultivation from 'components/plants/plant-form/sections/PlantFormCultivation';
-import PlantFormFields from 'components/plants/plant-form/constants/PlantFormFields';
+import { plantFormFields as formFields } from 'components/plants/plant-form/constants/PlantFormFields';
 import PlantFormInformation from 'components/plants/plant-form/sections/PlantFormInformation';
 import PlantFormMaintenance from 'components/plants/plant-form/sections/PlantFormMaintenance';
 import React from 'react';
@@ -19,7 +19,8 @@ const PlantForm = (props) => {
     rooms,
   } = props;
 
-  const initialStatus = PlantFormFields.getInitialStatus();
+  const initialStatus = formFields.getInitialStatus();
+
   const key = initialValues.uuid;
 
   const isCreateMode = !initialValues.id;
@@ -33,14 +34,28 @@ const PlantForm = (props) => {
     props.onPlantNameChange(name);
   };
 
+  /**
+   *
+   * @param {ApiErrors} apiErrors
+   * @param {ApiErrorStatus} httpStatusCode
+   * @param {FormikValues} values
+   * @param {function} resetForm
+   */
+  const onSubmitError = (apiErrors, httpStatusCode, values, resetForm) => {
+    const status = formFields.getStatusFromApi(apiErrors, httpStatusCode);
+    resetForm({ values, status });
+  };
+
   const onSubmit = async (values, formikBag) => {
     const transformPromise = yupTransform(values, formikBag, validationSchema);
     const [ formattedValues, hasErrors ] = await transformPromise;
     if (hasErrors) {
       return;
     }
-    const plant = PlantFormFields.toModel(formattedValues);
-    return props.onSubmit(plant);
+    const plant = formFields.toModel(formattedValues);
+    const { resetForm } = formikBag;
+    const onSubmitApiErrors = (apiErrors, httpStatusCode) => onSubmitError(apiErrors, httpStatusCode, values, resetForm);
+    return props.onSubmit(plant, onSubmitApiErrors);
   };
 
   const formikProps = {

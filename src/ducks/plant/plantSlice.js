@@ -5,6 +5,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { classToPlain, plainToClass } from 'serializers/Serializer';
 import { setterReducer, sliceStateSelector } from 'ducks/utils';
 import get from 'lodash-es/get';
+import Success from 'constants/Success';
 
 const SLICE_NAME = 'plant';
 const SLICE_CREATE = `${ SLICE_NAME }/create`;
@@ -53,6 +54,13 @@ const getPathByPlantId = (plantId) => {
   return path;
 };
 
+const handleApiError = (error, rejectWithValue) => {
+  if (error.response) {
+    return rejectWithValue(api.getErrorsFromApi(error));
+  }
+  throw error;
+};
+
 export const createPlant = createAsyncThunk(
   SLICE_CREATE,
   /**
@@ -67,24 +75,24 @@ export const createPlant = createAsyncThunk(
       const result = plainToClass(Plant, response.data);
       return result;
     } catch (error) {
-      if (!error.response) {
-        throw error;
-      }
-      return rejectWithValue(error.response.data);
+      return handleApiError(error, rejectWithValue);
     }
   }
 );
 
 export const fetchPlantById = createAsyncThunk(
   SLICE_FETCH_BY_ID,
-  async (plantId, thunkAPI) => {
-    const { signal } = thunkAPI;
-    const options = getCancelOptions(signal);
-    const path = getPathByPlantId(plantId);
-    const response = await axios.get(path, options);
-    const data = response.data;
-    const plant = plainToClass(Plant, data);
-    return plant;
+  async (plantId, { rejectWithValue, signal }) => {
+    try {
+      const options = getCancelOptions(signal);
+      const path = getPathByPlantId(plantId);
+      const response = await axios.get(path, options);
+      const data = response.data;
+      const plant = plainToClass(Plant, data);
+      return plant;
+    } catch (error) {
+      return handleApiError(error, rejectWithValue);
+    }
   }
 );
 
@@ -103,10 +111,7 @@ export const removePlantById = createAsyncThunk(
       const response = await axios.delete(path, options);
       return response.data;
     } catch (error) {
-      if (!error.response) {
-        throw error;
-      }
-      return rejectWithValue(error.response.data);
+      return handleApiError(error, rejectWithValue);
     }
   }
 );
@@ -126,10 +131,7 @@ export const updatePlant = createAsyncThunk(
       const result = plainToClass(Plant, response.data);
       return result;
     } catch (error) {
-      if (!error.response) {
-        throw error;
-      }
-      return rejectWithValue(error.response.data);
+      return handleApiError(error, rejectWithValue);
     }
   }
 );
@@ -147,7 +149,7 @@ export const plantSlice = createSlice({
     [STATE_PLANT]: new Plant(),
     [STATE_ERROR_MESSAGE]: '',
     [STATE_IN_PROGRESS]: PLANT_PROGRESS_STOPPED,
-    [STATE_SUCCESS]: undefined,
+    [STATE_SUCCESS]: Success.UNKNOWN,
   },
   reducers: {
     setPlant: setterReducer(STATE_PLANT),

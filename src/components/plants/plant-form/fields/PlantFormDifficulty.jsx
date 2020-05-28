@@ -3,7 +3,7 @@ import { FormGroup, FormText } from 'reactstrap';
 import { Field } from 'formik';
 import { plantDifficultyOptions } from 'constants/PlantConstants';
 import PlantasticRadioNoFeedback from 'components/shared/form/PlantasticRadioNoFeedback';
-import PlantFormFields from 'components/plants/plant-form/constants/PlantFormFields';
+import { PlantFormFields } from 'components/plants/plant-form/constants/PlantFormFields';
 
 const plantDifficultyId = "plantDifficulty";
 const plantDifficultyName = PlantFormFields.DIFFICULTY;

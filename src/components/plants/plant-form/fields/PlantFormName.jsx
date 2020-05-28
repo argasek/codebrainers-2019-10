@@ -2,7 +2,7 @@ import React from "react";
 import { FormGroup, Label } from "reactstrap";
 import { Field } from "formik";
 import PlantasticInput from 'components/shared/form/PlantasticInput';
-import PlantFormFields from 'components/plants/plant-form/constants/PlantFormFields';
+import { PlantFormFields } from 'components/plants/plant-form/constants/PlantFormFields';
 
 const PlantFormName = (props) => {
   const plantNameId = "plantName";

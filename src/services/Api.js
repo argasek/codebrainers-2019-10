@@ -1,9 +1,11 @@
 import get from 'lodash-es/get';
 import HttpStatus from 'http-status-codes';
 import { compile } from 'path-to-regexp';
+import camelcaseKeys from 'camelcase-keys';
+import camelCase from 'lodash-es/camelCase';
 
 const API_ERRORS = 'apiErrors';
-const API_NON_FIELD_ERRORS = 'non_field_errors';
+const API_NON_FIELD_ERRORS = camelCase('non_field_errors');
 
 const ApiErrorTypes = Object.freeze({
   CLIENT: 'client',
@@ -78,7 +80,7 @@ class Api {
    */
   getErrorsFromApi(error) {
     const { response } = error;
-    const errors = get(response, 'data', {});
+    const errors = camelcaseKeys(get(response, 'data', {}));
     const status = this._getStatus(error);
     return {
       errors,
@@ -87,7 +89,6 @@ class Api {
   }
 
   getPath(url, options) {
-    debugger;
     const toPath = compile(url, { encode: encodeURIComponent });
     return toPath(options);
   }

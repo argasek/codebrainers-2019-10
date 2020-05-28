@@ -2,7 +2,7 @@ import React from "react";
 import { FormGroup, Label } from "reactstrap";
 import { Field } from "formik";
 import PlantasticInput from 'components/shared/form/PlantasticInput';
-import loginFormFields from 'components/authentication/constants/LoginFormFields';
+import loginFormFields from 'components/authentication/login/form/LoginFormFields';
 
 const LoginFormUsername = (props) => {
   const id = "userLoginUsername";

@@ -2,7 +2,7 @@ import HelmetRoute from 'components/shared/HelmetRoute';
 import memoize from 'lodash-es/memoize';
 import Plant from 'models/Plant';
 import PlantFormCard from 'components/plants/PlantFormCard';
-import PlantFormFields from 'components/plants/plant-form/constants/PlantFormFields';
+import { plantFormFields } from 'components/plants/plant-form/constants/PlantFormFields';
 import PlantList from 'components/plants/PlantList';
 import React, { useCallback, useEffect, useState } from 'react';
 import Routes from 'constants/Routes';
@@ -64,7 +64,7 @@ const PlantsPage = (props) => {
     const editPath = matchPath(pathname, { ...options, path: Routes.PLANT_EDIT });
     const createPath = matchPath(pathname, { ...options, path: Routes.PLANTS_CREATE });
 
-    const getInitialValues = memoize(PlantFormFields.getInitialValues);
+    const getInitialValues = memoize(plantFormFields.getInitialValues);
 
     if (editPath !== null) {
       const plantId = +editPath.params.plantId;
@@ -113,12 +113,9 @@ const PlantsPage = (props) => {
   };
 
   const onPlantError = (action, title) => {
+    // If payload is present, there were some validation errors.
     if (action.payload) {
-      // TODO: improve error handling
-      // const api = new Api();
-      // const { errors, status } = api.getErrorsFromApi(error);
-    } else {
-      // …
+      return action.payload;
     }
     const error = action.error;
     const message = error.message;
@@ -128,8 +125,9 @@ const PlantsPage = (props) => {
 
   /**
    * @param {Plant} plant
+   * @param {function} onSubmitApiErrors
    */
-  const onPlantCreate = async (plant) => {
+  const onPlantCreate = async (plant, onSubmitApiErrors) => {
 
     const action = await dispatch(createPlant(plant));
 
@@ -141,13 +139,14 @@ const PlantsPage = (props) => {
       navigateToPlantList();
     } else {
       const errorTitle = 'Creating of plant failed';
-      onPlantError(action, errorTitle);
+      const { errors, status } = onPlantError(action, errorTitle);
+      onSubmitApiErrors(errors, status);
     }
 
     return action;
   };
 
-  const onPlantRemove = async () => {
+  const onPlantRemove = async (onSubmitApiErrors) => {
     const id = initialValues.id;
     const action = await dispatch(removePlantById(id));
 
@@ -159,7 +158,8 @@ const PlantsPage = (props) => {
       navigateToPlantList();
     } else {
       const errorTitle = 'Removing of plant failed';
-      onPlantError(action, errorTitle);
+      const { errors, status } = onPlantError(action, errorTitle);
+      onSubmitApiErrors(errors, status);
     }
 
     return action;
@@ -168,7 +168,7 @@ const PlantsPage = (props) => {
   /**
    * @param {Plant} plant
    */
-  const onPlantUpdate = async (plant) => {
+  const onPlantUpdate = async (plant, onSubmitApiErrors) => {
     const action = await dispatch(updatePlant(plant));
 
     if (updatePlant.fulfilled.match(action)) {
@@ -178,7 +178,8 @@ const PlantsPage = (props) => {
       navigateToPlantList();
     } else {
       const errorTitle = `Updating of plant failed!`;
-      onPlantError(action, errorTitle);
+      const { errors, status } = onPlantError(action, errorTitle);
+      onSubmitApiErrors(errors, status);
     }
 
     return action;

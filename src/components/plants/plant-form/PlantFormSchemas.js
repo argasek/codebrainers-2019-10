@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import PlantFormFields from 'components/plants/plant-form/constants/PlantFormFields';
+import { PlantFormFields } from 'components/plants/plant-form/constants/PlantFormFields';
 import isSafeInteger from 'lodash-es/isSafeInteger';
 import { DATE_FORMAT } from 'constants/Config';
 import moment from 'moment-es6';

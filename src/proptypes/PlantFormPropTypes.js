@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import moment from 'moment-es6';
-import PlantFormFields from 'components/plants/plant-form/constants/PlantFormFields';
+import { PlantFormFields } from 'components/plants/plant-form/constants/PlantFormFields';
 import { categoriesPropType } from 'proptypes/CategoriesPropTypes';
 import { roomsPropType } from 'proptypes/RoomsPropTypes';
 

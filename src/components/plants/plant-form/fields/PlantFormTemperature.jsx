@@ -3,7 +3,7 @@ import { FormGroup, Label } from "reactstrap";
 import { Field } from "formik";
 import { plantTemperatureOptions } from "constants/PlantConstants";
 import PlantasticSelect from "components/shared/form/PlantasticSelect";
-import PlantFormFields from 'components/plants/plant-form/constants/PlantFormFields';
+import { PlantFormFields } from 'components/plants/plant-form/constants/PlantFormFields';
 import OptionPleaseSelect from 'components/shared/form/OptionPleaseSelect';
 
 const PlantFormTemperature = (props) => {

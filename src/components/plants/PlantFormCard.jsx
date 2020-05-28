@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PlantForm from './plant-form/PlantForm';
 import { Card, CardBody } from 'reactstrap';
 import { plantFormCardPropTypes } from 'proptypes/PlantFormPropTypes';
-import PlantFormFields from 'components/plants/plant-form/constants/PlantFormFields';
+import { plantFormFields, PlantFormFields } from 'components/plants/plant-form/constants/PlantFormFields';
 import get from 'lodash-es/get';
 import InProgress from 'components/shared/InProgress';
 
@@ -15,7 +15,7 @@ import InProgress from 'components/shared/InProgress';
  * @return {boolean}
  */
 const propsAreEqual = function (prevProps, nextProps) {
-  const areValuesEqual = PlantFormFields.areValuesEqual(
+  const areValuesEqual = plantFormFields.areValuesEqual(
     prevProps.initialValues,
     nextProps.initialValues
   );

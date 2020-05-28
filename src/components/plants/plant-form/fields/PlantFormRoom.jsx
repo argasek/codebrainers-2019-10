@@ -2,7 +2,7 @@ import React from 'react';
 import { FormGroup, FormText, Label } from 'reactstrap';
 import { Field } from 'formik';
 import PlantasticSelect from 'components/shared/form/PlantasticSelect';
-import PlantFormFields from 'components/plants/plant-form/constants/PlantFormFields';
+import { PlantFormFields } from 'components/plants/plant-form/constants/PlantFormFields';
 import { roomsPropType } from 'proptypes/RoomsPropTypes';
 import OptionPleaseSelect from 'components/shared/form/OptionPleaseSelect';
 import { Link } from 'react-router-dom';

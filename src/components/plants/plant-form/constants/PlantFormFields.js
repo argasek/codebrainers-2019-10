@@ -30,7 +30,7 @@ class PlantFormFields {
    * @param {Plant} plant
    * @return {*}
    */
-  static getInitialValues(plant) {
+  getInitialValues(plant) {
     const firstOf = (arr) => arr[0].id;
 
     const fieldNames = Object.values(PlantFormFields);
@@ -45,15 +45,26 @@ class PlantFormFields {
     });
   }
 
-  static getInitialStatus() {
+  getInitialStatus() {
     return FormikApiErrors.getInitialStatus();
   }
 
-  static getDateAsYMD(value) {
+  getDateAsYMD(value) {
     return moment.isMoment(value) ? value.format(DATE_FORMAT) : '';
   }
 
-  static areValuesEqual(prevValues, nextValues) {
+  /**
+   *
+   * @param {object} apiErrors
+   * @param {ApiErrorStatus} status
+   * @return {ApiErrors}
+   */
+  getStatusFromApi(apiErrors, status) {
+    return FormikApiErrors.getStatusFromApi(apiErrors, status);
+  }
+
+
+  areValuesEqual(prevValues, nextValues) {
     const prev = prevValues || {};
     const next = nextValues || {};
 
@@ -87,15 +98,12 @@ class PlantFormFields {
     const dateDiff = (key) => {
       const firstDateTime = prev[key];
       const secondDateTime = next[key];
-      const asYmd = PlantFormFields.getDateAsYMD;
+      const asYmd = plantFormFields.getDateAsYMD;
       return asYmd(firstDateTime) !== asYmd(secondDateTime);
     };
 
-    if (dateTimeFields.some(dateDiff)) {
-      return false;
-    }
+    return !dateTimeFields.some(dateDiff);
 
-    return true;
   }
 
   /**
@@ -103,10 +111,15 @@ class PlantFormFields {
    * @param {Object} values
    * @returns {Plant}
    */
-  static toModel(values) {
+  toModel(values) {
     const plant = new Plant();
     return Object.assign(plant, values);
   }
 }
 
-export default PlantFormFields;
+const plantFormFields = new PlantFormFields();
+
+export {
+  plantFormFields,
+  PlantFormFields
+};

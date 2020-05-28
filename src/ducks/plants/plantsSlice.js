@@ -4,6 +4,8 @@ import { Api } from 'services/Api';
 import { createSlice } from '@reduxjs/toolkit';
 import { plainToClass } from 'serializers/Serializer';
 import { setterReducer, sliceStateSelector } from 'ducks/utils';
+import Progress from 'constants/Progress';
+import Success from 'constants/Success';
 
 const SLICE_NAME = 'plants';
 
@@ -19,8 +21,8 @@ export const plantsSlice = createSlice({
   initialState: {
     [STATE_PLANTS]: [],
     [STATE_ERROR_MESSAGE]: '',
-    [STATE_IN_PROGRESS]: false,
-    [STATE_SUCCESS]: undefined,
+    [STATE_IN_PROGRESS]: Progress.IDLE,
+    [STATE_SUCCESS]: Success.UNKNOWN,
   },
   reducers: {
     createPlant: (state, action) => {
@@ -58,8 +60,8 @@ export const {
 } = plantsSlice.actions;
 
 export const fetchPlants = () => async dispatch => {
-  dispatch(setInProgress(true));
-  dispatch(setSuccess(undefined));
+  dispatch(setInProgress(Progress.RUNNING));
+  dispatch(setSuccess(Success.UNKNOWN));
 
   try {
     const response = await axios.get(Api.PLANTS);
@@ -67,19 +69,17 @@ export const fetchPlants = () => async dispatch => {
 
     const plants = data.map(item => plainToClass(Plant, item));
     const errorMessage = '';
-    const success = true;
 
-    dispatch(setSuccess(success));
+    dispatch(setSuccess(Success.OK));
     dispatch(setErrorMessage(errorMessage));
     dispatch(setPlants(plants));
   } catch (error) {
     const errorMessage = error.message;
-    const success = false;
 
-    dispatch(setSuccess(success));
+    dispatch(setSuccess(Success.FAIL));
     dispatch(setErrorMessage(errorMessage));
   } finally {
-    dispatch(setInProgress(false));
+    dispatch(setInProgress(Progress.IDLE));
   }
 };
 

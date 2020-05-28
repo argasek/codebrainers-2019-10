@@ -14,7 +14,7 @@ import { plantPropTypes } from 'proptypes/PlantsPropTypes';
 import PlantExposureIcon from 'components/plants/icons/PlantExposureIcon';
 import PlantHumidityIcon from 'components/plants/icons/PlantHumidityIcon';
 import PlantBloomingIcon from 'components/plants/icons/PlantBloomingIcon';
-import PlantFormFields from 'components/plants/plant-form/constants/PlantFormFields';
+import { plantFormFields } from 'components/plants/plant-form/constants/PlantFormFields';
 
 const Plant = ({ categories, onEdit, plant, rooms }) => {
 
@@ -23,7 +23,7 @@ const Plant = ({ categories, onEdit, plant, rooms }) => {
     return (id !== -1 ? options[id].name : '¯\\_(ツ)_/¯');
   };
 
-  const asYmd = PlantFormFields.getDateAsYMD;
+  const asYmd = plantFormFields.getDateAsYMD;
   const asAgo = (value) => moment.isMoment(value) ? value.fromNow() : '';
 
   const plantCategory = findValueByKey(categories, plant.category);

@@ -2,7 +2,7 @@ import { Button } from 'reactstrap';
 import React from 'react';
 import { Form, Formik } from 'formik';
 import PropTypes from 'prop-types';
-import loginFormFields from 'components/authentication/constants/LoginFormFields';
+import loginFormFields from 'components/authentication/login/form/LoginFormFields';
 import LoginFormUsername from 'components/authentication/login/fields/LoginFormUsername';
 import LoginFormPassword from 'components/authentication/login/fields/LoginFormPassword';
 import NonFieldErrors from 'components/shared/form/NonFieldErrors';
