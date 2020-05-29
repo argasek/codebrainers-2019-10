@@ -82,6 +82,13 @@ export const createPlant = createAsyncThunk(
 
 export const fetchPlantById = createAsyncThunk(
   SLICE_FETCH_BY_ID,
+  /**
+   *
+   * @param {number} plantId
+   * @param rejectWithValue
+   * @param signal
+   * @return {Promise<unknown>}
+   */
   async (plantId, { rejectWithValue, signal }) => {
     try {
       const options = getCancelOptions(signal);
@@ -143,6 +150,9 @@ const inProgressReducerCreator = (currentActionType, nextActionType) => (state, 
   }
 };
 
+const setPlantReducer = setterReducer(STATE_PLANT);
+const setSuccessReducer = setterReducer(STATE_SUCCESS);
+
 export const plantSlice = createSlice({
   name: SLICE_NAME,
   initialState: {
@@ -152,10 +162,10 @@ export const plantSlice = createSlice({
     [STATE_SUCCESS]: Success.UNKNOWN,
   },
   reducers: {
-    setPlant: setterReducer(STATE_PLANT),
+    setPlant: setPlantReducer,
     setErrorMessage: setterReducer(STATE_ERROR_MESSAGE),
     setInProgress: setterReducer(STATE_IN_PROGRESS),
-    setSuccess: setterReducer(STATE_SUCCESS),
+    setSuccess: setSuccessReducer,
   },
   extraReducers: {
     [fetchPlantById.pending]: inProgressReducerCreator(PLANT_PROGRESS_STOPPED, PLANT_PROGRESS_FETCH),
@@ -168,7 +178,11 @@ export const plantSlice = createSlice({
     [removePlantById.rejected]: inProgressReducerCreator(PLANT_PROGRESS_REMOVE, PLANT_PROGRESS_STOPPED),
     [updatePlant.rejected]: inProgressReducerCreator(PLANT_PROGRESS_UPDATE, PLANT_PROGRESS_STOPPED),
 
-    [fetchPlantById.fulfilled]: inProgressReducerCreator(PLANT_PROGRESS_FETCH, PLANT_PROGRESS_STOPPED),
+    [fetchPlantById.fulfilled]: (state, action) => {
+      inProgressReducerCreator(PLANT_PROGRESS_FETCH, PLANT_PROGRESS_STOPPED)(state);
+      setSuccessReducer(state, { payload: Success.OK });
+      setPlantReducer(state, action);
+    },
     [createPlant.fulfilled]: inProgressReducerCreator(PLANT_PROGRESS_CREATE, PLANT_PROGRESS_STOPPED),
     [removePlantById.fulfilled]: inProgressReducerCreator(PLANT_PROGRESS_REMOVE, PLANT_PROGRESS_STOPPED),
     [updatePlant.fulfilled]: inProgressReducerCreator(PLANT_PROGRESS_UPDATE, PLANT_PROGRESS_STOPPED),

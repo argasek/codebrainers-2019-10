@@ -7,7 +7,7 @@ const plantListPropTypes = {
   categories: categoriesPropType,
   onEdit: PropTypes.func.isRequired,
   plants: plantsPropType,
-  plantsErrorMessage: PropTypes.string,
+  errorMessage: PropTypes.string,
   plantsInProgress: PropTypes.bool.isRequired,
   plantsSuccess: PropTypes.bool,
   rooms: roomsPropType,

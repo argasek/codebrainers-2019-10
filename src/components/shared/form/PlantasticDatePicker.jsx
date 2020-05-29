@@ -1,11 +1,12 @@
 import DatePicker from 'react-datepicker';
 import MomentSerializer from 'serializers/MomentSerializer';
 import React, { forwardRef } from 'react';
-import { Button, Input, InputGroup, InputGroupAddon } from 'reactstrap';
+import { Button, FormFeedback, Input, InputGroup, InputGroupAddon } from 'reactstrap';
 import { DATE_FORMAT } from 'constants/Config';
 import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useField, useFormikContext } from 'formik';
+import { FormikApiErrors } from 'components/shared/form/FormikApiErrors';
 
 const momentSerializer = new MomentSerializer();
 
@@ -23,6 +24,7 @@ const CustomDatepickerInput = forwardRef((props, ref) => (
 const PlantasticDatePicker = ({ ...props }) => {
   const { setFieldValue } = useFormikContext();
   const [ field ] = useField(props);
+  const form = useFormikContext();
 
   const onChange = value => {
     const fieldValue = momentSerializer.fromDate(value);
@@ -33,14 +35,20 @@ const PlantasticDatePicker = ({ ...props }) => {
   const ref = React.createRef();
   const customInput = <CustomDatepickerInput placeholder={ DATE_FORMAT } ref={ ref } />;
 
+  const error = FormikApiErrors.getError(field.name, form);
+  const invalid = !!error;
+
   return (
-    <DatePicker
-      { ...field }
-      { ...props }
-      customInput={ customInput }
-      onChange={ onChange }
-      selected={ selected }
-    />
+    <>
+      <DatePicker
+        { ...field }
+        { ...props }
+        customInput={ customInput }
+        onChange={ onChange }
+        selected={ selected }
+      />
+      { invalid && <FormFeedback>{ error }</FormFeedback> }
+    </>
   );
 };
 

@@ -13,14 +13,14 @@ import TopHeaderWithActionButton from 'components/shared/TopHeaderWithActionButt
  * @param {Plant[]} plants Array of plants
  * @param {Category[]} categories Array of categories
  * @param {Room[]} rooms Array of categories
- * @param {string} plantsErrorMessage
+ * @param {string} errorMessage
  * @param {boolean} plantsInProgress
  * @param {boolean} plantsSuccess
  * @param {boolean} success
  * @returns {*}
  * @constructor
  */
-const PlantList = ({ plants, plantsErrorMessage, plantsInProgress, plantsSuccess, success, ...rest }) => {
+const PlantList = ({ plants, errorMessage, plantsInProgress, plantsSuccess, success, ...rest }) => {
   const totalPlants = plants.length;
   return (
     <Card className="mb-4">
@@ -36,7 +36,7 @@ const PlantList = ({ plants, plantsErrorMessage, plantsInProgress, plantsSuccess
         <OperationFailed isFailed={ plantsSuccess === false }>
           <strong>Failed to fetch plants.</strong>
           { ' Reason: ' }
-          { plantsErrorMessage }
+          { errorMessage }
         </OperationFailed>
 
         {

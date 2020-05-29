@@ -23,6 +23,7 @@ class FormikApiErrors {
 
   static getError = function (name, form) {
     const { touched, errors, status } = form;
+    // console.log(name, errors);
 
     const fieldTouched = getIn(touched, name);
     const backendError = getIn(status, [ API_ERRORS, name ]);

@@ -42,7 +42,7 @@ const Plant = ({ categories, onEdit, plant, rooms }) => {
   const plantTemperature = findValueByKey(plantTemperatureOptions, plant.requiredTemperature);
 
   return (
-    <tr key={ plant.id } onClick={ () => onEdit(plant.id) }>
+    <tr key={ plant.id } onClick={ () => onEdit(plant) }>
       <td>{ plant.name }</td>
       <td>{ plantCategory }</td>
       <td className="plant-attribute-icon text-center" title={ plantExposure.name }>

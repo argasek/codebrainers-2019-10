@@ -23,7 +23,7 @@ const dateAsYMDValidator = () => Yup
   .test(
     'is-date-yyyy-mm-dd',
     `Please use ${ DATE_FORMAT } format`,
-    (value) => moment(value, DATE_FORMAT, true).isValid()
+    (value) => value === undefined || moment(value, DATE_FORMAT, true).isValid()
   );
 
 const commonSchema = Yup.object().shape({
